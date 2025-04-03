@@ -1,0 +1,21 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+svg {
+    transition: fill 0.3s ease-in-out, transform 0.3s ease-in-out;
+    fill: currentColor;
+  }
+  
+svg:hover {
+    color: #a4ce6a;
+    transform: scale(1.1);
+    transition: 200ms;
+  }
