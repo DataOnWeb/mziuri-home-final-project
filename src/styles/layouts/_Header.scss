@@ -6,7 +6,7 @@ body {
     max-width: 63vw;
     height: 2vw;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
   }
   
   /* Top bar */
@@ -23,11 +23,65 @@ body {
     align-items: center;
   }
   
+
+  
+
+  
   .options {
     display: flex;
-    gap: 15px;
+    gap: 20px;
   }
   
+ /* Base styles for dropdown containers */
+.currency-selector,
+.language-selector {
+  position: relative;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+/* Dropdown menus */
+.currency-dropdown,
+.language-dropdown {
+  position: absolute;
+  background-color: white;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+  list-style: none;
+  padding: 8px 0;
+  margin-top: 5px;
+  min-width: 120px;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+/* When active, display the dropdown */
+.currency-dropdown.active,
+.language-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown items */
+.currency-dropdown li,
+.language-dropdown li {
+  padding: 8px 15px;
+  cursor: pointer;
+  color: #333;
+  font-size: 12px;
+}
+
+.currency-dropdown li:hover,
+.language-dropdown li:hover {
+  background-color: #a4ce6a;
+  color: whitesmoke;
+  transition: 400ms ease;
+}
   /* Navbar */
   .navbar {
     padding: 20px 0;
@@ -113,3 +167,10 @@ body {
   .main-menu a:hover {
     color:#a4ce6a;
   }
+
+a {
+  cursor: pointer;
+}
+
+
+

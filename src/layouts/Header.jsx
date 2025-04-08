@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import proniaImage from '../assets/pronia-image.png';
+import React, { useState, useEffect, useRef } from 'react';
+import proniaImage from '../assets/images/pronia-image.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faCartShopping, faHeart, faUser, faPhone } from "@fortawesome/free-solid-svg-icons";
 import SearchFunction from '../components/SearchFunction';
-
+import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
-
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate()
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
   };
@@ -23,6 +28,29 @@ const Header = () => {
     setSearchVisible(false);
   };
 
+  const toggleDropdown = (e, type) => {
+    e.stopPropagation();
+    if (activeDropdown === type) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(type);
+    }
+  };
+
+  // Handle clicks outside the dropdown to close it
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className="header">
       <div className="top-bar">
@@ -30,34 +58,32 @@ const Header = () => {
           <div className="promotion">
             <h5>HELLO EVERYONE! 25% OFF ALL PRODUCTS</h5>
           </div>
-          <div class="options">
-          <div class="currency-selector">
-            <h5>USD ▼</h5>
-            {/* <ul class="currency-dropdown">
-              <li>USD</li>
-              <li>EUR</li>
-              <li>GBP</li>
-              <li>JPY</li>
-            </ul> */}
-           </div>
-            <div class="language-selector">
-                <h5>ENGLISH ▼</h5>
-                {/* <ul class="language-dropdown">
-                  <li>ENGLISH</li>
-                  <li>SPANISH</li>
-                  <li>FRENCH</li>
-                  <li>GERMAN</li>
-                </ul> */}
-              </div>
-           </div>
-
+          <div className="options" ref={dropdownRef}>
+            <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
+              <h5 onClick={(e) => toggleDropdown(e, 'currency')}>USD ▼</h5>
+              <ul className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}>
+                <li>USD</li>
+                <li>EUR</li>
+                
+              </ul>
+            </div>
+            <div className={`language-selector ${activeDropdown === 'language' ? 'active' : ''}`}>
+              <h5 onClick={(e) => toggleDropdown(e, 'language')}>ENGLISH ▼</h5>
+              <ul className={`language-dropdown ${activeDropdown === 'language' ? 'active' : ''}`}>
+                <li>ENGLISH</li>
+                <li>SPANISH</li>
+                <li>FRENCH</li>
+              
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="navbar">
         <div className="container">
           <div className="contact-info">
-            <div className="phone-icon">
+            <div className="phone-icon"onClick={() => handleNavigation('/contact')}>
             <FontAwesomeIcon icon={faPhone} />
             </div>
             <span>+00 123 456 789</span>
@@ -69,13 +95,13 @@ const Header = () => {
             <div className="search-icon" onClick={toggleSearch}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </div>
-            <div className="account-icon">
+            <div className="account-icon" onClick={() => handleNavigation('/profile')}>
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <div className="wishlist-icon">
+            <div className="wishlist-icon" onClick={() => handleNavigation('/wishlist')}>
               <FontAwesomeIcon icon={faHeart} />
             </div>
-            <div className="cart-icon">
+            <div className="cart-icon" onClick={() => handleNavigation('/cart')}>
               <FontAwesomeIcon icon={faCartShopping} />
             </div>
           </div>
@@ -85,12 +111,12 @@ const Header = () => {
       <nav className="main-navigation">
         <div className="container">
           <ul className="main-menu">
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">SHOP</a></li>
-            <li><a href="#">BLOG</a></li>
-            <li><a href="#">ABOUT US</a></li>
-            <li><a href="#">PAGES</a></li>
-            <li><a href="#">CONTACT US</a></li>
+            <li><a onClick={() => handleNavigation('/')}>HOME</a></li>
+            <li><a onClick={() => handleNavigation('/shop')}>SHOP</a></li>
+            <li><a onClick={() => handleNavigation('/blog')}>BLOG</a></li>
+            <li><a onClick={() => handleNavigation('/about')}>ABOUT US</a></li>
+            <li><a onClick={() => handleNavigation('/pages')}>PAGES</a></li>
+            <li><a onClick={() => handleNavigation('/contact')}>CONTACT US</a></li>
           </ul>
         </div>
       </nav>
@@ -100,7 +126,9 @@ const Header = () => {
         closeSearch={closeSearch}
         handleSearchSubmit={handleSearchSubmit}
       />
+      
     </header>
+    
   );
 };
 

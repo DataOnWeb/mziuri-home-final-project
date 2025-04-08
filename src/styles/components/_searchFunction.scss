@@ -12,16 +12,16 @@
   
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20%); /* Start off-screen above */
-    pointer-events: none; /* Prevent interaction when hidden */
-    transition: opacity 300ms linear, transform 300ms ease-out; /* Add transition for smooth slide */
+    transform: translateY(-20%); 
+    pointer-events: none; 
+    transition: opacity 300ms linear, transform 300ms ease-out; 
   }
   
   .search-overlay.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0); /* Move to its normal position */
-    pointer-events: auto; /* Enable interaction when shown */
+    transform: translateY(0);
+    pointer-events: auto;
   }
   
   .search-popup {
@@ -33,8 +33,8 @@
   }
   
   .search-instruction {
-    color: #a4ce6a;
-    background-color: rgba(164, 206, 106, 0.1);
+    color: white;
+    background-color: rgba(2, 2, 2, 0.1);
     padding: 10px 15px;
     border-radius: 4px;
     margin-bottom: 30px;
@@ -76,7 +76,7 @@
   }
   
 
-  /* Icons placeholder styling */
+
   .search-icon, .account-icon, .wishlist-icon, .cart-icon {
     cursor: pointer;
     width: 20px;
