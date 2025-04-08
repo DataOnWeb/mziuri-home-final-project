@@ -130,7 +130,7 @@ body {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: #a4ce6a;
+    background-color: #abd373;
     color: white;
     border-radius: 50%;
     width: 18px;
@@ -143,7 +143,7 @@ body {
   
 
   .main-navigation {
-    border-bottom: 1px solid #eee;
+    border-top: 1px dotted #eeeeee;
     padding: 15px 0;
   }
   
@@ -155,10 +155,10 @@ body {
   }
   
   .main-menu a {
-    font-size: 13px;
+    font-size: 15px;
     font-family: "Rubik", sans-serif;
     color: #444;
-    font-weight: 500;
+    font-weight: 400;
     
   }
   
@@ -166,6 +166,7 @@ body {
   
   .main-menu a:hover {
     color:#a4ce6a;
+
   }
 
 a {

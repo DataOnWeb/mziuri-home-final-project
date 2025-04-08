@@ -1,5 +1,14 @@
-const Cart = () =>{
-    return <div className="p-4">Cart Page</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Cart
+export default function Cart() {
+  useEffect(() => {
+    document.title = "Shopping Cart - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Shopping Cart" />
+    </div>
+  );
+}

@@ -1,5 +1,15 @@
-const About = () =>{
-    return <div className="p-4">About Page</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default About
+export default function About() {
+  useEffect(() => {
+    document.title = "About - Pronia";
+    
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="About" />
+    </div>
+  );
+}

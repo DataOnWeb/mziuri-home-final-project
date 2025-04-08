@@ -1,5 +1,14 @@
-const Login = () =>{
-    return <div className="p-4">Login Page</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Login
+export default function Login() {
+  useEffect(() => {
+    document.title = "Login - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Login" />
+    </div>
+  );
+}

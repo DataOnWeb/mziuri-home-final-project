@@ -1,5 +1,14 @@
-const Pages  = () =>{
-    return <div className="p-4">Other Pages</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Pages
+export default function Pages() {
+  useEffect(() => {
+    document.title = "Other Pages - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="My Profile" />
+    </div>
+  );
+}

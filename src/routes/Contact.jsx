@@ -1,5 +1,14 @@
-const Contact = () =>{
-    return <div className="p-4">Contact Page</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Contact
+export default function Contact() {
+  useEffect(() => {
+    document.title = "Contact Us - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Contact" />
+    </div>
+  );
+}

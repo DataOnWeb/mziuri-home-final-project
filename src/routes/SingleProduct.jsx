@@ -1,5 +1,14 @@
-const SingleProduct = () =>{
-    return <div className="p-4">Single Product Page</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default SingleProduct
+export default function SingleProduct() {
+  useEffect(() => {
+    document.title = "Product Details - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Product Details" />
+    </div>
+  );
+}

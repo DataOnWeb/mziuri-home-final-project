@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect}  from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 
+
 const SearchFunction = ({ searchVisible, closeSearch, handleSearchSubmit }) => {
+  useEffect(() => {
+
+      document.addEventListener('keydown', closeSearch);
+      return () => {
+        document.removeEventListener('keydown', closeSearch);
+      };
+    }, []);
     return (
       <div className={`search-overlay ${searchVisible ? 'show' : ''}`}>
         <div className="search-popup">

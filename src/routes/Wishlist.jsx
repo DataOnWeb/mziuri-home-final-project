@@ -1,5 +1,14 @@
-const Wishlist = () =>{
-    return <div className="p-4">Wishlist</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Wishlist
+export default function Wishlist() {
+  useEffect(() => {
+    document.title = "My Wishlist - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Wishlist" />
+    </div>
+  );
+}

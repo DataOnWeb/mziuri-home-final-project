@@ -1,7 +1,7 @@
 import PlantCarousel from "../components/PlantCarousel";
 import CarouselImage1 from '../assets/images/plant1.png'
 import CarouselImage2 from '../assets/images/plant2.png'
-
+import { useEffect } from "react";
 const Home = () =>{
     const carouselSlides = [
         {
@@ -21,10 +21,16 @@ const Home = () =>{
           imageAlt: "Geometric Planters with Green Plants"
         },
       ];
+
+
+
+    useEffect(() => {
+    document.title = "Pronia - Home";
+     }, []);
+
     return  (
     <PlantCarousel slides={carouselSlides}></PlantCarousel>
-
-    )
+  )
 }
 
 export default Home

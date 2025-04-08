@@ -1,5 +1,14 @@
-const Blog = () =>{
-    return <div className="p-4">Blog Page</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Blog
+export default function Blog() {
+  useEffect(() => {
+    document.title = "Blog - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Blog" />
+    </div>
+  );
+}

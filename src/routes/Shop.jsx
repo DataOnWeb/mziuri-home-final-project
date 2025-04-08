@@ -1,5 +1,14 @@
-const Shop = () =>{
-    return <div className="p-4">Shop</div>;
-}
+import { useEffect } from 'react';
+import RouteBanner from '../components/RouteBanner';
 
-export default Shop
+export default function Shop() {
+  useEffect(() => {
+    document.title = "Shop - Pronia";
+  }, []);
+
+  return (
+    <div>
+      <RouteBanner title="Shop" />
+    </div>
+  );
+}
