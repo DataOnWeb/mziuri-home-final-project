@@ -6,10 +6,10 @@ body {
     max-width: 63vw;
     height: 2vw;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 30px;
   }
   
-  /* Top bar */
+
   .top-bar {
     background-color: #a4ce6a;
     padding: 10px 0;
@@ -32,7 +32,7 @@ body {
     gap: 20px;
   }
   
- /* Base styles for dropdown containers */
+
 .currency-selector,
 .language-selector {
   position: relative;
@@ -40,7 +40,6 @@ body {
   margin-left: 15px;
 }
 
-/* Dropdown menus */
 .currency-dropdown,
 .language-dropdown {
   position: absolute;
@@ -59,7 +58,7 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-/* When active, display the dropdown */
+
 .currency-dropdown.active,
 .language-dropdown.active {
   opacity: 1;
@@ -67,7 +66,7 @@ body {
   transform: translateY(0);
 }
 
-/* Dropdown items */
+
 .currency-dropdown li,
 .language-dropdown li {
   padding: 8px 15px;
@@ -82,10 +81,13 @@ body {
   color: whitesmoke;
   transition: 400ms ease;
 }
-  /* Navbar */
+
   .navbar {
-    padding: 20px 0;
+    padding: 20px ;
+    height: 6vw;
     border-bottom: 1px solid #eee;
+    position: relative;
+    top: 20px;
   }
 
   .arrow {
@@ -144,6 +146,7 @@ body {
 
   .main-navigation {
     border-top: 1px dotted #eeeeee;
+    height: 5vw;
     padding: 15px 0;
   }
   
@@ -151,6 +154,8 @@ body {
     display: flex;
     justify-content: center;
     list-style: none;
+    position: relative;
+    top: 30px;
     gap: 30px;
   }
   

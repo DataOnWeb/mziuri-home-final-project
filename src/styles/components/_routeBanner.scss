@@ -6,7 +6,7 @@
     padding: 80px 0; 
     text-align: center;
     position: relative;
-    min-height: 200px; 
+    height: 20vw; 
     display: flex; 
     align-items: center;
     
@@ -25,7 +25,7 @@
     }
     
     &__title {
-      font-size: 32px;
+      font-size: 37px;
       font-weight: 500;
       color: #555;
       text-transform: uppercase;
@@ -69,10 +69,10 @@
       color: #777;
     }
     
-    // Media queries for responsiveness
+
     @media (max-width: 768px) {
-      padding: 60px 0; // Adjusted for medium screens
-      min-height: 180px; // Adjusted minimum height for medium screens
+      padding: 60px 0; 
+      min-height: 180px;
       
       &__title {
         font-size: 28px;
@@ -80,8 +80,8 @@
     }
     
     @media (max-width: 576px) {
-      padding: 50px 0; // Adjusted for small screens
-      min-height: 160px; // Adjusted minimum height for small screens
+      padding: 50px 0; 
+      min-height: 160px; 
       
       &__title {
         font-size: 24px;
