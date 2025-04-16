@@ -1,20 +1,8 @@
-// import { useEffect } from 'react';
-// 
-// export default function Shop() {
-//   useEffect(() => {
-//     document.title = "Shop - Pronia";
-//   }, []);
 
-//   return (
-//     <div>
-//       
-//     </div>
-//   );
-// }
 import React, { useState, useEffect } from 'react';
 import { products, categories, colors, totalProducts } from '../data/data';
 import ProductList from '../components/ProductList';
-
+import Pagination from '../components/Pagination';
 import RouteBanner from '../components/RouteBanner';
 const Shop = () => {
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -27,25 +15,24 @@ const Shop = () => {
   useEffect(() => {
     let result = [...products];
     document.title = "Shop - Pronia";
-    
-    // Apply search filter
+
     if (searchTerm) {
       result = result.filter(product => 
         product.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
     
-    // Apply category filter
+
     if (activeCategory !== 'All') {
       result = result.filter(product => product.category === activeCategory);
     }
     
-    // Apply color filter
+
     if (activeColor !== 'All') {
       result = result.filter(product => product.color === activeColor);
     }
     
-    // Apply sorting
+
     switch (sortOption) {
       case 'price-low':
         result.sort((a, b) => a.price - b.price);
@@ -172,6 +159,7 @@ const Shop = () => {
         
 
         <ProductList products={filteredProducts} viewMode={viewMode} />
+        <Pagination/>
       </div>
     </div>
     </div>

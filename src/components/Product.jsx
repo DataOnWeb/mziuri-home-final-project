@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
-
+  const { id } = product
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -14,19 +14,24 @@ const Product = ({ product }) => {
       );
     }
     return stars;
-  };
+  }; 
 
   return (
     <div 
       className="product-card"
     >
       <div className="product-image">
-        <img 
+      <Link to={`/product/${id}`}>
+      <img 
           src={product.image} 
           alt={product.title}
           onError={(e) => {
           }}
         />
+        
+      </Link>
+        
+        
         {isHovered && (
           <div className="product-actions">
             <button className="action-button like">♡</button>

@@ -1,0 +1,38 @@
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    
+    &__container {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    &__button {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      color: rgb(109, 109, 109);
+      
+      &:hover {
+        background-color: $primary-color;
+        color: white;
+      }
+      
+      &--active {
+        border-color: $primary-color;
+        color: $secondary-color;
+        font-weight: 500;
+      }
+      
+    }
+  }

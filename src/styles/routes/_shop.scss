@@ -18,7 +18,7 @@
     width: 100%;
   }
   
-  // Search Box
+
   .search-box {
     background-color: $light-gray;
     padding: 15px;
@@ -48,7 +48,7 @@
     }
   }
   
-  // Filter Sections
+
   .filter-section {
     background-color: $light-gray;
     padding: 15px;
@@ -114,11 +114,10 @@
   }
 }
 
-// Products Area
+
 .products-area {
   flex: 1;
   
-  // Toolbar
   .toolbar {
     display: flex;
     justify-content: space-between;
@@ -192,7 +191,7 @@
     }
   }
   
-  // Grid View
+
   .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -305,20 +304,20 @@
       font-size: 1rem;
       font-weight: 500;
       color: #333;
-      text-align: center;
+      text-align: left;
     }
     
     .product-price {
       margin: 4px 0;
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 400;
       color: $secondary-color;
-      text-align: center;
+      text-align: left;
     }
     
     .product-rating {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       margin: 8px 0 12px;
       
       .star {

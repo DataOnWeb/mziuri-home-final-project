@@ -1,0 +1,136 @@
+// Footer.scss
+.footer {
+    background-color: #f4f9f4;
+    background-image: url('/src/assets/images/footer-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: bottom center;
+    padding: 60px 0 20px;
+    position: relative;
+    
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .footer-column {
+      flex: 1;
+      min-width: 200px;
+      margin-bottom: 30px;
+      padding: 0 15px;
+      
+      @media (max-width: 768px) {
+        flex-basis: 50%;
+      }
+      
+      @media (max-width: 576px) {
+        flex-basis: 100%;
+      }
+    }
+    
+    
+    .brand-description {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid #222222;
+
+      color: #000000;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: $primary-color;
+        color: white;
+        border-color: $secondary-color;
+      }
+    }
+    
+    h3 {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #333;
+      font-weight: 400;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      
+      li {
+        margin-bottom: 10px;
+        
+        a {
+          color: #666;
+          text-decoration: none;
+          transition: color 0.3s ease;
+          
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+    
+    .contact-column {
+        
+      .contact-info {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+        
+        .phone-number {
+            text-align: left;
+          font-size: 24px;
+          font-weight: 600;
+          color: #333;
+          line-height: 1.2;
+        }
+        
+        .address-section {
+          p {
+            color: #666;
+            margin-bottom: 10px;
+          }
+          
+          .payment-cards {
+            margin-top: 10px;
+            
+            .payment-methods-img {
+              max-width: 100%;
+              height: auto;
+            }
+          }
+        }
+      }
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      color: #666;
+      
+      p {
+        margin: 0;
+      }
+    }
+  }
