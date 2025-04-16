@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { id } = product
+  const { id, title, price, rating, image } = product
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {

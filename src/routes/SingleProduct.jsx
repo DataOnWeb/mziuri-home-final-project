@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/data';
@@ -95,15 +94,13 @@ const ProductDetailPage = () => {
           <div className="product-detail__options">
             <div className="option">
               <div className="option__label">Color</div>
-              <div className="option__value">
-                Black & White <span className="check">✓</span>
+              <div className="option__value"><p>{`${product.color}`}</p> <span className="check">✓</span>
               </div>
             </div>
             
             <div className="option">
               <div className="option__label">Size</div>
-              <div className="option__value">
-                Medium Size & Pot <span className="check">✓</span>
+              <div className="option__value">{`${product.category}`} <span className="check">✓</span>
               </div>
             </div>
           </div>

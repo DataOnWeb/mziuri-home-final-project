@@ -207,30 +207,7 @@
   }
   
 
-  .products-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    
-    .product-list-item {
-      display: flex;
-      gap: 20px;
-      padding: 15px;
-      border: 1px solid $border-color;
-      border-radius: 5px;
-      
-      .product-image {
-        width: 100px;
-        height: 100px;
-        flex-shrink: 0;
-      }
-      
-      .product-details {
-        flex: 1;
-      }
-    }
-  }
-}
+ 
 
 
 .product-card {
@@ -304,7 +281,7 @@
       font-size: 1rem;
       font-weight: 500;
       color: #333;
-      text-align: left;
+
     }
     
     .product-price {
@@ -312,7 +289,7 @@
       font-size: 1.1rem;
       font-weight: 400;
       color: $secondary-color;
-      text-align: left;
+
     }
     
     .product-rating {
@@ -331,3 +308,4 @@
       }
     }
   }
+}
