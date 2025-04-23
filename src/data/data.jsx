@@ -88,6 +88,33 @@ export const products = [
         image: million,
         category: "Perennials",
         color: "Gold"
+      },
+      {
+        id: 10,
+        title: "Moss Viburnum",
+        price: 45.00,
+        rating: 5,
+        image: hybrid,
+        category: "Bonsai",
+        color: "Black"
+      },
+      {
+        id: 11,
+        title: "Special Weed",
+        price: 50.45,
+        rating: 5,
+        image: weed,
+        category: "Indoor Living",
+        color: "Green"
+      },
+      {
+        id: 12,
+        title: "Outdoor Bonsai",
+        price: 65.00,
+        rating: 5,
+        image: bonzai,
+        category: "Perennials",
+        color: "ALl"
       }
   ];
   

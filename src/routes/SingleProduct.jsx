@@ -5,25 +5,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCreditCard, faTruckFast, faHeart, faAddressCard} from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faTwitter, faTumblr, faDribbble} from "@fortawesome/free-brands-svg-icons";
 import RouteBanner from '../components/RouteBanner';
-const ProductDetailPage = () => {
+import Product from '../components/Product'; // Import your Product component
+const SingleProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedThumbnail, setSelectedThumbnail] = useState(0);
+  const [activeTab, setActiveTab] = useState('description'); // Default to description tab
   
   useEffect(() => {
     document.title = 'Pronia - Single Product Variable'
     const productId = parseInt(id);
     const foundProduct = products.find(p => p.id === productId);
     
-  
     setTimeout(() => {
       setProduct(foundProduct);
       setLoading(false);
     }, 300);
     
-
     window.scrollTo(0, 0);
   }, [id]);
   
@@ -54,6 +54,9 @@ const ProductDetailPage = () => {
       </div>
     );
   }
+  
+
+  
   
   return (
     <>
@@ -198,9 +201,75 @@ const ProductDetailPage = () => {
           </div>
         </div>
       </div>
+      
+  
+      <div className="product-tabs">
+        <div className="product-tabs__header">
+          <button 
+            className={`tab-btn ${activeTab === 'information' ? 'active' : ''}`}
+            onClick={() => setActiveTab('information')}
+          >
+            Information
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'description' ? 'active' : ''}`}
+            onClick={() => setActiveTab('description')}
+          >
+            Description
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+            onClick={() => setActiveTab('reviews')}
+          >
+            Reviews(3)
+          </button>
+        </div>
+        
+        <div className="product-tabs__content">
+          {activeTab === 'information' && (
+            <div className="tab-content">
+              <h3>Shipping</h3>
+<p>The item will be shipped from China. So it need 15-20 days to deliver. Our product is good with reasonable price and we believe you will worth it. So please wait for it patiently! Thanks.Any question please kindly to contact us and we promise to work hard to help you to solve the problem
+</p>               
+<h3>About return request</h3>
+<p>If you don't need the item with worry, you can contact us then we will help you to solve the problem, so please close the return request! Thanks
+</p>               
+<h3>Guarrantee</h3>
+<p>If it is the quality question, we will resend or refund to you; If you receive damaged or wrong items, please contact us and attach some pictures about product, we will exchange a new correct item to you after the confirmation.
+</p>            </div>
+          )}
+          
+          {activeTab === 'description' && (
+            <div className="tab-content">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incidid ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,</p>
+            </div>
+          )}
+          
+          {activeTab === 'reviews' && (
+            <div className="tab-content">
+              tab content
+            </div>
+          )}
+        </div>
+      </div>
+      
+
+      <div className="related-products">
+        <h2 className="related-products__title">RELATED PRODUCTS</h2>
+        <p className="related-products__subtitle">
+          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
+          in a piece of classical Latin literature
+        </p>
+        
+        <div className="related-products__grid">
+          {products.slice(0, 4).map(product => (
+            <Product  product={product}/>
+          ))}
+        </div>
+      </div>
     </div>
     </>
   );
 };
 
-export default ProductDetailPage;
+export default SingleProduct;

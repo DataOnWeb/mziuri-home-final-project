@@ -1,9 +1,9 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { products, categories, colors, totalProducts } from '../data/data';
 import ProductList from '../components/ProductList';
 import Pagination from '../components/Pagination';
 import RouteBanner from '../components/RouteBanner';
+
 const Shop = () => {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState('grid');
@@ -11,6 +11,14 @@ const Shop = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeColor, setActiveColor] = useState('All');
   const [sortOption, setSortOption] = useState('default');
+  // Added price filter state
+  const [priceRange, setPriceRange] = useState({ min: 10, max: 300 });
+  
+  // Refs for price slider elements
+  const minThumbRef = useRef(null);
+  const maxThumbRef = useRef(null);
+  const trackActiveRef = useRef(null);
+  const sliderContainerRef = useRef(null);
 
   useEffect(() => {
     let result = [...products];
@@ -22,16 +30,18 @@ const Shop = () => {
       );
     }
     
-
     if (activeCategory !== 'All') {
       result = result.filter(product => product.category === activeCategory);
     }
     
-
     if (activeColor !== 'All') {
       result = result.filter(product => product.color === activeColor);
     }
     
+    // Added price range filtering
+    result = result.filter(product => 
+      product.price >= priceRange.min && product.price <= priceRange.max
+    );
 
     switch (sortOption) {
       case 'price-low':
@@ -47,12 +57,113 @@ const Shop = () => {
         result.sort((a, b) => b.title.localeCompare(a.title));
         break;
       default:
-        
         break;
     }
     
     setFilteredProducts(result);
-  }, [searchTerm, activeCategory, activeColor, sortOption]);
+  }, [searchTerm, activeCategory, activeColor, sortOption, priceRange]);
+
+  // Initialize price slider when component mounts
+  useEffect(() => {
+    initializePriceSlider();
+  }, []);
+
+  // Price slider functionality
+  const initializePriceSlider = () => {
+    if (!minThumbRef.current || !maxThumbRef.current) return;
+
+    const minThumb = minThumbRef.current;
+    const maxThumb = maxThumbRef.current;
+    
+    // Set initial positions
+    minThumb.style.left = '10%';
+    maxThumb.style.left = '90%';
+    updateTrackActive();
+  };
+
+  const updateTrackActive = () => {
+    if (!minThumbRef.current || !maxThumbRef.current || !trackActiveRef.current) return;
+    
+    const minLeft = parseFloat(minThumbRef.current.style.left);
+    const maxLeft = parseFloat(maxThumbRef.current.style.left);
+    
+    trackActiveRef.current.style.left = `${minLeft}%`;
+    trackActiveRef.current.style.width = `${maxLeft - minLeft}%`;
+  };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const calculatePrice = (position, containerWidth) => {
+    const minValue = 10;
+    const maxValue = 300;
+    const range = maxValue - minValue;
+    const percentage = position / containerWidth;
+    return Math.round(minValue + (percentage * range));
+  };
+
+  const updatePrices = (minLeftPct, maxLeftPct) => {
+    if (!sliderContainerRef.current) return;
+    
+    const containerWidth = sliderContainerRef.current.offsetWidth;
+    const minPosition = (minLeftPct / 100) * containerWidth;
+    const maxPosition = (maxLeftPct / 100) * containerWidth;
+    
+    const minPriceVal = calculatePrice(minPosition, containerWidth);
+    const maxPriceVal = calculatePrice(maxPosition, containerWidth);
+    
+    setPriceRange({ min: minPriceVal, max: maxPriceVal });
+  };
+
+  const handleDrag = (isMinThumb, e) => {
+    e.preventDefault();
+    
+    if (!sliderContainerRef.current || !minThumbRef.current || !maxThumbRef.current) return;
+    
+    const containerWidth = sliderContainerRef.current.offsetWidth;
+    const containerRect = sliderContainerRef.current.getBoundingClientRect();
+    const thumb = isMinThumb ? minThumbRef.current : maxThumbRef.current;
+    
+    const onMove = (moveEvent) => {
+      let position = moveEvent.clientX - containerRect.left;
+      
+      // Keep position within bounds
+      position = Math.max(0, Math.min(position, containerWidth));
+      
+      // Convert to percentage
+      let percentage = (position / containerWidth) * 100;
+      
+      // Restrict min thumb from going past max thumb and vice versa
+      if (isMinThumb) {
+        const maxLeftPct = parseFloat(maxThumbRef.current.style.left);
+        percentage = Math.min(percentage, maxLeftPct - 5);
+      } else {
+        const minLeftPct = parseFloat(minThumbRef.current.style.left);
+        percentage = Math.max(percentage, minLeftPct + 5);
+      }
+      
+      // Update thumb position
+      thumb.style.left = `${percentage}%`;
+      
+      // Update active track and prices
+      updateTrackActive();
+      updatePrices(
+        parseFloat(minThumbRef.current.style.left),
+        parseFloat(maxThumbRef.current.style.left)
+      );
+    };
+    
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+    
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  };
 
   return (
     <div>
@@ -116,6 +227,44 @@ const Shop = () => {
             ))}
           </ul>
         </div>
+        <div className="filter-container">
+        <div className="price-filter">
+            <h2>Price Filter</h2>
+            <div className="divider"></div>
+            <div className="range-values">
+                <span className="price-bubble">${priceRange.min}</span>
+                <span className="price-bubble">${priceRange.max}</span>
+            </div>
+            <div className="slider-container" ref={sliderContainerRef}>
+                <div className="slider-track"></div>
+                <div className="slider-track-active" ref={trackActiveRef}></div>
+                <div 
+                  className="slider-thumb min-thumb" 
+                  ref={minThumbRef}
+                  onMouseDown={(e) => handleDrag(true, e)}
+                ></div>
+                <div 
+                  className="slider-thumb max-thumb" 
+                  ref={maxThumbRef}
+                  onMouseDown={(e) => handleDrag(false, e)}
+                ></div>
+            </div>
+        </div>
+
+ 
+        <div className="popular-tags">
+            <h2>Populer Tags</h2>
+            <div className="divider"></div>
+            <div className="tags-container">
+                <span className="tag" onClick={scrollToTop}>Fashion</span>
+                <span className="tag"onClick={scrollToTop}>Organic</span>
+                <span className="tag"onClick={scrollToTop}>Old Fashion</span>
+                <span className="tag"onClick={scrollToTop}>Men</span>
+                <span className="tag"onClick={scrollToTop}>Fashion</span>
+                <span className="tag"onClick={scrollToTop}>Dress</span>
+            </div>
+        </div>
+    </div>
       </div>
       
 

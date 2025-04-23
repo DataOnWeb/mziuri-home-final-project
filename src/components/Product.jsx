@@ -25,8 +25,6 @@ const Product = ({ product }) => {
       <img 
           src={product.image} 
           alt={product.title}
-          onError={(e) => {
-          }}
         />
         
       </Link>
