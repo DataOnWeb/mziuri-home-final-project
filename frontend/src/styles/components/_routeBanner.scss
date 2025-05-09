@@ -1,3 +1,4 @@
+@use '../abstracts' as *;
 .route-banner {
     background-image: url('../assets/images/routeBanner.jpg');
     background-position: center;
@@ -26,7 +27,8 @@
     
     &__title {
       font-size: 37px;
-      font-weight: 500;
+      font-weight: 600;
+
       color: #555;
       text-transform: uppercase;
       letter-spacing: 1px;

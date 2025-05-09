@@ -1,8 +1,15 @@
-
+@use './index' as *;
 * {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
 }
 
 a {
@@ -19,3 +26,5 @@ svg:hover {
     transform: scale(1.1);
     transition: 200ms;
   }
+
+  

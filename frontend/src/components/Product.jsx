@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const { id, title, price, rating, image } = product
+  const { _id, title, price, rating, image, category, color } = product;
+  
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -17,26 +17,14 @@ const Product = ({ product }) => {
   }; 
 
   return (
-    <div 
-      className="product-card"
-    >
+    <div className="product-card">
       <div className="product-image">
-      <Link to={`/product/${id}`}>
-      <img 
-          src={product.image} 
-          alt={product.title}
-        />
-        
-      </Link>
-        
-        
-        {isHovered && (
-          <div className="product-actions">
-            <button className="action-button like">♡</button>
-            <button className="action-button view">👁</button>
-            <button className="action-button cart">🛒</button>
-          </div>
-        )}
+        <Link to={`/product/${_id}`}>
+          <img 
+            src={product.image} 
+            alt={product.title}
+          />
+        </Link>
       </div>
       <h3 className="product-title">{product.title}</h3>
       <p className="product-price">${product.price.toFixed(2)}</p>

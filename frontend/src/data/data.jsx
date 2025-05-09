@@ -114,7 +114,7 @@ export const products = [
         rating: 5,
         image: bonzai,
         category: "Perennials",
-        color: "ALl"
+        color: "Black"
       }
   ];
   

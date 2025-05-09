@@ -1,3 +1,4 @@
+@use '../abstracts' as *;
 .products-list {
     display: flex;
     flex-direction: column;

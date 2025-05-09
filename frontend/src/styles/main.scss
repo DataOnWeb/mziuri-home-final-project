@@ -1,18 +1,21 @@
-@import "./abstracts/fonts";
-@import "./abstracts/resets";
-@import "./abstracts/variables";
-@import "./abstracts/mixins";
+@use "./abstracts/fonts";
+@use "./abstracts/resets";
+@use "./abstracts/variables";
+@use "./abstracts/mixins";
 
-@import './layouts/Header';
-@import './layouts/Main';
-@import './layouts/Footer';
+@use './layouts/Header';
+@use './layouts/Main';
+@use './layouts/Footer';
 
-@import './components/searchFunction';
-@import './components/plantCarousel';
-@import './components/routeBanner';
-@import './components/pagination';
-@import './components/productList';
-@import './components/product';
+@use './components/searchFunction';
+@use './components/plantCarousel';
+@use './components/routeBanner';
+@use './components/pagination';
+@use './components/productList';
+@use './components/product';
+@use './components/commentsSection';
+@use './components/loading';
 
-@import './routes/shop';
-@import './routes/singleProduct'
+@use './routes/shop';
+@use './routes/singleProduct';
+@use './routes/register'

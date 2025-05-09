@@ -95,7 +95,7 @@ const Header = () => {
             <div className="search-icon" onClick={toggleSearch}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </div>
-            <div className="account-icon" onClick={() => handleNavigation('/profile')}>
+            <div className="account-icon" onClick={() => handleNavigation('/register')}>
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className="wishlist-icon" onClick={() => handleNavigation('/wishlist')}>

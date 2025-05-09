@@ -1,14 +1,21 @@
-import React from 'react';
+import React,  {useEffect, useState} from 'react';
 import Product from './Product';
+import { getProducts }from '../api/api'
+import { useLoader } from '../hooks/useLoader.jsx'
 
-
-const ProductList = ({ products, viewMode }) => {
+const ProductList = ({ viewMode }) => {
+  const [products, setProducts] = useState([])
+  const { useDataLoader } = useLoader()
+   useEffect(() => { 
+    useDataLoader(() => getProducts().then(data => setProducts(data)))
+    }, [])
+  
   if (viewMode === 'grid') {
     return (
       <div className="products-grid">
-        {products.map((product) => (
-          <div key={product.id}>
-            <Product product={product} />
+        {products.map((product, index) => (
+          <div key={product._id}>
+            <Product key={index} product={product} />
           </div>
         ))}
       </div>
@@ -17,16 +24,10 @@ const ProductList = ({ products, viewMode }) => {
   
   return (
     <div className="products-list">
-      {products.map((product) => (
-        <div key={product.id} className="product-list-item">
-          {/* <div className="product-image">
-            <img 
-              src={product.image} 
-              alt={product.title}
-            />
-          </div> */}
+      {products.map((product, index) => (
+        <div key={product._id} className="product-list-item">
           <div className="product-details">
-            <Product product={product} />
+            <Product key={index} product={product} />
           </div>
         </div>
       ))}

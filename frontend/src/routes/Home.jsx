@@ -2,6 +2,7 @@ import PlantCarousel from "../components/PlantCarousel";
 import CarouselImage1 from '../assets/images/plant1.png'
 import CarouselImage2 from '../assets/images/plant2.png'
 import { useEffect } from "react";
+import { useLoader } from '../hooks/useLoader';
 const Home = () =>{
     const carouselSlides = [
         {
@@ -22,9 +23,13 @@ const Home = () =>{
         },
       ];
 
+      const { useFakeLoader } = useLoader();
+  
+
 
 
     useEffect(() => {
+      useFakeLoader();
     document.title = "Pronia - Home";
      }, []);
 

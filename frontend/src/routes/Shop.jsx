@@ -1,28 +1,50 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { products, categories, colors, totalProducts } from '../data/data';
+import { getProducts } from '../api/api';
+import { categories, colors } from '../data/data';
 import ProductList from '../components/ProductList';
 import Pagination from '../components/Pagination';
 import RouteBanner from '../components/RouteBanner';
+import { useLoader } from '../hooks/useLoader';
 
 const Shop = () => {
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [viewMode, setViewMode] = useState('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [loading, setLoading] = useState(true)
   const [activeColor, setActiveColor] = useState('All');
   const [sortOption, setSortOption] = useState('default');
-  // Added price filter state
+  const [totalProducts, setTotalProducts] = useState(0);
   const [priceRange, setPriceRange] = useState({ min: 10, max: 300 });
-  
-  // Refs for price slider elements
   const minThumbRef = useRef(null);
   const maxThumbRef = useRef(null);
   const trackActiveRef = useRef(null);
   const sliderContainerRef = useRef(null);
+  const { useDataLoader } = useLoader();
+
 
   useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const data = await useDataLoader(getProducts);
+      setProducts(data);
+      setFilteredProducts(data);
+      setTotalProducts(data.length);
+      setLoading(false)
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  };
+
+  fetchProducts();
+  document.title = "Shop - Pronia";
+}, []);
+
+  useEffect(() => {
+    if (products.length === 0) return;
+    
     let result = [...products];
-    document.title = "Shop - Pronia";
 
     if (searchTerm) {
       result = result.filter(product => 
@@ -38,7 +60,6 @@ const Shop = () => {
       result = result.filter(product => product.color === activeColor);
     }
     
-    // Added price range filtering
     result = result.filter(product => 
       product.price >= priceRange.min && product.price <= priceRange.max
     );
@@ -61,21 +82,18 @@ const Shop = () => {
     }
     
     setFilteredProducts(result);
-  }, [searchTerm, activeCategory, activeColor, sortOption, priceRange]);
+  }, [products, searchTerm, activeCategory, activeColor, sortOption, priceRange]);
 
-  // Initialize price slider when component mounts
   useEffect(() => {
     initializePriceSlider();
   }, []);
 
-  // Price slider functionality
   const initializePriceSlider = () => {
     if (!minThumbRef.current || !maxThumbRef.current) return;
 
     const minThumb = minThumbRef.current;
     const maxThumb = maxThumbRef.current;
     
-    // Set initial positions
     minThumb.style.left = '10%';
     maxThumb.style.left = '90%';
     updateTrackActive();
@@ -90,6 +108,7 @@ const Shop = () => {
     trackActiveRef.current.style.left = `${minLeft}%`;
     trackActiveRef.current.style.width = `${maxLeft - minLeft}%`;
   };
+  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -130,13 +149,10 @@ const Shop = () => {
     const onMove = (moveEvent) => {
       let position = moveEvent.clientX - containerRect.left;
       
-      // Keep position within bounds
       position = Math.max(0, Math.min(position, containerWidth));
       
-      // Convert to percentage
       let percentage = (position / containerWidth) * 100;
       
-      // Restrict min thumb from going past max thumb and vice versa
       if (isMinThumb) {
         const maxLeftPct = parseFloat(maxThumbRef.current.style.left);
         percentage = Math.min(percentage, maxLeftPct - 5);
@@ -145,10 +161,8 @@ const Shop = () => {
         percentage = Math.max(percentage, minLeftPct + 5);
       }
       
-      // Update thumb position
       thumb.style.left = `${percentage}%`;
       
-      // Update active track and prices
       updateTrackActive();
       updatePrices(
         parseFloat(minThumbRef.current.style.left),
@@ -184,7 +198,6 @@ const Shop = () => {
           </div>
         </div>
         
- 
         <div className="filter-section">
           <h2>Categories</h2>
           <ul>
@@ -206,7 +219,6 @@ const Shop = () => {
           </ul>
         </div>
         
- 
         <div className="filter-section">
           <h2>Color</h2>
           <ul>
@@ -251,27 +263,27 @@ const Shop = () => {
             </div>
         </div>
 
- 
         <div className="popular-tags">
-            <h2>Populer Tags</h2>
+            <h2>Popular Tags</h2>
             <div className="divider"></div>
             <div className="tags-container">
                 <span className="tag" onClick={scrollToTop}>Fashion</span>
-                <span className="tag"onClick={scrollToTop}>Organic</span>
-                <span className="tag"onClick={scrollToTop}>Old Fashion</span>
-                <span className="tag"onClick={scrollToTop}>Men</span>
-                <span className="tag"onClick={scrollToTop}>Fashion</span>
-                <span className="tag"onClick={scrollToTop}>Dress</span>
+                <span className="tag" onClick={scrollToTop}>Organic</span>
+                <span className="tag" onClick={scrollToTop}>Old Fashion</span>
+                <span className="tag" onClick={scrollToTop}>Men</span>
+                <span className="tag" onClick={scrollToTop}>Fashion</span>
+                <span className="tag" onClick={scrollToTop}>Dress</span>
             </div>
         </div>
     </div>
       </div>
       
-
       <div className="products-area">
         <div className="toolbar">
           <div className="product-count">
-            {filteredProducts.length} Product Found of {totalProducts}
+            {loading ? "Loading products..." : 
+              `${filteredProducts.length} Product${filteredProducts.length !== 1 ? 's' : ''} Found of ${totalProducts}`
+            }
           </div>
           <div className="view-options">
             <div className="view-buttons">
@@ -306,13 +318,17 @@ const Shop = () => {
           </div>
         </div>
         
-
-        <ProductList products={filteredProducts} viewMode={viewMode} />
-        <Pagination/>
+        {loading ? (
+          <div className="loading-indicator">Loading products...</div>
+        ) : (
+          <>
+            <ProductList products={filteredProducts} viewMode={viewMode} />
+            <Pagination />
+          </>
+        )}
       </div>
     </div>
     </div>
-    
   );
 };
 

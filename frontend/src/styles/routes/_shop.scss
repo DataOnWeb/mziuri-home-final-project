@@ -1,3 +1,4 @@
+@use '../abstracts' as *;
 .shop-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -212,9 +213,7 @@
 
 
 
-// Price Filter and Popular Tags SCSS
 
-/* Filter Container */
 .filter-container {
   margin-top: 30px;
   padding: 15px;
@@ -344,7 +343,7 @@
   }
 }
 
-/* Mobile Responsiveness */
+/* Responsiveness */
 @media (max-width: 768px) {
   .filter-container {
     padding: 10px;
