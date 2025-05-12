@@ -1,42 +1,41 @@
 import React from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Pagination = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
   return (
     <div className="pagination">
       <div className="pagination__container">
-        <button 
+        <button
           onClick={scrollToTop}
           className="pagination__button pagination__button--active"
         >
           1
         </button>
-        <button 
+        <button
           onClick={scrollToTop}
           className="pagination__button"
         >
           2
         </button>
-        <button 
+        <button
           onClick={scrollToTop}
           className="pagination__button"
         >
           3
         </button>
-        <button 
+        <button
           onClick={scrollToTop}
           className="pagination__button pagination__button--next"
         >
-          <FontAwesomeIcon icon={faArrowRight}/>
+          <FontAwesomeIcon icon={faArrowRight} />
         </button>
       </div>
     </div>

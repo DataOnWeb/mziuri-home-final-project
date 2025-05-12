@@ -3,8 +3,7 @@ import RouteBanner from '../components/RouteBanner';
 
 export default function About() {
   useEffect(() => {
-    document.title = "About - Pronia";
-    
+    document.title = 'About - Pronia';
   }, []);
 
   return (

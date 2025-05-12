@@ -3,7 +3,7 @@ import RouteBanner from '../components/RouteBanner';
 
 export default function Cart() {
   useEffect(() => {
-    document.title = "Shopping Cart - Pronia";
+    document.title = 'Shopping Cart - Pronia';
   }, []);
 
   return (

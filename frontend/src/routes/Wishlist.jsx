@@ -3,7 +3,7 @@ import RouteBanner from '../components/RouteBanner';
 
 export default function Wishlist() {
   useEffect(() => {
-    document.title = "My Wishlist - Pronia";
+    document.title = 'My Wishlist - Pronia';
   }, []);
 
   return (

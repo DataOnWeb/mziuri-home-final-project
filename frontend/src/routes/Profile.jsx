@@ -3,7 +3,7 @@ import RouteBanner from '../components/RouteBanner';
 
 export default function Profile() {
   useEffect(() => {
-    document.title = "My Profile - Your Store";
+    document.title = 'My Profile - Your Store';
   }, []);
 
   return (

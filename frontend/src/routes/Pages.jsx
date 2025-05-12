@@ -3,7 +3,7 @@ import RouteBanner from '../components/RouteBanner';
 
 export default function Pages() {
   useEffect(() => {
-    document.title = "Other Pages - Pronia";
+    document.title = 'Other Pages - Pronia';
   }, []);
 
   return (
