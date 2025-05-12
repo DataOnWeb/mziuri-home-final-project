@@ -79,30 +79,20 @@ function Register() {
         password: registerInputs.password,
       };
 
-      // Register the user
       const registerResponse = await registerUser(userData);
       console.log('Registration successful:', registerResponse);
 
-      if (registerResponse.err) {
-        throw new Error(registerResponse.err);
-      }
-
-      // Automatically log in the user after successful registration
       try {
         const loginResponse = await loginUser({
           email: userData.email,
           password: userData.password,
         });
 
-        if (loginResponse.err) {
-          throw new Error(loginResponse.err);
-        }
+        console.log('Auto login response:', loginResponse);
 
-        // Update user context with login data
         setUserData(loginResponse.data);
         setLoggedIn(true);
 
-        // Reset form after successful registration
         setRegisterInputs({
           firstName: '',
           lastName: '',
@@ -111,8 +101,7 @@ function Register() {
           confirmPassword: '',
         });
 
-        // Redirect to profile page
-        navigate('/');
+        navigate('/profile');
       } catch (loginError) {
         console.error('Auto-login after registration failed:', loginError);
         setRegisterErrors({
@@ -121,14 +110,16 @@ function Register() {
             loginError.message ||
             'Registration successful but login failed. Please try logging in manually.',
         });
-        // Redirect to login page if auto-login fails
+
         setTimeout(() => navigate('/login'), 3000);
       }
     } catch (error) {
       console.error('Registration failed:', error);
+
+      const errorMessage = error.message || 'Registration failed. Please try again.';
       setRegisterErrors({
         ...registerErrors,
-        form: error.message || 'Registration failed. Please try again.',
+        form: errorMessage,
       });
     } finally {
       setIsSubmittingRegister(false);

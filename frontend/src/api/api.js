@@ -35,23 +35,28 @@ export const registerUser = async (userData) => {
       email: userData.email,
       password: userData.password,
     });
+    
+
+    if (response.data.err) {
+      throw new Error(response.data.err);
+    }
+    
     return response.data;
   } catch (err) {
     console.error('Error registering user:', err);
-    // Return the error response data for better error handling
+
     if (err.response && err.response.data) {
-      throw err.response.data;
+      throw new Error(err.response.data.err || 'Registration failed');
     }
-    throw err;
+    throw new Error(err.message || 'Registration failed');
   }
 };
-
 export const loginUser = async (credentials) => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}/users/login`,
       {
-        usernameOrPassword: credentials.email, // Backend expects usernameOrPassword field
+        usernameOrPassword: credentials.email, 
         password: credentials.password,
       },
       {
@@ -60,14 +65,23 @@ export const loginUser = async (credentials) => {
       }
     );
 
-    // Return data directly for consistency
+
+    if (response.data.err) {
+      throw new Error(response.data.err);
+    }
+    
+
     return response.data;
   } catch (err) {
     console.error('Error logging in:', err);
-    // Format error response consistently
-    return { err: err.response?.data?.err || err.message || 'Login failed' };
+    // Better error handling
+    if (err.response && err.response.data) {
+      throw new Error(err.response.data.err || 'Login failed');
+    }
+    throw new Error(err.message || 'Login failed');
   }
 };
+
 
 export const getToken = async () => {
   try {

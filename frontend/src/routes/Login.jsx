@@ -39,7 +39,6 @@ export default function Login() {
       [name]: type === 'checkbox' ? checked : value,
     });
 
-    // Clear error for the field being changed
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -58,7 +57,6 @@ export default function Login() {
     setErrors(newErrors);
     return !newErrors.email && !newErrors.password;
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -76,24 +74,21 @@ export default function Login() {
       const response = await loginUser(data);
       console.log('Login successful:', response);
 
-      // Update user context with login data
-      setUserData(response.user);
+      setUserData(response.data);
       setLoggedIn(true);
 
-      // Reset form after successful login
       setLoginInputs({
         email: '',
         password: '',
         rememberMe: false,
       });
 
-      // Redirect to profile page
       navigate('/profile');
     } catch (error) {
       console.error('Login failed:', error);
       setErrors({
         ...errors,
-        form: error.response?.data?.message || 'Login failed. Please try again.',
+        form: error.message || 'Login failed. Please try again.',
       });
     } finally {
       setIsSubmitting(false);

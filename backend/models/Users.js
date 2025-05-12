@@ -12,7 +12,6 @@ const UsersSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-  completedTasks: { type: Number, default: 0 },
 });
 
 export default mongoose.model("Users", UsersSchema);

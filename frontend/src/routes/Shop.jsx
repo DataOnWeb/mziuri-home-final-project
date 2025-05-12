@@ -31,8 +31,7 @@ const Shop = () => {
         setFilteredProducts(data);
         setTotalProducts(data.length);
         setLoading(false);
-      } catch (error) {
-      }
+      } catch (error) {}
     };
 
     fetchProducts();
