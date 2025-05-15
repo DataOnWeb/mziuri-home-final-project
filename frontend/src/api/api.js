@@ -35,12 +35,11 @@ export const registerUser = async (userData) => {
       email: userData.email,
       password: userData.password,
     });
-    
 
     if (response.data.err) {
       throw new Error(response.data.err);
     }
-    
+
     return response.data;
   } catch (err) {
     console.error('Error registering user:', err);
@@ -56,7 +55,7 @@ export const loginUser = async (credentials) => {
     const response = await axios.post(
       `${API_BASE_URL}/users/login`,
       {
-        usernameOrPassword: credentials.email, 
+        usernameOrPassword: credentials.email,
         password: credentials.password,
       },
       {
@@ -65,11 +64,9 @@ export const loginUser = async (credentials) => {
       }
     );
 
-
     if (response.data.err) {
       throw new Error(response.data.err);
     }
-    
 
     return response.data;
   } catch (err) {
@@ -81,7 +78,6 @@ export const loginUser = async (credentials) => {
     throw new Error(err.message || 'Login failed');
   }
 };
-
 
 export const getToken = async () => {
   try {
