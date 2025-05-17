@@ -20,4 +20,6 @@
 @use './routes/singleProduct';
 @use './routes/register';
 @use './routes/login';
-@use './routes/contact'
+@use './routes/contact';
+@use './routes/forgotPassword';
+@use './routes/resetPassword'

@@ -10,7 +10,9 @@ export default function Login() {
   const { useFakeLoader } = useLoader();
   const navigate = useNavigate();
   const { setLoggedIn, setUserData } = useUserData();
-
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -150,7 +152,7 @@ export default function Login() {
                 <label htmlFor="rememberMe">Remember Me</label>
               </div>
               <div className="forgot-password">
-                <a onClick={scrollToTop}>Forgotten password?</a>
+                <a onClick={() => handleNavigation('/forgot-password')}>Forgotten password?</a>
               </div>
             </div>
 

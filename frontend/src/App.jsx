@@ -15,6 +15,8 @@ import Cart from './routes/Cart';
 import Pages from './routes/Pages';
 import Login from './routes/Login';
 import Blog from './routes/Blog';
+import ForgotPassword from './routes/ForgotPassword';
+import ResetPassword from './routes/ResetPassword';
 import { LoaderProvider } from './hooks/useLoader';
 import Loading from './components/Loading';
 import useScrollTop from './hooks/useScrollTop';
@@ -92,6 +94,14 @@ function App() {
           <Route
             path="/cart"
             element={<Cart />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPassword />}
           />
           <Route
             path="/blog"

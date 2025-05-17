@@ -100,3 +100,16 @@ export const getUser = async (token) => {
     throw err;
   }
 };
+
+export const forgotPasswordUser = (data) => {
+  return axios.put(`${API_BASE_URL}/users/forgot-password`, data, {
+    withCredentials: true,
+  });
+};
+
+export const resetPasswordUser = (data, token) => {
+  return axios.put(`${API_BASE_URL}/users/reset-password`, data, {
+    headers: { Authorization: token },
+    withCredentials: true,
+  });
+};

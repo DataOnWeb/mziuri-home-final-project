@@ -8,11 +8,13 @@ import UsersRouter from './routes/usersRoutes.js';
 import { rateLimit } from 'express-rate-limit'
 import helmet from "helmet";
 import compression from 'compression';
+import logger from './middlewares/logger.js';
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT
 
+app.use(logger)
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, 
   max: 100, 

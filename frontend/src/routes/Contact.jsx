@@ -3,7 +3,7 @@ import { MdOutlineMail } from 'react-icons/md';
 import { LuMapPin } from 'react-icons/lu';
 import { FiPhone } from 'react-icons/fi';
 import RouteBanner from '../components/RouteBanner';
-
+import { useLoader } from '../hooks/useLoader';
 export default function Contact() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -49,7 +49,9 @@ export default function Contact() {
     [formData]
   );
 
+  const { useFakeLoader } = useLoader();
   useEffect(() => {
+    useFakeLoader();
     document.title = 'Contact Us - Pronia';
   }, []);
 
@@ -58,7 +60,6 @@ export default function Contact() {
       <RouteBanner title="Contact Us" />
       <div className="contact-page">
         <div className="contact-container">
-          {/* Left Side - Contact Info */}
           <div className="contact-info">
             <div
               className="bg-overlay"
@@ -92,7 +93,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Side - Form */}
           <div className="contact-form">
             <div className="form-grid">
               <div className="form-group">
@@ -165,7 +165,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-      {/* Map Section */}
       <div className="map-section">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596552044!2d-74.25986652425023!3d40.69714941680757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1620796556183!5m2!1sen!2s"

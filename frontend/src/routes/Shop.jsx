@@ -81,21 +81,6 @@ const Shop = () => {
     setFilteredProducts(result);
   }, [products, searchTerm, activeCategory, activeColor, sortOption, priceRange]);
 
-  // useEffect(() => {
-  //   initializePriceSlider();
-  // }, []);
-
-  // const initializePriceSlider = () => {
-  //   if (!minThumbRef.current || !maxThumbRef.current) return;
-
-  //   const minThumb = minThumbRef.current;
-  //   const maxThumb = maxThumbRef.current;
-
-  //   minThumb.style.left = '10%';
-  //   maxThumb.style.left = '90%';
-  //   updateTrackActive();
-  // };
-
   const updateTrackActive = () => {
     if (!minThumbRef.current || !maxThumbRef.current || !trackActiveRef.current) return;
 
@@ -105,7 +90,19 @@ const Shop = () => {
     trackActiveRef.current.style.left = `${minLeft}%`;
     trackActiveRef.current.style.width = `${maxLeft - minLeft}%`;
   };
+  const initializePriceSlider = () => {
+    if (!minThumbRef.current || !maxThumbRef.current) return;
 
+    const minThumb = minThumbRef.current;
+    const maxThumb = maxThumbRef.current;
+
+    minThumb.style.left = '10%';
+    maxThumb.style.left = '90%';
+    updateTrackActive();
+  };
+  useEffect(() => {
+    initializePriceSlider();
+  }, []);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
