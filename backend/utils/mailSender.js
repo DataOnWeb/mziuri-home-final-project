@@ -24,7 +24,7 @@ const mailSender = async (from, to, url) => {
                 <div style="margin-bottom: 20px;">If this was a mistake, just ignore this email and nothing will happen.</div>
                 <div style="margin-bottom: 30px;">To reset your password, click the button below.</div>
         
-                <a href=${url} style="text-align: center; font-size: 15px; text-align: center; background-color: #a4ce6a; padding: 10px 24px; text-decoration: none; border-radius: 3px; color:white">Reset Password</a>
+                <a href=${url} style="text-align: center; font-size: 15px; text-align: center; background-color: #a4ce6a; padding: 10px 24px; text-decoration: none; border-radius: 3px; color:white";>Reset Password</a>
             </div>
             <br>
             <br>

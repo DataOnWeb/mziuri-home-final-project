@@ -8,8 +8,8 @@ function ResetPassword() {
   const [errorMessages, setErrorMessages] = useState({});
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-  const navigate = useNavigate()
-const handleNavigation = (path) => {
+  const navigate = useNavigate();
+  const handleNavigation = (path) => {
     navigate(path);
   };
   const { token } = useParams();
@@ -46,10 +46,7 @@ const handleNavigation = (path) => {
     const errors = {};
 
     const passwordError = validatePassword(state.password);
-    const confirmPasswordError = validateConfirmPassword(
-      state.password,
-      state.confirmPassword
-    );
+    const confirmPasswordError = validateConfirmPassword(state.password, state.confirmPassword);
 
     if (passwordError) errors.password = passwordError;
     if (confirmPasswordError) errors.confirmPassword = confirmPasswordError;
@@ -57,7 +54,7 @@ const handleNavigation = (path) => {
     return errors;
   };
   const { useFakeLoader } = useLoader();
-    useEffect(() => {
+  useEffect(() => {
     useFakeLoader();
     document.title = 'Reset Your Password - Pronia';
   }, []);
@@ -69,7 +66,7 @@ const handleNavigation = (path) => {
             <h1 className="title">Reset Your Password</h1>
             {/* <h3 className="subtitle">Sign in to continue your journey</h3> */}
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <div className="password-input-container">
@@ -82,18 +79,17 @@ const handleNavigation = (path) => {
                 value={state.password || ''}
                 onChange={handleChange}
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="toggle-password"
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-              >
-              </button>
+              ></button>
             </div>
             {errorMessages.password && (
               <div className="error-message">{errorMessages.password}</div>
             )}
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <div className="password-input-container">
@@ -106,20 +102,24 @@ const handleNavigation = (path) => {
                 value={state.confirmPassword || ''}
                 onChange={handleChange}
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="toggle-password"
                 onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
-              >
-
-              </button>
+              ></button>
             </div>
             {errorMessages.confirmPassword && (
               <div className="error-message">{errorMessages.confirmPassword}</div>
             )}
           </div>
-          
-          <button type="submit" className='reset_btn' onClick={() => handleNavigation('/login')}>Reset Password</button>
+
+          <button
+            type="submit"
+            className="reset_btn"
+            onClick={() => handleNavigation('/login')}
+          >
+            Reset Password
+          </button>
         </form>
       </div>
     </div>

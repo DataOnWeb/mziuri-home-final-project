@@ -46,10 +46,10 @@ function ForgotPassword() {
     return errors;
   };
   const { useFakeLoader } = useLoader();
-      useEffect(() => {
-      useFakeLoader();
-      document.title = 'Restore Your Password - Pronia';
-    }, []);
+  useEffect(() => {
+    useFakeLoader();
+    document.title = 'Restore Your Password - Pronia';
+  }, []);
   return (
     <div className="forgotPassword">
       <div className="formContainer">
