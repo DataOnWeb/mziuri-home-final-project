@@ -1,0 +1,212 @@
+@use '../abstracts' as *;
+.shopping-cart-sidebar {
+  position: relative;
+  
+  
+  .cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($black, 0.5);
+    z-index: 1000;
+    animation: fadeIn $transition-duration ease;
+  }
+  
+  .cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 23vw;
+    height: 100%;
+    background-color: $white;
+    z-index: 1001;
+    box-shadow: -2px 0 10px $shadow-color;
+    transform: translateX(100%);
+    transition: transform $transition-duration ease;
+    
+    &.open {
+      transform: translateX(0);
+    }
+  }
+  
+  .cart-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:25px 30px;
+    border-top: 1px solid $border-color;
+    
+    h2 {
+      font-size: 25px;
+      font-weight: 600;
+      font-style: bold;
+      color:#48494b;
+      margin: 0;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: $dark-gray;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color $transition-duration;
+      
+      &:hover {
+        color: $text-color;
+      }
+    }
+  }
+  
+  .cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+    
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: $light-gray;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $dark-gray;
+      border-radius: 5px;
+    }
+    
+    .empty-cart {
+      padding: 40px 20px;
+      text-align: center;
+      color: $dark-gray;
+    }
+  }
+  
+  .cart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-top: 1px dashed $border-color;
+    position: relative;
+    transition: background-color $transition-duration;
+    
+    &:hover {
+      background-color: $light-gray;
+    }
+    
+    .item-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 4px;
+      overflow: hidden;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    
+    .item-details {
+      margin-left: 15px;
+      flex-grow: 1;
+      
+      h3 {
+        font-size: 16px;
+        margin: 0 0 5px;
+        color: $text-color;
+        font-weight: 500;
+      }
+      
+      p {
+        font-size: 14px;
+        color: $dark-gray;
+        margin: 0;
+      }
+    }
+    
+    .remove-item-btn {
+      background: none;
+      border: none;
+      color: $dark-gray;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color $transition-duration;
+      
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+  }
+  
+  .cart-footer {
+    padding: 20px;
+    background-color: $light-gray;
+    
+    .subtotal {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    .cart-sidebar-btn,
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color $transition-duration;
+    }
+    
+    .cart-sidebar-btn {
+      background-color: #212529;
+      color: $white;
+      margin-bottom: 10px;
+      
+      &:hover {
+        background-color: $primary-color
+      }
+    }
+    
+    .checkout-btn {
+      background-color:#212529;
+      color: $white;
+      
+      &:hover {
+        background-color: $primary-color;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
