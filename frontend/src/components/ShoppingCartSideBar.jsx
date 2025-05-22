@@ -1,73 +1,97 @@
 import React, { useState, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import marigold from '../assets/images/marigold.jpg';
-import bonzai from '../assets/images/bonzai.jpg';
-import viburnum from '../assets/images/viburnum.jpg';
 import { useNavigate } from 'react-router-dom';
+import { getProducts } from '../api/api';
+import { useLoader } from '../hooks/useLoader';
+
 const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   const [cartItems, setCartItems] = useState([]);
-    const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { useDataLoader } = useLoader();
+
   const handleNavigation = (path) => {
     navigate(path);
   };
+
   useEffect(() => {
     const fetchCartItems = async () => {
-      const items = [
-        { id: 1, title: 'American Marigold', price: 23.45, quantity: 1, image: marigold },
-        { id: 2, title: 'Black Eyed Susan', price: 25.45, quantity: 1, image: bonzai },
-        { id: 3, title: 'Bleeding Heart', price: 30.45, quantity: 1, image: viburnum }
-      ];
-      setCartItems(items);
+      try {
+        setLoading(true);
+        const allProducts = await useDataLoader(getProducts);
+        const items = allProducts.slice(0, 3).map((product) => ({
+          ...product,
+          quantity: 1,
+        }));
+        setCartItems(items);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+        setLoading(false);
+      }
     };
-    
+
     fetchCartItems();
   }, []);
-  
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
-  
+
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+
   const handleRemoveItem = (id) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-    // In a real app, you would also update your cart state or call an API
+    setCartItems(cartItems.filter((item) => item.id !== id));
   };
+
   const closeCart = () => {
-    handleNavigation('/cart')
-    setIsOpen(false)
-  }
-  
+    handleNavigation('/cart');
+    setIsOpen(false);
+  };
+
   return (
     <div className="shopping-cart-sidebar">
       {/* Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="cart-overlay"
           onClick={() => setIsOpen(false)}
         ></div>
       )}
-      
+
       {/* Sidebar */}
       <div className={`cart-sidebar ${isOpen ? 'open' : ''}`}>
         <div className="cart-content">
           {/* Header */}
           <div className="cart-header">
             <h2>Shopping Cart</h2>
-            <button className="close-btn" onClick={() => setIsOpen(false)}>
+            <button
+              className="close-btn"
+              onClick={() => setIsOpen(false)}
+            >
               <IoMdClose size={24} />
             </button>
           </div>
-          
+
           {/* Cart Items */}
           <div className="cart-items">
-            {cartItems.length > 0 ? (
-              cartItems.map(item => (
-                <div key={item.id} className="cart-item">
+            {loading ? (
+              <div className="loading-indicator">Loading cart...</div>
+            ) : cartItems.length > 0 ? (
+              cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="cart-item"
+                >
                   <div className="item-image">
-                    <img src={item.image} alt={item.title} />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                    />
                   </div>
                   <div className="item-details">
                     <h3>{item.title}</h3>
-                    <p>{item.quantity} × ${item.price.toFixed(2)}</p>
+                    <p>
+                      {item.quantity} × ${item.price.toFixed(2)}
+                    </p>
                   </div>
-                  <button 
+                  <button
                     className="remove-item-btn"
                     onClick={() => handleRemoveItem(item.id)}
                   >
@@ -81,7 +105,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
               </div>
             )}
           </div>
-          
+
           {/* Footer */}
           {cartItems.length > 0 && (
             <div className="cart-footer">
@@ -89,7 +113,12 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
                 <span>Subtotal</span>
                 <span>${subtotal}</span>
               </div>
-              <button className="cart-sidebar-btn" onClick={closeCart}>View Cart</button>
+              <button
+                className="cart-sidebar-btn"
+                onClick={closeCart}
+              >
+                View Cart
+              </button>
               <button className="checkout-btn">Checkout</button>
             </div>
           )}

@@ -378,3 +378,39 @@
   animation: pulse 1s ease infinite;
   outline: none;
 }
+
+.highlight-number {
+  color: $primary-color;
+
+}
+
+.highlight-total {
+  color: $primary-color;
+
+}
+
+.input-search-icon {
+  position: absolute;
+  right: 0.5rem;
+  color: #888;
+  pointer-events: none;
+
+  &:focus{
+    color: $primary-color;
+  }
+}
+
+.search-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-container input {
+  width: 100%;
+  padding-right: 2rem; 
+  padding-left: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+}
+

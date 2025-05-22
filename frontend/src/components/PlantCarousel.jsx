@@ -54,6 +54,7 @@ const PlantCarousel = ({ slides }) => {
               </div>
               <div className="carousel-image">
                 <img
+                  loading="lazy"
                   src={slide.imageUrl}
                   alt={slide.imageAlt}
                 />

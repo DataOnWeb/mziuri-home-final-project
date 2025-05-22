@@ -16,6 +16,7 @@
 @use './components/commentsSection';
 @use './components/loading';
 @use './components/shoppingCartSideBar';
+@use './components/stickyHeader';
 
 @use './routes/shop';
 @use './routes/singleProduct';

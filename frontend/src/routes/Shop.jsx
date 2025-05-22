@@ -5,7 +5,7 @@ import ProductList from '../components/ProductList';
 import Pagination from '../components/Pagination';
 import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
-
+import { IoSearchOutline } from 'react-icons/io5';
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -176,16 +176,20 @@ const Shop = () => {
   return (
     <div>
       <RouteBanner title="Shop" />
+
       <div className="shop-container">
         <div className="sidebar">
           <div className="search-box">
             <div className="search-wrapper">
-              <input
-                type="search"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <div className="search-input-container">
+                <input
+                  type="search"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <IoSearchOutline className="input-search-icon" />
+              </div>
               <button
                 className="search-button"
                 aria-label="Search"
@@ -312,9 +316,15 @@ const Shop = () => {
         <div className="products-area">
           <div className="toolbar">
             <div className="product-count">
-              {loading
-                ? 'Loading products...'
-                : `${filteredProducts.length} Product${filteredProducts.length !== 1 ? 's' : ''} Found of ${totalProducts}`}
+              {loading ? (
+                'Loading products...'
+              ) : (
+                <>
+                  <span className="highlight-number">{filteredProducts.length}</span> Product
+                  {filteredProducts.length !== 1 ? 's' : ''} Found of{' '}
+                  <span className="highlight-total">{totalProducts}</span>
+                </>
+              )}
             </div>
             <div className="view-options">
               <div className="view-buttons">

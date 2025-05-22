@@ -7,19 +7,31 @@ import { PiShoppingBagLight } from 'react-icons/pi';
 import { FaSquarePhone } from 'react-icons/fa6';
 import SearchFunction from '../components/SearchFunction';
 import ShoppingCartSidebar from '../components/ShoppingCartSidebar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
+  // Determine which nav item is active based on current path
+  const isActive = (path) => {
+    if (path === '/' && location.pathname === '/') return true;
+    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    return false;
+  };
+
   const handleNavigation = (path) => {
     navigate(path);
+    setActiveDropdown(null);
   };
-  
+
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
   };
@@ -44,7 +56,7 @@ const Header = () => {
       setActiveDropdown(type);
     }
   };
-  
+
   const toggleCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -64,9 +76,31 @@ const Header = () => {
     };
   }, []);
 
+  // Handle scroll events
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setScrollPosition(currentScrollPos);
+
+      // Show sticky header when scrolling down past threshold (200px)
+      if (currentScrollPos > 200) {
+        setHeaderVisible(true);
+      } else {
+        // At top of page - hide sticky header
+        setHeaderVisible(false);
+      }
+
+      setLastScrollTop(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
-      <header className="header">
+      {/* Full Header shown initially */}
+      <header className={`header ${scrollPosition > 200 ? 'scroll-hidden' : ''}`}>
         <div className="top-bar">
           <div className="container">
             <div className="promotion">
@@ -78,14 +112,18 @@ const Header = () => {
             >
               <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
                 <h5 onClick={(e) => toggleDropdown(e, 'currency')}>USD ▼</h5>
-                <ul className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}>
+                <ul
+                  className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}
+                >
                   <li>USD</li>
                   <li>EUR</li>
                 </ul>
               </div>
               <div className={`language-selector ${activeDropdown === 'language' ? 'active' : ''}`}>
                 <h5 onClick={(e) => toggleDropdown(e, 'language')}>ENGLISH ▼</h5>
-                <ul className={`language-dropdown ${activeDropdown === 'language' ? 'active' : ''}`}>
+                <ul
+                  className={`language-dropdown ${activeDropdown === 'language' ? 'active' : ''}`}
+                >
                   <li>ENGLISH</li>
                   <li>SPANISH</li>
                   <li>FRENCH</li>
@@ -150,22 +188,22 @@ const Header = () => {
         <nav className="main-navigation">
           <div className="container">
             <ul className="main-menu">
-              <li>
+              <li className={isActive('/') ? 'active' : ''}>
                 <a onClick={() => handleNavigation('/')}>HOME</a>
               </li>
-              <li>
+              <li className={isActive('/shop') ? 'active' : ''}>
                 <a onClick={() => handleNavigation('/shop')}>SHOP</a>
               </li>
-              <li>
+              <li className={isActive('/blog') ? 'active' : ''}>
                 <a onClick={() => handleNavigation('/blog')}>BLOG</a>
               </li>
-              <li>
+              <li className={isActive('/about') ? 'active' : ''}>
                 <a onClick={() => handleNavigation('/about')}>ABOUT US</a>
               </li>
-              <li>
+              <li className={isActive('/pages') ? 'active' : ''}>
                 <a onClick={() => handleNavigation('/pages')}>PAGES</a>
               </li>
-              <li>
+              <li className={isActive('/contact') ? 'active' : ''}>
                 <a onClick={() => handleNavigation('/contact')}>CONTACT US</a>
               </li>
             </ul>
@@ -178,9 +216,82 @@ const Header = () => {
           handleSearchSubmit={handleSearchSubmit}
         />
       </header>
-      
+
+      {/* Sticky Header that shows when scrolling down */}
+      <header
+        className={`sticky-header ${headerVisible ? 'visible' : ''}`}
+        ref={dropdownRef}
+      >
+        <div className="container">
+          <div className="logo">
+            <img
+              src={proniaImage}
+              alt="Pronia"
+              onClick={() => handleNavigation('/')}
+            />
+          </div>
+          <nav className="sticky-navigation">
+            <ul className="main-menu">
+              <li className={isActive('/') ? 'active' : ''}>
+                <a onClick={() => handleNavigation('/')}>HOME</a>
+              </li>
+              <li className={isActive('/shop') ? 'active' : ''}>
+                <a onClick={() => handleNavigation('/shop')}>SHOP</a>
+              </li>
+              <li className={isActive('/blog') ? 'active' : ''}>
+                <a onClick={() => handleNavigation('/blog')}>BLOG</a>
+              </li>
+              <li className={isActive('/about') ? 'active' : ''}>
+                <a onClick={() => handleNavigation('/about')}>ABOUT US</a>
+              </li>
+              <li className={isActive('/pages') ? 'active' : ''}>
+                <a onClick={() => handleNavigation('/pages')}>PAGES</a>
+              </li>
+              <li className={isActive('/contact') ? 'active' : ''}>
+                <a onClick={() => handleNavigation('/contact')}>CONTACT US</a>
+              </li>
+            </ul>
+          </nav>
+          <div className="user-actions">
+            <div
+              className="search-icon"
+              onClick={toggleSearch}
+            >
+              <IoSearchOutline size="22px" />
+            </div>
+            <div
+              className="account-icon"
+              onClick={(e) => toggleDropdown(e, 'user')}
+            >
+              <ul className={`user-dropdown ${activeDropdown === 'user' ? 'active' : ''}`}>
+                <li onClick={() => handleNavigation('/register')}>REGISTER</li>
+                <li onClick={() => handleNavigation('/login')}>LOGIN</li>
+                <li onClick={() => handleNavigation('/profile')}>PROFILE</li>
+              </ul>
+              <LuUsers size="22px" />
+            </div>
+            <div
+              className="wishlist-icon"
+              onClick={() => handleNavigation('/wishlist')}
+            >
+              <IoMdHeartEmpty size="24px" />
+            </div>
+            <div
+              className="cart-icon"
+              onClick={toggleCart}
+            >
+              <PiShoppingBagLight size="24px" />
+              <span className="cart-count">3</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Shopping Cart Sidebar */}
-      <ShoppingCartSidebar isOpen={cartOpen} setIsOpen={setCartOpen} />
+      <ShoppingCartSidebar
+        isOpen={cartOpen}
+        setIsOpen={setCartOpen}
+      />
     </>
   );
 };
