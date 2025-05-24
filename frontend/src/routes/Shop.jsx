@@ -199,6 +199,7 @@ const Shop = () => {
 
           <div className="filter-section">
             <h2>Categories</h2>
+            <div className="divider"></div>
             <ul>
               {categories.map((category) => (
                 <li key={category.name}>
@@ -220,6 +221,7 @@ const Shop = () => {
 
           <div className="filter-section">
             <h2>Color</h2>
+            <div className="divider"></div>
             <ul>
               {colors.map((color) => (
                 <li key={color.name}>

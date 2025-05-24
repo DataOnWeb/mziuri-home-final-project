@@ -7,8 +7,13 @@ export const validateFullName = (value) => {
 export const validateEmail = (value) => {
   if (!value) {
     return 'Email is required';
-  } else if (!value.includes('@') || !value.includes('.')) {
-    return 'Email is invalid';
+  }
+  
+  // More comprehensive email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  if (!emailRegex.test(value)) {
+    return 'Please enter a valid email address';
   }
 };
 

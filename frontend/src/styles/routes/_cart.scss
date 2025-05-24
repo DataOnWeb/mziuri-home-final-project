@@ -1,0 +1,406 @@
+@use '../abstracts' as *;
+
+.cart-page {
+  .loading-indicator,
+  .error {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+  }
+
+  .error {
+    color: #d32f2f;
+  }
+}
+
+.shopping-cart {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+
+  .cart-table-container {
+    margin-bottom: 2rem;
+    border: 1px solid #e8e8e8;
+  }
+
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+
+    .cart-header {
+      background-color: #f9f9f9;
+      
+      .header-cell {
+        padding: 1.2rem 1rem;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+        border-right: 1px solid #e8e8e8;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &:last-child {
+          border-right: none;
+        }
+
+        &:first-child {
+          width: 80px;
+        }
+
+        &:nth-child(2) {
+          width: 100px;
+        }
+
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6) {
+          width: 120px;
+        }
+      }
+    }
+
+    .cart-row {
+      border-bottom: 1px solid #e8e8e8;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .cart-cell {
+        padding: 1.5rem 1rem;
+        vertical-align: middle;
+        text-align: center;
+        border-right: 1px solid #e8e8e8;
+
+        &:last-child {
+          border-right: none;
+        }
+
+        &.remove-cell {
+          .remove-button {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 0.25rem;
+            font-size: 1.2rem;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: #666;
+            }
+          }
+        }
+
+        &.image-cell {
+          .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+
+          }
+        }
+
+        &.product-cell {
+          text-align: left;
+          padding-left: 1.5rem;
+
+          .product-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.95rem;
+
+            &:hover {
+              text-decoration: none;
+              color: $primary-color;
+              transition: 200ms;
+            }
+          }
+        }
+
+        &.price-cell,
+        &.total-cell {
+          font-weight: 500;
+          color: #333;
+          font-size: 0.95rem;
+        }
+
+        &.quantity-cell {
+          .quantity-controls {
+            display: inline-flex;
+            align-items: center;
+            background: #5c5c5c;
+            border-radius: 6px;
+
+            .quantity-btn {
+              background: transparent;
+              color: white;
+              border: none;
+              width: 23px;
+              height: 45px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              font-size: 0.9rem;
+              font-weight: bold;
+              transition: background-color 0.2s ease;
+
+
+              &:disabled {
+                cursor: not-allowed;
+              }
+            }
+
+            .quantity-value {
+              min-width: 30px;
+              text-align: center;
+              padding: 0 0.25rem;
+              font-weight: 500;
+              line-height: 32px;
+              color: white;
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .coupon-section {
+      display: flex;
+      gap: 0;
+
+      .coupon-input {
+        padding: 0.8rem 1rem;
+        border: 1px solid #ddd;
+        font-size: 0.9rem;
+        min-width: 90px;
+        border-right: none;
+
+        &:focus {
+          outline: none;
+        }
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+
+      .apply-coupon-btn {
+        background: #666;
+        color: white;
+        border: 1px solid white;
+        padding: 0.8rem 1.5rem;
+        font-weight: 600;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background: $primary-color;
+          transition: 200ms;
+
+        }
+      }
+    }
+
+    .update-cart-btn {
+      background: #666;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background: $primary-color;
+      }
+    }
+  }
+
+  .cart-totals {
+    max-width: 350px;
+    border: 1px solid #e8e8e8;
+
+    .totals-title {
+      background: #f9f9f9;
+      margin: 0;
+      padding: 1rem 1.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .totals-content {
+      padding: 1.5rem;
+      background: white;
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem 0;
+
+        &:not(:last-of-type) {
+          border-bottom: 1px solid #f0f0f0;
+        }
+
+        &.final-total {
+          border-bottom: none;
+          border-top: 1px solid #e8e8e8;
+          padding-top: 1rem;
+          margin-top: 0.5rem;
+
+          .total-label,
+          .total-value {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #333;
+          }
+        }
+
+        .total-label {
+          color: #666;
+          font-weight: 500;
+          font-size: 0.95rem;
+        }
+
+        .total-value {
+          font-weight: 600;
+          color: #333;
+          font-size: 0.95rem;
+        }
+      }
+
+      .checkout-btn {
+        width: 100%;
+        background: #666;
+        color: white;
+        border: none;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        font-weight: 500;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background: $primary-color;
+          transition: 200ms;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .shopping-cart {
+    padding: 2rem 0.5rem;
+
+    .cart-table {
+      .header-cell,
+      .cart-cell {
+        padding: 1rem 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .cart-cell {
+        &.image-cell .product-image {
+          width: 50px;
+          height: 50px;
+        }
+
+        &.product-cell {
+          padding-left: 0.75rem;
+        }
+
+        &.quantity-cell .quantity-controls {
+          .quantity-btn {
+            width: 28px;
+            height: 28px;
+          }
+
+          .quantity-value {
+            min-width: 25px;
+            line-height: 28px;
+          }
+        }
+      }
+    }
+
+    .cart-actions {
+      flex-direction: column;
+      align-items: stretch;
+
+      .coupon-section {
+        .coupon-input {
+          min-width: auto;
+          flex: 1;
+        }
+      }
+    }
+
+    .cart-totals {
+      margin: 0;
+      max-width: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .shopping-cart {
+    .cart-table {
+      font-size: 0.75rem;
+
+      .header-cell,
+      .cart-cell {
+        padding: 0.75rem 0.25rem;
+      }
+
+      .cart-cell {
+        &.product-cell {
+          padding-left: 0.5rem;
+        }
+      }
+    }
+
+    .cart-actions {
+      .coupon-section {
+        flex-direction: column;
+        width: 100%;
+
+        .coupon-input,
+        .apply-coupon-btn {
+          width: 100%;
+        }
+      }
+
+      .update-cart-btn {
+        width: 100%;
+      }
+    }
+  }
+}

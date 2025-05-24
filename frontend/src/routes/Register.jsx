@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
-import { validateEmail, validatePassword } from '../utils/validations';
+import { validateFullName, validateEmail, validatePassword, validateConfirmPassword } from '../utils/validations';
 import { registerUser, loginUser } from '../api/api';
 import { useUserData } from '../context/UserContext';
 
@@ -28,6 +28,7 @@ function Register() {
   });
 
   const [isSubmittingRegister, setIsSubmittingRegister] = useState(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +37,8 @@ function Register() {
       [name]: value,
     });
 
-    if (registerErrors[name]) {
+    // Only clear errors after first submit attempt
+    if (hasAttemptedSubmit && registerErrors[name]) {
       setRegisterErrors({
         ...registerErrors,
         [name]: '',
@@ -46,15 +48,17 @@ function Register() {
 
   const validateRegisterForm = () => {
     const newErrors = {
-      firstName: !registerInputs.firstName ? 'First name is required' : '',
-      lastName: !registerInputs.lastName ? 'Last name is required' : '',
+      firstName: validateFullName(registerInputs.firstName) || '',
+      lastName: validateFullName(registerInputs.lastName) || '',
       email: validateEmail(registerInputs.email) || '',
       password: validatePassword(registerInputs.password) || '',
-      confirmPassword: '',
+      confirmPassword: validateConfirmPassword(registerInputs.confirmPassword) || '',
       form: '',
     };
 
-    if (registerInputs.password !== registerInputs.confirmPassword) {
+    // Additional validation for password confirmation match
+    if (registerInputs.password && registerInputs.confirmPassword && 
+        registerInputs.password !== registerInputs.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
@@ -65,6 +69,9 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    
+    // Mark that submit has been attempted
+    setHasAttemptedSubmit(true);
 
     if (!validateRegisterForm()) {
       return;
@@ -140,8 +147,25 @@ function Register() {
         <div className="auth-forms-wrapper">
           <div className="auth-form register-form">
             <h2>Register</h2>
-            {registerErrors.form && <div className="error-message">{registerErrors.form}</div>}
-            <form onSubmit={handleRegister}>
+            {registerErrors.form && (
+              <div 
+                className="error-message" 
+                style={{ 
+                  color: '#e74c3c', 
+                  fontSize: '14px', 
+                  fontWeight: '600',
+                  backgroundColor: '#ffeaea',
+                  border: '1px solid #e74c3c',
+                  borderRadius: '4px',
+                  padding: '10px',
+                  marginBottom: '15px',
+                  textAlign: 'center'
+                }}
+              >
+                {registerErrors.form}
+              </div>
+            )}
+            <form onSubmit={handleRegister} noValidate>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="firstName">
@@ -156,8 +180,18 @@ function Register() {
                     onChange={handleRegisterChange}
                     required
                   />
-                  {registerErrors.firstName && (
-                    <div className="field-error">{registerErrors.firstName}</div>
+                  {hasAttemptedSubmit && registerErrors.firstName && (
+                    <div 
+                      className="field-error" 
+                      style={{ 
+                        color: '#e74c3c', 
+                        fontSize: '12px', 
+                        fontWeight: '500',
+                        marginTop: '4px' 
+                      }}
+                    >
+                      {registerErrors.firstName}
+                    </div>
                   )}
                 </div>
 
@@ -174,8 +208,18 @@ function Register() {
                     onChange={handleRegisterChange}
                     required
                   />
-                  {registerErrors.lastName && (
-                    <div className="field-error">{registerErrors.lastName}</div>
+                  {hasAttemptedSubmit && registerErrors.lastName && (
+                    <div 
+                      className="field-error" 
+                      style={{ 
+                        color: '#e74c3c', 
+                        fontSize: '12px', 
+                        fontWeight: '500',
+                        marginTop: '4px' 
+                      }}
+                    >
+                      {registerErrors.lastName}
+                    </div>
                   )}
                 </div>
               </div>
@@ -193,7 +237,19 @@ function Register() {
                   onChange={handleRegisterChange}
                   required
                 />
-                {registerErrors.email && <div className="field-error">{registerErrors.email}</div>}
+                {hasAttemptedSubmit && registerErrors.email && (
+                  <div 
+                    className="field-error" 
+                    style={{ 
+                      color: '#e74c3c', 
+                      fontSize: '12px', 
+                      fontWeight: '500',
+                      marginTop: '4px' 
+                    }}
+                  >
+                    {registerErrors.email}
+                  </div>
+                )}
               </div>
 
               <div className="form-row">
@@ -210,8 +266,18 @@ function Register() {
                     onChange={handleRegisterChange}
                     required
                   />
-                  {registerErrors.password && (
-                    <div className="field-error">{registerErrors.password}</div>
+                  {hasAttemptedSubmit && registerErrors.password && (
+                    <div 
+                      className="field-error" 
+                      style={{ 
+                        color: '#e74c3c', 
+                        fontSize: '12px', 
+                        fontWeight: '500',
+                        marginTop: '4px' 
+                      }}
+                    >
+                      {registerErrors.password}
+                    </div>
                   )}
                 </div>
 
@@ -228,8 +294,18 @@ function Register() {
                     onChange={handleRegisterChange}
                     required
                   />
-                  {registerErrors.confirmPassword && (
-                    <div className="field-error">{registerErrors.confirmPassword}</div>
+                  {hasAttemptedSubmit && registerErrors.confirmPassword && (
+                    <div 
+                      className="field-error" 
+                      style={{ 
+                        color: '#e74c3c', 
+                        fontSize: '12px', 
+                        fontWeight: '500',
+                        marginTop: '4px' 
+                      }}
+                    >
+                      {registerErrors.confirmPassword}
+                    </div>
                   )}
                 </div>
               </div>

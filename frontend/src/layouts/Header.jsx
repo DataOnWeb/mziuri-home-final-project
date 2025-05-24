@@ -20,7 +20,6 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Determine which nav item is active based on current path
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
@@ -76,20 +75,20 @@ const Header = () => {
     };
   }, []);
 
-  // Handle scroll events
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
       setScrollPosition(currentScrollPos);
+      
 
-      // Show sticky header when scrolling down past threshold (200px)
       if (currentScrollPos > 200) {
         setHeaderVisible(true);
       } else {
-        // At top of page - hide sticky header
+
         setHeaderVisible(false);
       }
-
+      
       setLastScrollTop(currentScrollPos);
     };
 
@@ -99,7 +98,7 @@ const Header = () => {
 
   return (
     <>
-      {/* Full Header shown initially */}
+
       <header className={`header ${scrollPosition > 200 ? 'scroll-hidden' : ''}`}>
         <div className="top-bar">
           <div className="container">
@@ -217,8 +216,8 @@ const Header = () => {
         />
       </header>
 
-      {/* Sticky Header that shows when scrolling down */}
-      <header
+
+      <header 
         className={`sticky-header ${headerVisible ? 'visible' : ''}`}
         ref={dropdownRef}
       >
@@ -287,7 +286,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Shopping Cart Sidebar */}
       <ShoppingCartSidebar
         isOpen={cartOpen}
         setIsOpen={setCartOpen}

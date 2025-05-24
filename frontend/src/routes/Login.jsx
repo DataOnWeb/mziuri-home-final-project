@@ -108,7 +108,7 @@ export default function Login() {
       <div className="auth-container">
         <div className="auth-form login-form">
           <h2>Login</h2>
-          {errors.form && <div className="error-message">{errors.form}</div>}
+          
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="email">
@@ -137,7 +137,12 @@ export default function Login() {
                 onChange={handleLoginChange}
                 required
               />
-              {errors.password && <div className="field-error">{errors.password}</div>}
+              {errors.form && <div className="field-error" style={{ 
+                        color: '#e74c3c', 
+                        fontSize: '12px', 
+                        fontWeight: '500',
+                        marginTop: '4px' 
+                      }}>{errors.form}</div>}
             </div>
 
             <div className="form-group checkbox-group">
@@ -151,6 +156,7 @@ export default function Login() {
                 />
                 <label htmlFor="rememberMe">Remember Me</label>
               </div>
+              
               <div className="forgot-password">
                 <a onClick={() => handleNavigation('/forgot-password')}>Forgotten password?</a>
               </div>
