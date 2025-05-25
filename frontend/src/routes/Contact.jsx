@@ -57,7 +57,7 @@ export default function Contact() {
 
   return (
     <div>
-      <RouteBanner title="Contact Us" />
+      <RouteBanner title="contact" />
       <div className="contact-page">
         <div className="contact-container">
           <div className="contact-info">

@@ -53,13 +53,15 @@ function Cart() {
   };
 
   const handleQuantityChange = (itemId, change) => {
-    setCartItems(cartItems.map(item => {
-      if (item._id === itemId) {
-        const newQuantity = Math.max(1, item.quantity + change);
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    }));
+    setCartItems(
+      cartItems.map((item) => {
+        if (item._id === itemId) {
+          const newQuantity = Math.max(1, item.quantity + change);
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      })
+    );
   };
 
   const handleUpdateCart = () => {
@@ -79,7 +81,7 @@ function Cart() {
   };
 
   const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const subtotal = calculateSubtotal();
@@ -89,7 +91,7 @@ function Cart() {
 
   return (
     <div className="cart-page">
-      <RouteBanner title="Shopping Cart" />
+      <RouteBanner title="cart" />
       <div className="shopping-cart">
         <div className="cart-table-container">
           <table className="cart-table">
@@ -105,7 +107,10 @@ function Cart() {
             </thead>
             <tbody>
               {cartItems.map((item) => (
-                <tr key={item._id} className="cart-row">
+                <tr
+                  key={item._id}
+                  className="cart-row"
+                >
                   <td className="cart-cell remove-cell">
                     <button
                       className="remove-button"
@@ -123,16 +128,14 @@ function Cart() {
                     />
                   </td>
                   <td className="cart-cell product-cell">
-                    <a 
+                    <a
                       className="product-link"
                       onClick={() => handleNavigation(`/product/${item._id}`)}
                     >
                       {item.name}
                     </a>
                   </td>
-                  <td className="cart-cell price-cell">
-                    ${item.price.toFixed(2)}
-                  </td>
+                  <td className="cart-cell price-cell">${item.price.toFixed(2)}</td>
                   <td className="cart-cell quantity-cell">
                     <div className="quantity-controls">
                       <button
@@ -169,14 +172,14 @@ function Cart() {
               onChange={(e) => setCouponCode(e.target.value)}
               className="coupon-input"
             />
-            <button 
+            <button
               className="apply-coupon-btn"
               onClick={handleApplyCoupon}
             >
               APPLY COUPON
             </button>
           </div>
-          <button 
+          <button
             className="update-cart-btn"
             onClick={handleUpdateCart}
           >
@@ -195,7 +198,7 @@ function Cart() {
               <span className="total-label">Total</span>
               <span className="total-value">${subtotal.toFixed(2)}</span>
             </div>
-            <button 
+            <button
               className="checkout-btn"
               onClick={handleProceedToCheckout}
             >

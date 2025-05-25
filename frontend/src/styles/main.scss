@@ -17,6 +17,8 @@
 @use './components/loading';
 @use './components/shoppingCartSideBar';
 @use './components/stickyHeader';
+@use './components/productModal';
+
 
 @use './routes/shop';
 @use './routes/singleProduct';

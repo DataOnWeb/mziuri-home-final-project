@@ -8,7 +8,7 @@ export default function Pages() {
 
   return (
     <div>
-      <RouteBanner title="My Profile" />
+      <RouteBanner title="pages" />
     </div>
   );
 }

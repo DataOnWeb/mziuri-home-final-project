@@ -8,10 +8,10 @@ export const validateEmail = (value) => {
   if (!value) {
     return 'Email is required';
   }
-  
+
   // More comprehensive email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
   if (!emailRegex.test(value)) {
     return 'Please enter a valid email address';
   }

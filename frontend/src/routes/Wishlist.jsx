@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import RouteBanner from '../components/RouteBanner';
-import { getProducts } from '../api/api'; // Import getProducts just like in Shop.jsx
-import { useLoader } from '../hooks/useLoader'; // Import the useLoader hook
+import { getProducts } from '../api/api'; 
+import { useLoader } from '../hooks/useLoader';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 function Wishlist() {
@@ -59,7 +59,7 @@ function Wishlist() {
 
   return (
     <div>
-      <RouteBanner title="Wishlist" />
+      <RouteBanner title="wishlist" />
       <div className="shopping-cart">
         <div className="cart-table">
           <div className="cart-header">

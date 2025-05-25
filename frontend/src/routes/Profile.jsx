@@ -8,7 +8,7 @@ export default function Profile() {
 
   return (
     <div>
-      <RouteBanner title="My Profile" />
+      <RouteBanner title="profile" />
     </div>
   );
 }

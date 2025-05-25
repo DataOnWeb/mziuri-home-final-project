@@ -8,6 +8,7 @@ import { FaSquarePhone } from 'react-icons/fa6';
 import SearchFunction from '../components/SearchFunction';
 import ShoppingCartSidebar from '../components/ShoppingCartSidebar';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -19,6 +20,8 @@ const Header = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -75,20 +78,29 @@ const Header = () => {
     };
   }, []);
 
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng).then(() => {
+      setCurrentLanguage(lng);
+      localStorage.setItem('lang', lng);
+      setActiveDropdown(null);
+    });
+  };
+
+  const getCurrentLanguageDisplay = () => {
+    return currentLanguage === 'ka' ? 'GEORGIAN' : 'ENGLISH';
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
       setScrollPosition(currentScrollPos);
-      
 
       if (currentScrollPos > 200) {
         setHeaderVisible(true);
       } else {
-
         setHeaderVisible(false);
       }
-      
+
       setLastScrollTop(currentScrollPos);
     };
 
@@ -98,12 +110,11 @@ const Header = () => {
 
   return (
     <>
-
       <header className={`header ${scrollPosition > 200 ? 'scroll-hidden' : ''}`}>
         <div className="top-bar">
           <div className="container">
             <div className="promotion">
-              <h5>HELLO EVERYONE! 25% OFF ALL PRODUCTS</h5>
+              <h5>{t('promotion')}</h5>
             </div>
             <div
               className="options"
@@ -119,13 +130,24 @@ const Header = () => {
                 </ul>
               </div>
               <div className={`language-selector ${activeDropdown === 'language' ? 'active' : ''}`}>
-                <h5 onClick={(e) => toggleDropdown(e, 'language')}>ENGLISH ▼</h5>
+                <h5 onClick={(e) => toggleDropdown(e, 'language')}>
+                  {getCurrentLanguageDisplay()} ▼
+                </h5>
                 <ul
                   className={`language-dropdown ${activeDropdown === 'language' ? 'active' : ''}`}
                 >
-                  <li>ENGLISH</li>
-                  <li>SPANISH</li>
-                  <li>FRENCH</li>
+                  <li 
+                    onClick={() => changeLanguage('en')}
+                    className={i18n.language === 'en' ? 'selected' : ''}
+                  >
+                    {t('english')}
+                  </li>
+                  <li 
+                    onClick={() => changeLanguage('ka')}
+                    className={i18n.language === 'ka' ? 'selected' : ''}
+                  >
+                    {t('georgian')}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -161,9 +183,9 @@ const Header = () => {
                 onClick={(e) => toggleDropdown(e, 'user')}
               >
                 <ul className={`user-dropdown ${activeDropdown === 'user' ? 'active' : ''}`}>
-                  <li onClick={() => handleNavigation('/register')}>REGISTER</li>
-                  <li onClick={() => handleNavigation('/login')}>LOGIN</li>
-                  <li onClick={() => handleNavigation('/profile')}>PROFILE</li>
+                  <li onClick={() => handleNavigation('/register')}>{t('register')}</li>
+                  <li onClick={() => handleNavigation('/login')}>{t('login')}</li>
+                  <li onClick={() => handleNavigation('/profile')}>{t('profile')}</li>
                 </ul>
                 <LuUsers size="25px" />
               </div>
@@ -188,22 +210,22 @@ const Header = () => {
           <div className="container">
             <ul className="main-menu">
               <li className={isActive('/') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/')}>HOME</a>
+                <a onClick={() => handleNavigation('/')}>{t('home')}</a>
               </li>
               <li className={isActive('/shop') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/shop')}>SHOP</a>
+                <a onClick={() => handleNavigation('/shop')}>{t('shop')}</a>
               </li>
               <li className={isActive('/blog') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/blog')}>BLOG</a>
+                <a onClick={() => handleNavigation('/blog')}>{t('blog')}</a>
               </li>
               <li className={isActive('/about') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/about')}>ABOUT US</a>
+                <a onClick={() => handleNavigation('/about')}>{t('about')}</a>
               </li>
               <li className={isActive('/pages') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/pages')}>PAGES</a>
+                <a onClick={() => handleNavigation('/pages')}>{t('pages')}</a>
               </li>
               <li className={isActive('/contact') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/contact')}>CONTACT US</a>
+                <a onClick={() => handleNavigation('/contact')}>{t('contact')}</a>
               </li>
             </ul>
           </div>
@@ -216,8 +238,7 @@ const Header = () => {
         />
       </header>
 
-
-      <header 
+      <header
         className={`sticky-header ${headerVisible ? 'visible' : ''}`}
         ref={dropdownRef}
       >
@@ -232,22 +253,22 @@ const Header = () => {
           <nav className="sticky-navigation">
             <ul className="main-menu">
               <li className={isActive('/') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/')}>HOME</a>
+                <a onClick={() => handleNavigation('/')}>{t('home')}</a>
               </li>
               <li className={isActive('/shop') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/shop')}>SHOP</a>
+                <a onClick={() => handleNavigation('/shop')}>{t('shop')}</a>
               </li>
               <li className={isActive('/blog') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/blog')}>BLOG</a>
+                <a onClick={() => handleNavigation('/blog')}>{t('blog')}</a>
               </li>
               <li className={isActive('/about') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/about')}>ABOUT US</a>
+                <a onClick={() => handleNavigation('/about')}>{t('about')}</a>
               </li>
               <li className={isActive('/pages') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/pages')}>PAGES</a>
+                <a onClick={() => handleNavigation('/pages')}>{t('pages')}</a>
               </li>
               <li className={isActive('/contact') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/contact')}>CONTACT US</a>
+                <a onClick={() => handleNavigation('/contact')}>{t('contact')}</a>
               </li>
             </ul>
           </nav>
@@ -263,9 +284,9 @@ const Header = () => {
               onClick={(e) => toggleDropdown(e, 'user')}
             >
               <ul className={`user-dropdown ${activeDropdown === 'user' ? 'active' : ''}`}>
-                <li onClick={() => handleNavigation('/register')}>REGISTER</li>
-                <li onClick={() => handleNavigation('/login')}>LOGIN</li>
-                <li onClick={() => handleNavigation('/profile')}>PROFILE</li>
+                <li onClick={() => handleNavigation('/register')}>{t('register')}</li>
+                <li onClick={() => handleNavigation('/login')}>{t('login')}</li>
+                <li onClick={() => handleNavigation('/profile')}>{t('profile')}</li>
               </ul>
               <LuUsers size="22px" />
             </div>

@@ -8,7 +8,7 @@ export default function Blog() {
 
   return (
     <div>
-      <RouteBanner title="Blog" />
+      <RouteBanner title="blog" />
     </div>
   );
 }

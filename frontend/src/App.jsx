@@ -15,6 +15,7 @@ import Cart from './routes/Cart';
 import Pages from './routes/Pages';
 import Login from './routes/Login';
 import Blog from './routes/Blog';
+import Compare from './routes/Compare';
 import ForgotPassword from './routes/ForgotPassword';
 import ResetPassword from './routes/ResetPassword';
 import { LoaderProvider } from './hooks/useLoader';
@@ -110,6 +111,10 @@ function App() {
           <Route
             path="/pages"
             element={<Pages />}
+          />
+          <Route
+            path="/compare"
+            element={<Compare />}
           />
         </Routes>
       </main>

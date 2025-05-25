@@ -175,7 +175,7 @@ const Shop = () => {
 
   return (
     <div>
-      <RouteBanner title="Shop" />
+      <RouteBanner title="shop" />
 
       <div className="shop-container">
         <div className="sidebar">

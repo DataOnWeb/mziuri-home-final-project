@@ -104,11 +104,11 @@ export default function Login() {
 
   return (
     <div>
-      <RouteBanner title="Login" />
+      <RouteBanner title="login" />
       <div className="auth-container">
         <div className="auth-form login-form">
           <h2>Login</h2>
-          
+
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="email">
@@ -137,12 +137,19 @@ export default function Login() {
                 onChange={handleLoginChange}
                 required
               />
-              {errors.form && <div className="field-error" style={{ 
-                        color: '#e74c3c', 
-                        fontSize: '12px', 
-                        fontWeight: '500',
-                        marginTop: '4px' 
-                      }}>{errors.form}</div>}
+              {errors.form && (
+                <div
+                  className="field-error"
+                  style={{
+                    color: '#e74c3c',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    marginTop: '4px',
+                  }}
+                >
+                  {errors.form}
+                </div>
+              )}
             </div>
 
             <div className="form-group checkbox-group">
@@ -156,7 +163,7 @@ export default function Login() {
                 />
                 <label htmlFor="rememberMe">Remember Me</label>
               </div>
-              
+
               <div className="forgot-password">
                 <a onClick={() => handleNavigation('/forgot-password')}>Forgotten password?</a>
               </div>

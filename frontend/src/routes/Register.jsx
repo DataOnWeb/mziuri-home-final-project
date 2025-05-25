@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
-import { validateFullName, validateEmail, validatePassword, validateConfirmPassword } from '../utils/validations';
+import {
+  validateFullName,
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+} from '../utils/validations';
 import { registerUser, loginUser } from '../api/api';
 import { useUserData } from '../context/UserContext';
 
@@ -57,8 +62,11 @@ function Register() {
     };
 
     // Additional validation for password confirmation match
-    if (registerInputs.password && registerInputs.confirmPassword && 
-        registerInputs.password !== registerInputs.confirmPassword) {
+    if (
+      registerInputs.password &&
+      registerInputs.confirmPassword &&
+      registerInputs.password !== registerInputs.confirmPassword
+    ) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
@@ -69,7 +77,7 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    
+
     // Mark that submit has been attempted
     setHasAttemptedSubmit(true);
 
@@ -142,30 +150,33 @@ function Register() {
 
   return (
     <div>
-      <RouteBanner title="Login & Register Page" />
+      <RouteBanner title="registerpage" />
       <div className="auth-container">
         <div className="auth-forms-wrapper">
           <div className="auth-form register-form">
             <h2>Register</h2>
             {registerErrors.form && (
-              <div 
-                className="error-message" 
-                style={{ 
-                  color: '#e74c3c', 
-                  fontSize: '14px', 
+              <div
+                className="error-message"
+                style={{
+                  color: '#e74c3c',
+                  fontSize: '14px',
                   fontWeight: '600',
                   backgroundColor: '#ffeaea',
                   border: '1px solid #e74c3c',
                   borderRadius: '4px',
                   padding: '10px',
                   marginBottom: '15px',
-                  textAlign: 'center'
+                  textAlign: 'center',
                 }}
               >
                 {registerErrors.form}
               </div>
             )}
-            <form onSubmit={handleRegister} noValidate>
+            <form
+              onSubmit={handleRegister}
+              noValidate
+            >
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="firstName">
@@ -181,13 +192,13 @@ function Register() {
                     required
                   />
                   {hasAttemptedSubmit && registerErrors.firstName && (
-                    <div 
-                      className="field-error" 
-                      style={{ 
-                        color: '#e74c3c', 
-                        fontSize: '12px', 
+                    <div
+                      className="field-error"
+                      style={{
+                        color: '#e74c3c',
+                        fontSize: '12px',
                         fontWeight: '500',
-                        marginTop: '4px' 
+                        marginTop: '4px',
                       }}
                     >
                       {registerErrors.firstName}
@@ -209,13 +220,13 @@ function Register() {
                     required
                   />
                   {hasAttemptedSubmit && registerErrors.lastName && (
-                    <div 
-                      className="field-error" 
-                      style={{ 
-                        color: '#e74c3c', 
-                        fontSize: '12px', 
+                    <div
+                      className="field-error"
+                      style={{
+                        color: '#e74c3c',
+                        fontSize: '12px',
                         fontWeight: '500',
-                        marginTop: '4px' 
+                        marginTop: '4px',
                       }}
                     >
                       {registerErrors.lastName}
@@ -238,13 +249,13 @@ function Register() {
                   required
                 />
                 {hasAttemptedSubmit && registerErrors.email && (
-                  <div 
-                    className="field-error" 
-                    style={{ 
-                      color: '#e74c3c', 
-                      fontSize: '12px', 
+                  <div
+                    className="field-error"
+                    style={{
+                      color: '#e74c3c',
+                      fontSize: '12px',
                       fontWeight: '500',
-                      marginTop: '4px' 
+                      marginTop: '4px',
                     }}
                   >
                     {registerErrors.email}
@@ -267,13 +278,13 @@ function Register() {
                     required
                   />
                   {hasAttemptedSubmit && registerErrors.password && (
-                    <div 
-                      className="field-error" 
-                      style={{ 
-                        color: '#e74c3c', 
-                        fontSize: '12px', 
+                    <div
+                      className="field-error"
+                      style={{
+                        color: '#e74c3c',
+                        fontSize: '12px',
                         fontWeight: '500',
-                        marginTop: '4px' 
+                        marginTop: '4px',
                       }}
                     >
                       {registerErrors.password}
@@ -295,13 +306,13 @@ function Register() {
                     required
                   />
                   {hasAttemptedSubmit && registerErrors.confirmPassword && (
-                    <div 
-                      className="field-error" 
-                      style={{ 
-                        color: '#e74c3c', 
-                        fontSize: '12px', 
+                    <div
+                      className="field-error"
+                      style={{
+                        color: '#e74c3c',
+                        fontSize: '12px',
                         fontWeight: '500',
-                        marginTop: '4px' 
+                        marginTop: '4px',
                       }}
                     >
                       {registerErrors.confirmPassword}
