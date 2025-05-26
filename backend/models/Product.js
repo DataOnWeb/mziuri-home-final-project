@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
+
+const translationSchema = new mongoose.Schema({
+  en: String,
+  ka: String,
+});
 const productSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true
-  },
+  title: translationSchema,
   price: {
     type: Number,
     required: true

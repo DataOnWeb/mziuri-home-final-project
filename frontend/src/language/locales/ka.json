@@ -9,11 +9,18 @@
   "register": "რეგისტრაცია",
   "login": "შესვლა",
   "profile": "პროფილი",
-  "single product": "პროდუქტის გვერდი",
+  "singleproduct": "პროდუქტის გვერდი",
   "registerpage": "რეგისტრაციის გვერდი",
   "georgian": "ქართული",
   "english": "ინგლისური", 
   "wishlist": "სასურველი",
   "cart": "კალათა",
-  "compare": "შეადარე"
+  "compare": "შეადარე",
+  "usd": "დოლარი",
+  "eur": "ევრო",
+  "categories": "კატეგორიები",
+  "color": "ფერი",
+  "priceFilter": "ფასის ფილტრი",
+  "popularTags": "პოპულარული თეგები",
+  "search": "ძებნა"
 }

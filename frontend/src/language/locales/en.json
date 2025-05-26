@@ -9,11 +9,18 @@
   "register": "REGISTER",
   "login": "LOGIN",
   "profile": "PROFILE",
-  "singleproduct": "პროდუქტის გვერდი",
+  "singleproduct": "PRODUCT PAGE",
   "registerpage": "REGISTER PAGE",
   "georgian": "GEORGIAN",
   "english": "ENGLISH",
   "wishlist": "WISHLIST",
   "cart": "MY CART",
-  "compare": "COMPARE"
+  "compare": "COMPARE",
+  "usd": "USD",
+  "eur": "EUR",
+  "categories": "Categories",
+  "color": "Color",
+  "priceFilter": "Price Filter",
+  "popularTags": "Popular Tags",
+  "search": "Search"
 }

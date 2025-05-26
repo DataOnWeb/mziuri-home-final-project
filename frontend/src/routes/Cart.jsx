@@ -4,6 +4,8 @@ import { getProducts } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { X, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,9 +13,31 @@ function Cart() {
   const [couponCode, setCouponCode] = useState('');
   const { useDataLoader } = useLoader();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const handleNavigation = (path) => {
     navigate(path);
+  };
+
+  // Helper function to get localized product title
+  const getLocalizedTitle = (titleObj) => {
+    if (typeof titleObj === 'string') {
+      return titleObj;
+    } else if (titleObj && typeof titleObj === 'object') {
+      return titleObj[i18n.language] || titleObj.en || Object.values(titleObj)[0] || '';
+    }
+    return '';
+  };
+
+  // Helper function to check if product should be in cart
+  const isCartProduct = (product) => {
+    const localizedTitle = getLocalizedTitle(product.title);
+    const englishTitle = typeof product.title === 'object' && product.title.en 
+      ? product.title.en 
+      : localizedTitle;
+    
+    const targetProducts = ['Bloody Viburnum', 'Black Eyed Susan', 'Bleeding Heart'];
+    return targetProducts.includes(englishTitle) || targetProducts.includes(localizedTitle);
   };
 
   useEffect(() => {
@@ -23,17 +47,19 @@ function Cart() {
         const allProducts = await useDataLoader(getProducts);
 
         const plantProducts = allProducts
-          .filter((product) =>
-            ['American Marigold', 'Black Eyed Susan', 'Bleeding Heart'].includes(product.title)
-          )
-          .map((product) => ({
-            _id: product._id,
-            name: product.title,
-            price: product.price,
-            image: product.image || product.images[0],
-            inStock: product.inStock,
-            quantity: 1, // Default quantity
-          }));
+          .filter(isCartProduct)
+          .map((product) => {
+            const productName = getLocalizedTitle(product.title);
+            
+            return {
+              _id: product._id,
+              name: productName || 'Unknown Product',
+              price: product.price || 0,
+              image: product.image || (product.images && product.images[0]) || '',
+              inStock: product.inStock !== undefined ? product.inStock : true,
+              quantity: 1, // Default quantity
+            };
+          });
 
         setCartItems(plantProducts);
         setLoading(false);
@@ -45,8 +71,8 @@ function Cart() {
     };
 
     fetchCartProducts();
-    document.title = 'Shopping Cart - Pronia';
-  }, []);
+    document.title = `${t('cart.title')} - Pronia`;
+  }, [t]);
 
   const handleRemoveItem = (itemId) => {
     setCartItems(cartItems.filter((item) => item._id !== itemId));
@@ -66,13 +92,13 @@ function Cart() {
 
   const handleUpdateCart = () => {
     console.log('Cart updated');
-    alert('Cart updated successfully!');
+    alert(t('Cart Updated'));
   };
 
   const handleApplyCoupon = () => {
     if (couponCode.trim()) {
       console.log('Applying coupon:', couponCode);
-      alert('Coupon applied!');
+      alert("Coupon Applied");
     }
   };
 
@@ -86,23 +112,23 @@ function Cart() {
 
   const subtotal = calculateSubtotal();
 
-  if (loading) return <div className="loading-indicator">Loading cart...</div>;
-  if (error) return <div className="error">Error loading products: {error}</div>;
+  if (loading) return <div className="loading-indicator">{t('common.loading')}</div>;
+  if (error) return <div className="error">{t('common.errorLoading')}: {error}</div>;
 
   return (
     <div className="cart-page">
-      <RouteBanner title="cart" />
+      <RouteBanner title='cart' />
       <div className="shopping-cart">
         <div className="cart-table-container">
           <table className="cart-table">
             <thead>
               <tr className="cart-header">
-                <th className="header-cell">Remove</th>
-                <th className="header-cell">Images</th>
-                <th className="header-cell">Product</th>
-                <th className="header-cell">Unit Price</th>
-                <th className="header-cell">Quantity</th>
-                <th className="header-cell">Total</th>
+                <th className="header-cell">REMOVE</th>
+                <th className="header-cell">IMAGE</th>
+                <th className="header-cell">PRODUCT</th>
+                <th className="header-cell">UNIT PRICE</th>
+                <th className="header-cell">QUANTITY</th>
+                <th className="header-cell">TOTAL</th>
               </tr>
             </thead>
             <tbody>
@@ -115,7 +141,7 @@ function Cart() {
                     <button
                       className="remove-button"
                       onClick={() => handleRemoveItem(item._id)}
-                      aria-label="Remove item"
+                      aria-label="REMOVE ITEM"
                     >
                       <X size={18} />
                     </button>
@@ -167,7 +193,7 @@ function Cart() {
           <div className="coupon-section">
             <input
               type="text"
-              placeholder="Coupon code"
+              placeholder="Enter Coupon"
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value)}
               className="coupon-input"
@@ -188,21 +214,21 @@ function Cart() {
         </div>
 
         <div className="cart-totals">
-          <h3 className="totals-title">Cart Totals</h3>
+          <h3 className="totals-title">TOTAL</h3>
           <div className="totals-content">
             <div className="total-row">
-              <span className="total-label">Subtotal</span>
+              <span className="total-label">SUBTOTAL</span>
               <span className="total-value">${subtotal.toFixed(2)}</span>
             </div>
             <div className="total-row final-total">
-              <span className="total-label">Total</span>
+              <span className="total-label">TOTAL</span>
               <span className="total-value">${subtotal.toFixed(2)}</span>
             </div>
             <button
               className="checkout-btn"
               onClick={handleProceedToCheckout}
             >
-              Proceed To Checkout
+              PROCEED TO CHECKOUT
             </button>
           </div>
         </div>

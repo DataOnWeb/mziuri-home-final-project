@@ -6,6 +6,8 @@ import Pagination from '../components/Pagination';
 import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
 import { IoSearchOutline } from 'react-icons/io5';
+import { useTranslation } from 'react-i18next';
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -22,7 +24,7 @@ const Shop = () => {
   const trackActiveRef = useRef(null);
   const sliderContainerRef = useRef(null);
   const { useDataLoader } = useLoader();
-
+  const {t, i18n} = useTranslation()
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -45,7 +47,7 @@ const Shop = () => {
 
     if (searchTerm) {
       result = result.filter((product) =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+        product.title?.[i18n.language].toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -184,7 +186,7 @@ const Shop = () => {
               <div className="search-input-container">
                 <input
                   type="search"
-                  placeholder="Search"
+                  placeholder={t('search')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -198,7 +200,7 @@ const Shop = () => {
           </div>
 
           <div className="filter-section">
-            <h2>Categories</h2>
+            <h2>{t('categories')}</h2>
             <div className="divider"></div>
             <ul>
               {categories.map((category) => (
@@ -220,7 +222,7 @@ const Shop = () => {
           </div>
 
           <div className="filter-section">
-            <h2>Color</h2>
+            <h2>{t('color')}</h2>
             <div className="divider"></div>
             <ul>
               {colors.map((color) => (
@@ -242,7 +244,7 @@ const Shop = () => {
           </div>
           <div className="filter-container">
             <div className="price-filter">
-              <h2>Price Filter</h2>
+              <h2>{t('priceFilter')}</h2>
               <div className="divider"></div>
               <div className="range-values">
                 <span className="price-bubble">${priceRange.min}</span>
@@ -271,7 +273,7 @@ const Shop = () => {
             </div>
 
             <div className="popular-tags">
-              <h2>Popular Tags</h2>
+              <h2>{t('popularTags')}</h2>
               <div className="divider"></div>
               <div className="tags-container">
                 <span

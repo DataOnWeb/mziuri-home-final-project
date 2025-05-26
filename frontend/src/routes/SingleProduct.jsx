@@ -13,9 +13,11 @@ import Product from '../components/Product';
 import CommentsSection from '../components/CommentsSection';
 import { getProducts, getProduct } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
+import { useTranslation } from 'react-i18next';
 
 const SingleProduct = () => {
   const { id } = useParams();
+  const { t, i18n } = useTranslation();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [error, setError] = useState(null);
@@ -68,20 +70,20 @@ const SingleProduct = () => {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message || 'An error occurred while fetching the product');
+          setError(err.message || t('product.errorFetching'));
         }
       }
     };
 
     fetchData();
 
-    document.title = 'Pronia - Single Product Variable';
+    document.title = "Single Product Variable - Pronia";
     window.scrollTo(0, 0);
 
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, t]);
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -119,7 +121,7 @@ const SingleProduct = () => {
   if (loading) {
     return (
       <div className="product-detail__loading">
-        <div>Loading product...</div>
+        <div>{t('product.loading')}</div>
       </div>
     );
   }
@@ -127,13 +129,13 @@ const SingleProduct = () => {
   if (error || !product) {
     return (
       <div className="product-detail__not-found">
-        <h1>Product not found</h1>
-        <p>The product you're looking for does not exist.</p>
+        <h1>{t('product.notFound')}</h1>
+        <p>{t('product.notFoundDescription')}</p>
         <Link
           to="/shop"
           className="btn-primary"
         >
-          Back to Shop
+          {t('product.backToShop')}
         </Link>
       </div>
     );
@@ -141,14 +143,14 @@ const SingleProduct = () => {
 
   return (
     <>
-      <RouteBanner title="Single Product" />
+      <RouteBanner title='singleproduct' />
       <div className="product-detail">
         <div className="product-detail__container">
           <div className="product-detail__images">
             <div className="product-detail__main-image">
               <img
                 src={product.image}
-                alt={product.title}
+                alt={product.title?.[i18n.language] || product.title?.en || product.title}
               />
             </div>
             <div className="product-detail__thumbnails">
@@ -158,7 +160,7 @@ const SingleProduct = () => {
               >
                 <img
                   src={product.image}
-                  alt={`${product.title} view 1`}
+                  alt={`${product.title?.[i18n.language] || product.title?.en || product.title} ${t('product.view')} 1`}
                 />
               </div>
               <div
@@ -167,7 +169,7 @@ const SingleProduct = () => {
               >
                 <img
                   src={product.image}
-                  alt={`${product.title} view 2`}
+                  alt={`${product.title?.[i18n.language] || product.title?.en || product.title} ${t('product.view')} 2`}
                 />
               </div>
               <div
@@ -176,14 +178,14 @@ const SingleProduct = () => {
               >
                 <img
                   src={product.image}
-                  alt={`${product.title} view 3`}
+                  alt={`${product.title?.[i18n.language] || product.title?.en || product.title} ${t('product.view')} 3`}
                 />
               </div>
             </div>
           </div>
 
           <div className="product-detail__info">
-            <h1 className="product-detail__title">{product.title}</h1>
+            <h1 className="product-detail__title">{product.title?.[i18n.language] || product.title?.en || product.title}</h1>
             <div className="product-detail__price">
               ${product.price ? product.price.toFixed(2) : '0.00'}
             </div>
@@ -199,31 +201,28 @@ const SingleProduct = () => {
                   </span>
                 ))}
               </div>
-              <span className="review-count">({1} Review)</span>
+              <span className="review-count">(1 review)</span>
             </div>
 
             <div className="product-detail__options">
               <div className="option">
-                <div className="option__label">Color</div>
+                <div className="option__label">Product Color</div>
                 <div className="option__value">
-                  <p>{product.color || 'N/A'}</p> <span className="check">✓</span>
+                  <p>{product.color || t('product.na')}</p> <span className="check">✓</span>
                 </div>
               </div>
 
               <div className="option">
-                <div className="option__label">Size</div>
+                <div className="option__label">Product Size</div>
                 <div className="option__value">
-                  {product.category || 'N/A'} <span className="check">✓</span>
+                  {product.category || t('product.na')} <span className="check">✓</span>
                 </div>
               </div>
             </div>
 
             <div className="product-detail__description">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisic elit, sed do eiusmod tempo incid ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate
+                {product.description?.[i18n.language] || product.description?.en || t('product.defaultDescription')}
               </p>
             </div>
 
@@ -249,7 +248,7 @@ const SingleProduct = () => {
                 </button>
               </div>
 
-              <button className="add-to-cart-btn">ADD TO CART</button>
+              <button className="add-to-cart-btn">Add To Card</button>
 
               <button className="wishlist-btn">
                 <FontAwesomeIcon icon={faHeart} />
@@ -329,15 +328,15 @@ const SingleProduct = () => {
                 <span className="meta-item__value">Ch-256xl</span>
               </div>
               <div className="meta-item">
-                <span className="meta-item__label">Categories:</span>
-                <span className="meta-item__value">{product.category || 'Uncategorized'}</span>
+                <span className="meta-item__label">Product Categories:</span>
+                <span className="meta-item__value">{product.category || t('product.uncategorized')}</span>
               </div>
               <div className="meta-item">
-                <span className="meta-item__label">Tags:</span>
-                <span className="meta-item__value">Furniture</span>
+                <span className="meta-item__label">Product Tags:</span>
+                <span className="meta-item__value">Product Furtniture</span>
               </div>
               <div className="meta-item">
-                <span className="meta-item__label">Share:</span>
+                <span className="meta-item__label">Share Product:</span>
                 <div className="social-icons">
                   <a
                     href="#"
@@ -375,42 +374,36 @@ const SingleProduct = () => {
               className={`tab-btn ${activeTab === 'information' ? 'active' : ''}`}
               onClick={() => setActiveTab('information')}
             >
-              Information
+              Product Information
             </button>
             <button
               className={`tab-btn ${activeTab === 'description' ? 'active' : ''}`}
               onClick={() => setActiveTab('description')}
             >
-              Description
+              Product Description
             </button>
             <button
               className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
             >
-              Reviews(3)
+              Product Reviews(3)
             </button>
           </div>
 
           <div className="product-tabs__content">
             {activeTab === 'information' && (
               <div className="tab-content">
-                <h3>Shipping</h3>
+                <h3>Product Shipping</h3>
                 <p>
-                  The item will be shipped from China. So it need 15-20 days to deliver. Our product
-                  is good with reasonable price and we believe you will worth it. So please wait for
-                  it patiently! Thanks.Any question please kindly to contact us and we promise to
-                  work hard to help you to solve the problem
+                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et eaque fugit dolore reiciendis quos aut praesentium tempora tenetur distinctio atque.
                 </p>
-                <h3>About return request</h3>
+                <h3>About Product</h3>
                 <p>
-                  If you don't need the item with worry, you can contact us then we will help you to
-                  solve the problem, so please close the return request! Thanks
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sit culpa iusto provident modi placeat ipsum rem optio possimus blanditiis!
                 </p>
-                <h3>Guarrantee</h3>
+                <h3>Guarranteed Product</h3>
                 <p>
-                  If it is the quality question, we will resend or refund to you; If you receive
-                  damaged or wrong items, please contact us and attach some pictures about product,
-                  we will exchange a new correct item to you after the confirmation.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur explicabo expedita soluta illo recusandae quisquam adipisci dolorum ex quia.
                 </p>
               </div>
             )}
@@ -418,11 +411,7 @@ const SingleProduct = () => {
             {activeTab === 'description' && (
               <div className="tab-content">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                  incidid ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non pro
+                  {product.description?.[i18n.language] || product.description?.en || t('product.defaultDescription')}
                 </p>
               </div>
             )}
@@ -430,7 +419,7 @@ const SingleProduct = () => {
             {activeTab === 'reviews' && (
               <div className="comment-container">
                 <CommentsSection />
-                <h2 className="comment-title">Leave a comment</h2>
+                <h2 className="comment-title">Leave a Comment</h2>
                 <form
                   className="comment-form"
                   onSubmit={handleSubmit}
@@ -447,7 +436,7 @@ const SingleProduct = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Your Name*"
+                        placeholder="Your Name"
                         required
                       />
                     </div>
@@ -462,7 +451,7 @@ const SingleProduct = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="Your Email*"
+                        placeholder="Your Email"
                         required
                       />
                     </div>
@@ -477,7 +466,7 @@ const SingleProduct = () => {
                       className="form-input"
                       name="subject"
                       value={formData.subject}
-                      placeholder="Subject (Optional)"
+                      placeholder="Subject"
                       onChange={handleChange}
                     />
                   </div>
@@ -498,12 +487,12 @@ const SingleProduct = () => {
                     type="submit"
                     className="submit-button"
                   >
-                    POST COMMENT
+                    Post Your Comment
                   </button>
                 </form>
                 {showSuccess && (
                   <div className="success-message">
-                    Your comment has been submitted successfully!
+                    Posted Succesfully
                   </div>
                 )}
               </div>
@@ -513,10 +502,9 @@ const SingleProduct = () => {
 
         {relatedProducts.length > 0 && (
           <div className="related-products">
-            <h2 className="related-products__title">RELATED PRODUCTS</h2>
+            <h2 className="related-products__title">Related Products</h2>
             <p className="related-products__subtitle">
-              Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-              piece of classical Latin literature
+              Find Your related products
             </p>
 
             <div className="related-products__grid">

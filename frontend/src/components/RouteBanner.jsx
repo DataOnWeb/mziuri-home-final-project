@@ -25,4 +25,4 @@ function RouteBanner({ title }) {
   );
 }
 
-export default RouteBanner
+export default RouteBanner;

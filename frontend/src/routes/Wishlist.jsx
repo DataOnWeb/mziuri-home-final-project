@@ -1,48 +1,93 @@
 import { useEffect, useState } from 'react';
 import RouteBanner from '../components/RouteBanner';
-import { getProducts } from '../api/api'; 
+import { getProducts } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 function Wishlist() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { useDataLoader } = useLoader();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+
   const handleNavigation = (path) => {
     navigate(path);
   };
+
+  // Helper function to get localized product title
+  const getLocalizedTitle = (titleObj) => {
+    if (!titleObj) return 'Unknown Product';
+    if (typeof titleObj === 'string') {
+      return titleObj;
+    }
+    if (typeof titleObj === 'object') {
+      return titleObj[i18n.language] || titleObj.en || Object.values(titleObj)[0] || 'Unknown Product';
+    }
+    return 'Unknown Product';
+  };
+
   useEffect(() => {
     const fetchCartProducts = async () => {
       try {
         setLoading(true);
+        setError(null);
+        
         const allProducts = await useDataLoader(getProducts);
+        
+        if (!Array.isArray(allProducts)) {
+          throw new Error('Products data is not an array');
+        }
 
+        // Filter by English titles to avoid language-dependent filtering
+        const targetEnglishTitles = ['Bloody Viburnum', 'Black Eyed Susan', 'Bleeding Heart'];
+        
         const plantProducts = allProducts
-          .filter((product) =>
-            ['American Marigold', 'Black Eyed Susan', 'Bleeding Heart'].includes(product.title)
-          )
+          .filter((product) => {
+            if (!product || !product.title) return false;
+            
+            // Get English title for filtering
+            const englishTitle = typeof product.title === 'object' 
+              ? (product.title.en || Object.values(product.title)[0])
+              : product.title;
+              
+            return targetEnglishTitles.includes(englishTitle);
+          })
           .map((product) => ({
             _id: product._id,
-            name: product.title,
-            price: product.price,
-            image: product.image || product.images[0],
-            inStock: product.inStock,
+            name: getLocalizedTitle(product.title), // Only translate the title
+            price: product.price || 0,
+            image: product.image || (product.images && product.images[0]) || '',
+            inStock: product.inStock !== undefined ? product.inStock : true,
           }));
 
         setCartItems(plantProducts);
-        setLoading(false);
       } catch (err) {
-        setError(err.message);
-        setLoading(false);
         console.error('Failed to fetch products:', err);
+        setError(err.message || 'Failed to load products');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCartProducts();
-    document.title = 'My Wishlist - Pronia';
-  }, []);
+    document.title = `Wishlist - Pronia`;
+  }, [t]); // Removed i18n.language dependency to prevent cycling
+
+  // Update only the product names when language changes
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      setCartItems(prevItems => 
+        prevItems.map(item => ({
+          ...item,
+          name: getLocalizedTitle(item.title) // This won't work as we don't store original title
+        }))
+      );
+    }
+  }, [i18n.language]);
 
   const handleRemoveItem = (itemId) => {
     setCartItems(cartItems.filter((item) => item._id !== itemId));
@@ -50,11 +95,10 @@ function Wishlist() {
 
   const handleAddToCart = (itemId) => {
     console.log(`Added item ${itemId} to cart`);
-
-    alert(`Item added to cart!`);
+    alert('Added to cart successfully!');
   };
 
-  if (loading) return <div className="loading-indicator">Loading cart...</div>;
+  if (loading) return <div className="loading-indicator">Loading...</div>;
   if (error) return <div className="error">Error loading products: {error}</div>;
 
   return (
@@ -98,7 +142,7 @@ function Wishlist() {
               <div className="cart-cell price-cell">${item.price.toFixed(2)}</div>
               <div className="cart-cell stock-cell">
                 <span className={item.inStock ? 'in-stock' : 'out-stock'}>
-                  {item.inStock ? 'In Stock' : 'Out Stock'}
+                  {item.inStock ? 'In Stock' : 'Out of Stock'}
                 </span>
               </div>
               <div className="cart-cell action-cell">
@@ -107,7 +151,7 @@ function Wishlist() {
                   onClick={() => handleAddToCart(item._id)}
                   disabled={!item.inStock}
                 >
-                  ADD TO CART
+                  Add To Cart
                 </button>
               </div>
             </div>

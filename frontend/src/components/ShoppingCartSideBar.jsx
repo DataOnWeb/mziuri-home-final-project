@@ -3,12 +3,14 @@ import { IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
+import { useTranslation } from 'react-i18next';
 
 const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { useDataLoader } = useLoader();
+  const { i18n } = useTranslation();
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -34,7 +36,9 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
     fetchCartItems();
   }, []);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+  const subtotal = cartItems
+    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .toFixed(2);
 
   const handleRemoveItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
@@ -74,19 +78,16 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
             {loading ? (
               <div className="loading-indicator">Loading cart...</div>
             ) : cartItems.length > 0 ? (
-              cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="cart-item"
-                >
+              cartItems.map((item, index) => (
+                <div key={`${item.id}-${index}`} className="cart-item">
                   <div className="item-image">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={item.title?.[i18n.language] || item.title?.en || 'Product image'}
                     />
                   </div>
                   <div className="item-details">
-                    <h3>{item.title}</h3>
+                    <h3>{item.title?.[i18n.language] || item.title?.en || 'No title'}</h3>
                     <p>
                       {item.quantity} × ${item.price.toFixed(2)}
                     </p>

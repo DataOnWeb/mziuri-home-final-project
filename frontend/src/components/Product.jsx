@@ -4,15 +4,20 @@ import { CiHeart } from 'react-icons/ci';
 import { PiEyeThin, PiShoppingCartThin } from 'react-icons/pi';
 import ProductModal from './ProductModal'; // Import the modal component
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 const Product = ({ product }) => {
-  const { _id, title, price, rating, image } = product;
+  const { _id, title, price, rating, image, description } = product;
+  const { i18n } = useTranslation();
 
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Add modal state
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  
   const handleNavigation = (path) => {
-    navigate(path)
-  }
+    navigate(path);
+  };
+  
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -52,18 +57,22 @@ const Product = ({ product }) => {
     cursor: 'pointer',
     border: 'none',
   };
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
-  // Modal handlers
   const handleQuickView = () => {
     setIsModalOpen(true);
+    scrollToTop()
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-
   };
-
-
 
   return (
     <>
@@ -76,7 +85,7 @@ const Product = ({ product }) => {
           <Link to={`/product/${_id}`}>
             <img
               src={image}
-              alt={title}
+              alt={title?.[i18n.language] || title?.en || 'Product image'}
               style={{
                 transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                 transition: 'transform 0.5s ease',
@@ -88,7 +97,7 @@ const Product = ({ product }) => {
             <button
               style={buttonStyle}
               className="like-btn"
-              onClick={() => handleNavigation("/wishlist")}
+              onClick={() => handleNavigation('/wishlist')}
               title="Add to Wishlist"
             >
               <CiHeart size="25px" />
@@ -96,7 +105,7 @@ const Product = ({ product }) => {
             <button
               style={buttonStyle}
               className="view-btn"
-              onClick={handleQuickView} 
+              onClick={handleQuickView}
               title="Quick View"
             >
               <PiEyeThin size="25px" />
@@ -104,7 +113,7 @@ const Product = ({ product }) => {
             <button
               style={buttonStyle}
               className="cart-btn"
-              onClick={() => handleNavigation("/cart")}
+              onClick={() => handleNavigation('/cart')}
               title="Add to Cart"
             >
               <PiShoppingCartThin size="25px" />
@@ -112,7 +121,7 @@ const Product = ({ product }) => {
           </div>
         </div>
 
-        <h3 className="product-title">{title}</h3>
+        <h3 className="product-title">{title?.[i18n.language] || title?.en || 'No title'}</h3>
         <p className="product-price">${price.toFixed(2)}</p>
         <div className="product-rating">{renderStars(rating)}</div>
       </div>

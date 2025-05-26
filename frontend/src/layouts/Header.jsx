@@ -87,7 +87,7 @@ const Header = () => {
   };
 
   const getCurrentLanguageDisplay = () => {
-    return currentLanguage === 'ka' ? 'GEORGIAN' : 'ENGLISH';
+    return currentLanguage === 'ka' ? `${t('georgian')}` : `${t('english')}`;
   };
 
   useEffect(() => {
@@ -121,12 +121,12 @@ const Header = () => {
               ref={dropdownRef}
             >
               <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
-                <h5 onClick={(e) => toggleDropdown(e, 'currency')}>USD ▼</h5>
+                <h5 onClick={(e) => toggleDropdown(e, 'currency')}>{t('usd')} ▼</h5>
                 <ul
                   className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}
                 >
-                  <li>USD</li>
-                  <li>EUR</li>
+                  <li>{t('usd')}</li>
+                  <li>{t('eur')}</li>
                 </ul>
               </div>
               <div className={`language-selector ${activeDropdown === 'language' ? 'active' : ''}`}>
@@ -136,13 +136,13 @@ const Header = () => {
                 <ul
                   className={`language-dropdown ${activeDropdown === 'language' ? 'active' : ''}`}
                 >
-                  <li 
+                  <li
                     onClick={() => changeLanguage('en')}
                     className={i18n.language === 'en' ? 'selected' : ''}
                   >
                     {t('english')}
                   </li>
-                  <li 
+                  <li
                     onClick={() => changeLanguage('ka')}
                     className={i18n.language === 'ka' ? 'selected' : ''}
                   >
