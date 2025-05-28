@@ -18,6 +18,7 @@ const ProductList = ({ viewMode }) => {
             <Product
               key={index}
               product={product}
+              viewMode="grid"
             />
           </div>
         ))}
@@ -32,12 +33,11 @@ const ProductList = ({ viewMode }) => {
           key={product._id}
           className="product-list-item"
         >
-          <div className="product-details">
-            <Product
-              key={index}
-              product={product}
-            />
-          </div>
+          <Product
+            key={index}
+            product={product}
+            viewMode="list"
+          />
         </div>
       ))}
     </div>

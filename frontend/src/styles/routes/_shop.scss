@@ -64,7 +64,7 @@
   }
     h2 {
       color: #5a6474;
-    font-size: 21px;
+    font-size: 23px;
     font-weight: 700;
     margin-bottom: 15px;
     text-align: center;
@@ -77,8 +77,15 @@
       padding: 0;
       margin: 0;
       
+      :last-child{
+          border-bottom: none;
+        }
       li {
+        color: #525252;
         margin-bottom: 8px;
+        padding: 2px;
+        border-bottom: 1px solid #ececec;
+        
         
         a {
           display: flex;
@@ -117,7 +124,7 @@
   
   .toolbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-bottom: 25px;
     
@@ -128,8 +135,15 @@
     }
     
     .product-count {
-      font-size: 14px;
+      font-size: 16px;
       color: $light-text;
+      border: 2px solid #e9ecee;
+      padding: 12px;
+      padding-left: 25px;
+      padding-right: 25px;
+      border-radius: 5px;
+      position: relative;
+      left: 20%;
     }
     
     .view-options {

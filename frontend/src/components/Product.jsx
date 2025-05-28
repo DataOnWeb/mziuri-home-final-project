@@ -6,7 +6,7 @@ import ProductModal from './ProductModal'; // Import the modal component
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const Product = ({ product }) => {
+const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, description } = product;
   const { i18n } = useTranslation();
 
@@ -57,6 +57,20 @@ const Product = ({ product }) => {
     cursor: 'pointer',
     border: 'none',
   };
+
+  const listButtonStyle = {
+    width: '36px',
+    height: '36px',
+    backgroundColor: 'transparent',
+    color: '#666',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    border: '1px solid #e0e0e0',
+    borderRadius: '4px',
+    transition: 'all 0.2s ease',
+  };
   
   const scrollToTop = () => {
     window.scrollTo({
@@ -74,56 +88,124 @@ const Product = ({ product }) => {
     setIsModalOpen(false);
   };
 
+
+  if (viewMode === 'grid') {
+    return (
+      <>
+        <div
+          className="product-card"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="product-image">
+            <Link to={`/product/${_id}`}>
+              <img
+                src={image}
+                alt={title?.[i18n.language] || title?.en || 'Product image'}
+                style={{
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'transform 0.5s ease',
+                }}
+              />
+            </Link>
+
+            <div style={slideButtonsStyle}>
+              <button
+                style={buttonStyle}
+                className="like-btn"
+                onClick={() => handleNavigation('/wishlist')}
+                title="Add to Wishlist"
+              >
+                <CiHeart size="25px" />
+              </button>
+              <button
+                style={buttonStyle}
+                className="view-btn"
+                onClick={handleQuickView}
+                title="Quick View"
+              >
+                <PiEyeThin size="25px" />
+              </button>
+              <button
+                style={buttonStyle}
+                className="cart-btn"
+                onClick={() => handleNavigation('/cart')}
+                title="Add to Cart"
+              >
+                <PiShoppingCartThin size="25px" />
+              </button>
+            </div>
+          </div>
+
+          <h3 className="product-title">{title?.[i18n.language] || title?.en || 'No title'}</h3>
+          <p className="product-price">${price.toFixed(2)}</p>
+          <div className="product-rating">{renderStars(rating)}</div>
+        </div>
+
+        <ProductModal
+          product={product}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      </>
+    );
+  }
+
+ 
   return (
     <>
-      <div
-        className="product-card"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="product-image">
+      <div className="product-list-card">
+        <div className="product-list-image">
           <Link to={`/product/${_id}`}>
             <img
               src={image}
               alt={title?.[i18n.language] || title?.en || 'Product image'}
-              style={{
-                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                transition: 'transform 0.5s ease',
-              }}
             />
           </Link>
-
-          <div style={slideButtonsStyle}>
-            <button
-              style={buttonStyle}
-              className="like-btn"
-              onClick={() => handleNavigation('/wishlist')}
-              title="Add to Wishlist"
-            >
-              <CiHeart size="25px" />
-            </button>
-            <button
-              style={buttonStyle}
-              className="view-btn"
-              onClick={handleQuickView}
-              title="Quick View"
-            >
-              <PiEyeThin size="25px" />
-            </button>
-            <button
-              style={buttonStyle}
-              className="cart-btn"
-              onClick={() => handleNavigation('/cart')}
-              title="Add to Cart"
-            >
-              <PiShoppingCartThin size="25px" />
-            </button>
+        </div>
+        
+        <div className="product-list-content">
+          <div className="product-list-info">
+            <h3 className="product-list-title">
+              <Link to={`/product/${_id}`}>
+                {title?.[i18n.language] || title?.en || 'No title'}
+              </Link>
+            </h3>
+            <p className="product-list-price">${price.toFixed(2)}</p>
+            <div className="product-list-rating">{renderStars(rating)}</div>
+            <p className="product-list-description">
+              {description?.[i18n.language] || description?.en || 'No description available'}
+            </p>
+            
+            <div className="product-list-actions">
+              <button
+                style={listButtonStyle}
+                className="list-action-btn"
+                onClick={() => handleNavigation('/wishlist')}
+                title="Add to Wishlist"
+              >
+                <CiHeart size="23px" />
+              </button>
+              <button
+                style={listButtonStyle}
+                className="list-action-btn"
+                onClick={handleQuickView}
+                title="Quick View"
+              >
+                <PiEyeThin size="23px" />
+              </button>
+              <button
+                style={listButtonStyle}
+                className="list-action-btn"
+                onClick={() => handleNavigation('/cart')}
+                title="Add to Cart"
+          
+              >
+                <PiShoppingCartThin size="23px" />
+              </button>
+            </div>
           </div>
         </div>
-
-        <h3 className="product-title">{title?.[i18n.language] || title?.en || 'No title'}</h3>
-        <p className="product-price">${price.toFixed(2)}</p>
-        <div className="product-rating">{renderStars(rating)}</div>
       </div>
 
       <ProductModal

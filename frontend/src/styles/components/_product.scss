@@ -56,15 +56,19 @@
 }
 
 .like-btn:hover {
-  color: $secondary-color !important;
+  background-color: $secondary-color !important;
+  color: white !important
 }
 
 .view-btn:hover {
-  color: $secondary-color !important;
+  
+    background-color: $secondary-color !important;
+  color: white !important
 }
 
 .cart-btn:hover {
-  color: $secondary-color !important;
+    background-color: $secondary-color !important;
+  color: white !important
 }
 
 
