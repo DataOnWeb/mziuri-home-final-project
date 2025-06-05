@@ -5,12 +5,30 @@ import { getProducts } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { useTranslation } from 'react-i18next';
 
-const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
+const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { useDataLoader } = useLoader();
   const { i18n } = useTranslation();
+
+  // Helper function to get price value based on currency
+  const getProductPrice = (product) => {
+    if (typeof product.price === 'object' && product.price !== null) {
+      return product.price[currency] || product.price.USD || 0;
+    }
+    return typeof product.price === 'number' ? product.price : 0;
+  };
+
+  // Function to get currency symbol
+  const getCurrencySymbol = (curr) => {
+    const symbols = {
+      USD: '$',
+      EUR: '€',
+      GEL: '₾',
+    };
+    return symbols[curr] || curr;
+  };
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -37,7 +55,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   }, []);
 
   const subtotal = cartItems
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .reduce((sum, item) => sum + getProductPrice(item) * item.quantity, 0)
     .toFixed(2);
 
   const handleRemoveItem = (id) => {
@@ -89,7 +107,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
                   <div className="item-details">
                     <h3>{item.title?.[i18n.language] || item.title?.en || 'No title'}</h3>
                     <p>
-                      {item.quantity} × ${item.price.toFixed(2)}
+                      {item.quantity} × {getCurrencySymbol(currency)}{getProductPrice(item).toFixed(2)}
                     </p>
                   </div>
                   <button
@@ -112,7 +130,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
             <div className="cart-footer">
               <div className="subtotal">
                 <span>Subtotal</span>
-                <span>${subtotal}</span>
+                <span>{getCurrencySymbol(currency)}{subtotal}</span>
               </div>
               <button
                 className="cart-sidebar-btn"

@@ -18,9 +18,56 @@
   "compare": "COMPARE",
   "usd": "USD",
   "eur": "EUR",
+  "gel": "GEL",
   "categories": "Categories",
   "color": "Color",
+  "search": "Search",
+  "categoriesTitle": "Categories",
+  "colorTitle": "Color",
   "priceFilter": "Price Filter",
   "popularTags": "Popular Tags",
-  "search": "Search"
+  "categoriesList": {
+    "All": "All",
+    "Bonsai": "Bonsai",
+    "House Plants": "House Plants",
+    "Indoor Living": "Indoor Living",
+    "Perennials": "Perennials",
+    "Plant For Gift": "Plant For Gift",
+    "Garden Tools": "Garden Tools"
+  },
+  "colorsList": {
+    "All": "All",
+    "Gold": "Gold",
+    "Green": "Green",
+    "White": "White",
+    "Black": "Black"
+  },
+  "tags": {
+    "fashion": "Fashion",
+    "organic": "Organic",
+    "oldFashion": "Old Fashion",
+    "men": "Men",
+    "dress": "Dress"
+  },
+  "sort": {
+    "default": "Sort by Default",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "nameAZ": "Name: A-Z",
+    "nameZA": "Name: Z-A"
+  },
+  "loading": "Loading products...",
+  "productCount": "<green>{{count}}</green> Product Found of <green>{{total}}</green>",
+  "productCount_plural": "<green>{{count}}</green> Products Found of <green>{{total}}</green>",
+
+  "plantCarousel": {
+    "discount1": "65% OFF",
+    "title1": "NEW PLANT",
+    "description1":"Pronia, With 100% Natural, Organic & Plant Shop.",
+    "buttonText": "DISCOVER NOW",
+    "discount2": "40% OFF",
+    "title2": "FRESH HERBS",
+    "description2": "Modern planters with organic herbs for your home.",
+    "buttonText2": "SHOP NOW"
+  }
 }

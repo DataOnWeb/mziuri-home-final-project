@@ -139,11 +139,15 @@
       color: $light-text;
       border: 2px solid #e9ecee;
       padding: 12px;
-      padding-left: 25px;
-      padding-right: 25px;
+      padding-left: 20px;
+      padding-right: 20px;
       border-radius: 5px;
       position: relative;
-      left: 20%;
+      left: 19%;
+
+      .text-green {
+  color: $primary-color;
+}
     }
     
     .view-options {

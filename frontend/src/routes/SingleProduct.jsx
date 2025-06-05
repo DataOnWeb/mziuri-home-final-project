@@ -34,6 +34,18 @@ const SingleProduct = () => {
 
   const { loading, useDataLoader } = useLoader();
 
+  // Helper function to get localized price
+  const getLocalizedPrice = (priceObj) => {
+    if (!priceObj) return 0;
+    if (typeof priceObj === 'number') {
+      return priceObj;
+    }
+    if (typeof priceObj === 'object') {
+      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
+    }
+    return 0;
+  };
+
   useEffect(() => {
     let isMounted = true;
 
@@ -77,7 +89,7 @@ const SingleProduct = () => {
 
     fetchData();
 
-    document.title = "Single Product Variable - Pronia";
+    document.title = 'Single Product Variable - Pronia';
     window.scrollTo(0, 0);
 
     return () => {
@@ -141,9 +153,11 @@ const SingleProduct = () => {
     );
   }
 
+  const productPrice = getLocalizedPrice(product.price);
+
   return (
     <>
-      <RouteBanner title='singleproduct' />
+      <RouteBanner title="singleproduct" />
       <div className="product-detail">
         <div className="product-detail__container">
           <div className="product-detail__images">
@@ -185,9 +199,11 @@ const SingleProduct = () => {
           </div>
 
           <div className="product-detail__info">
-            <h1 className="product-detail__title">{product.title?.[i18n.language] || product.title?.en || product.title}</h1>
+            <h1 className="product-detail__title">
+              {product.title?.[i18n.language] || product.title?.en || product.title}
+            </h1>
             <div className="product-detail__price">
-              ${product.price ? product.price.toFixed(2) : '0.00'}
+              ${productPrice.toFixed(2)}
             </div>
 
             <div className="product-detail__rating">
@@ -222,7 +238,9 @@ const SingleProduct = () => {
 
             <div className="product-detail__description">
               <p>
-                {product.description?.[i18n.language] || product.description?.en || t('product.defaultDescription')}
+                {product.description?.[i18n.language] ||
+                  product.description?.en ||
+                  t('product.defaultDescription')}
               </p>
             </div>
 
@@ -248,7 +266,7 @@ const SingleProduct = () => {
                 </button>
               </div>
 
-              <button className="add-to-cart-btn">Add To Card</button>
+              <button className="add-to-cart-btn">Add To Cart</button>
 
               <button className="wishlist-btn">
                 <FontAwesomeIcon icon={faHeart} />
@@ -329,7 +347,9 @@ const SingleProduct = () => {
               </div>
               <div className="meta-item">
                 <span className="meta-item__label">Product Categories:</span>
-                <span className="meta-item__value">{product.category || t('product.uncategorized')}</span>
+                <span className="meta-item__value">
+                  {product.category || t('product.uncategorized')}
+                </span>
               </div>
               <div className="meta-item">
                 <span className="meta-item__label">Product Tags:</span>
@@ -395,15 +415,18 @@ const SingleProduct = () => {
               <div className="tab-content">
                 <h3>Product Shipping</h3>
                 <p>
-                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et eaque fugit dolore reiciendis quos aut praesentium tempora tenetur distinctio atque.
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et eaque fugit dolore
+                  reiciendis quos aut praesentium tempora tenetur distinctio atque.
                 </p>
                 <h3>About Product</h3>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sit culpa iusto provident modi placeat ipsum rem optio possimus blanditiis!
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sit culpa iusto
+                  provident modi placeat ipsum rem optio possimus blanditiis!
                 </p>
                 <h3>Guarranteed Product</h3>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur explicabo expedita soluta illo recusandae quisquam adipisci dolorum ex quia.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur
+                  explicabo expedita soluta illo recusandae quisquam adipisci dolorum ex quia.
                 </p>
               </div>
             )}
@@ -411,7 +434,9 @@ const SingleProduct = () => {
             {activeTab === 'description' && (
               <div className="tab-content">
                 <p>
-                  {product.description?.[i18n.language] || product.description?.en || t('product.defaultDescription')}
+                  {product.description?.[i18n.language] ||
+                    product.description?.en ||
+                    t('product.defaultDescription')}
                 </p>
               </div>
             )}
@@ -490,11 +515,7 @@ const SingleProduct = () => {
                     Post Your Comment
                   </button>
                 </form>
-                {showSuccess && (
-                  <div className="success-message">
-                    Posted Succesfully
-                  </div>
-                )}
+                {showSuccess && <div className="success-message">Posted Succesfully</div>}
               </div>
             )}
           </div>
@@ -503,9 +524,7 @@ const SingleProduct = () => {
         {relatedProducts.length > 0 && (
           <div className="related-products">
             <h2 className="related-products__title">Related Products</h2>
-            <p className="related-products__subtitle">
-              Find Your related products
-            </p>
+            <p className="related-products__subtitle">Find Your related products</p>
 
             <div className="related-products__grid">
               {relatedProducts.slice(0, 4).map((relatedProduct) => (

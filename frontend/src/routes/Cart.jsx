@@ -19,7 +19,19 @@ function Cart() {
     navigate(path);
   };
 
-  // Helper function to get localized product title
+  // Helper function to get localized price
+  const getLocalizedPrice = (priceObj) => {
+    if (!priceObj) return 0;
+    if (typeof priceObj === 'number') {
+      return priceObj;
+    }
+    if (typeof priceObj === 'object') {
+      // Try to get price in current language, fallback to USD, then any available currency
+      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
+    }
+    return 0;
+  };
+
   const getLocalizedTitle = (titleObj) => {
     if (typeof titleObj === 'string') {
       return titleObj;
@@ -29,13 +41,11 @@ function Cart() {
     return '';
   };
 
-  // Helper function to check if product should be in cart
   const isCartProduct = (product) => {
     const localizedTitle = getLocalizedTitle(product.title);
-    const englishTitle = typeof product.title === 'object' && product.title.en 
-      ? product.title.en 
-      : localizedTitle;
-    
+    const englishTitle =
+      typeof product.title === 'object' && product.title.en ? product.title.en : localizedTitle;
+
     const targetProducts = ['Bloody Viburnum', 'Black Eyed Susan', 'Bleeding Heart'];
     return targetProducts.includes(englishTitle) || targetProducts.includes(localizedTitle);
   };
@@ -46,20 +56,18 @@ function Cart() {
         setLoading(true);
         const allProducts = await useDataLoader(getProducts);
 
-        const plantProducts = allProducts
-          .filter(isCartProduct)
-          .map((product) => {
-            const productName = getLocalizedTitle(product.title);
-            
-            return {
-              _id: product._id,
-              name: productName || 'Unknown Product',
-              price: product.price || 0,
-              image: product.image || (product.images && product.images[0]) || '',
-              inStock: product.inStock !== undefined ? product.inStock : true,
-              quantity: 1, // Default quantity
-            };
-          });
+        const plantProducts = allProducts.filter(isCartProduct).map((product) => {
+          const productName = getLocalizedTitle(product.title);
+
+          return {
+            _id: product._id,
+            name: productName || 'Unknown Product',
+            price: getLocalizedPrice(product.price),
+            image: product.image || (product.images && product.images[0]) || '',
+            inStock: product.inStock !== undefined ? product.inStock : true,
+            quantity: 1,
+          };
+        });
 
         setCartItems(plantProducts);
         setLoading(false);
@@ -71,7 +79,7 @@ function Cart() {
     };
 
     fetchCartProducts();
-    document.title = `${t('cart.title')} - Pronia`;
+    document.title = `My Cart - Pronia`;
   }, [t]);
 
   const handleRemoveItem = (itemId) => {
@@ -98,7 +106,7 @@ function Cart() {
   const handleApplyCoupon = () => {
     if (couponCode.trim()) {
       console.log('Applying coupon:', couponCode);
-      alert("Coupon Applied");
+      alert('Coupon Applied');
     }
   };
 
@@ -113,11 +121,16 @@ function Cart() {
   const subtotal = calculateSubtotal();
 
   if (loading) return <div className="loading-indicator">{t('common.loading')}</div>;
-  if (error) return <div className="error">{t('common.errorLoading')}: {error}</div>;
+  if (error)
+    return (
+      <div className="error">
+        {t('common.errorLoading')}: {error}
+      </div>
+    );
 
   return (
     <div className="cart-page">
-      <RouteBanner title='cart' />
+      <RouteBanner title="cart" />
       <div className="shopping-cart">
         <div className="cart-table-container">
           <table className="cart-table">

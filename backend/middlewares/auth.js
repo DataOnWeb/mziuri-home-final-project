@@ -14,3 +14,5 @@ export const auth = (req, res, next) => {
         res.json({err: 'invalid token'})
     }   
 }
+
+export default auth

@@ -18,9 +18,57 @@
   "compare": "შეადარე",
   "usd": "დოლარი",
   "eur": "ევრო",
+  "gel": "ლარი",
   "categories": "კატეგორიები",
   "color": "ფერი",
   "priceFilter": "ფასის ფილტრი",
   "popularTags": "პოპულარული თეგები",
-  "search": "ძებნა"
+    "search": "ძიება",
+  "categoriesTitle": "კატეგორიები",
+  "colorTitle": "ფერი",
+  "priceFilter": "ფასის ფილტრი",
+  "popularTags": "პოპულარული თეგები",
+  "categoriesList": {
+    "All": "ყველა",
+    "Bonsai": "ბონსაი",
+    "House Plants": "შიდა მცენარეები",
+    "Indoor Living": "შიდა ცხოვრება",
+    "Perennials": "მრავალწლოვანი",
+    "Plant For Gift": "მცენარე საჩუქრად",
+    "Garden Tools": "ბაღის ხელსაწყოები"
+  },
+  "colorsList": {
+    "All": "ყველა",
+    "Gold": "ოქრო",
+    "Green": "მწვანე",
+    "White": "თეთრი",
+    "Black": "შავი"
+  },
+  "tags": {
+    "fashion": "მოდა",
+    "organic": "ორგანული",
+    "oldFashion": "ძველი სტილი",
+    "men": "მამაკაცი",
+    "dress": "კაბა"
+  },
+  "sort": {
+    "default": "ნაგულისხმევი",
+    "priceLowToHigh": "ფასი: ზრდადობით",
+    "priceHighToLow": "ფასი: კლებადობით",
+    "nameAZ": "დასახელება: ა-ზ",
+    "nameZA": "დასახელება: ზ-ა"
+  },
+  "loading": "პროდუქტების ჩატვირთვა...",
+  "productCount": "<green>{{count}}</green> პროდუქტი ნაპოვნია <green>{{total}}</green>-დან",
+  "productCount_plural": "<green>{{count}}</green> პროდუქტი ნაპოვნია <green>{{total}}</green>-დან",
+  "plantCarousel": {
+    "discount1": "65%-ით იაფი",
+    "title1": "ახალი მცენარე",
+    "description1":"პრონია, 100%-ით ნატურალური, ორგანული & მცენარეების მაღაზია.",
+    "buttonText": "აღმოაჩინე ახლავე",
+    "discount2": "40%-ით იაფი",
+    "title2": "ახალი მცენარეები",
+    "description2": "თანამედროვე ორგანული სახეობები თქვენი სახლისთვის",
+    "buttonText2": "შეიძინე ახლავე"
+  }
 }

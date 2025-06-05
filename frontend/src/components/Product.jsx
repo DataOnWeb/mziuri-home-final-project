@@ -2,22 +2,24 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CiHeart } from 'react-icons/ci';
 import { PiEyeThin, PiShoppingCartThin } from 'react-icons/pi';
-import ProductModal from './ProductModal'; // Import the modal component
+import ProductModal from './ProductModal'; 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from '../context/CurrencyContext'; // Import currency hook
 
 const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, description } = product;
   const { i18n } = useTranslation();
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Use currency hook
 
   const [isHovered, setIsHovered] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Add modal state
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const navigate = useNavigate();
-  
+
   const handleNavigation = (path) => {
     navigate(path);
   };
-  
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -31,6 +33,28 @@ const Product = ({ product, viewMode = 'grid' }) => {
       );
     }
     return stars;
+  };
+
+  // Get the price in current currency and format it
+  const getFormattedPrice = () => {
+    try {
+      // Handle both new price object format and legacy single price
+      let priceValue;
+      
+      if (typeof price === 'object' && price !== null) {
+        // New format: price is an object with multiple currencies
+        priceValue = getPriceInCurrentCurrency(price);
+      } else {
+        // Legacy format: price is a single number (convert string to number if needed)
+        const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+        priceValue = getPriceInCurrentCurrency(numericPrice);
+      }
+      
+      return formatPrice(priceValue);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return formatPrice(0);
+    }
   };
 
   const slideButtonsStyle = {
@@ -71,7 +95,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
     borderRadius: '4px',
     transition: 'all 0.2s ease',
   };
-  
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -81,13 +105,12 @@ const Product = ({ product, viewMode = 'grid' }) => {
 
   const handleQuickView = () => {
     setIsModalOpen(true);
-    scrollToTop()
+    scrollToTop();
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
 
   if (viewMode === 'grid') {
     return (
@@ -138,7 +161,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
           </div>
 
           <h3 className="product-title">{title?.[i18n.language] || title?.en || 'No title'}</h3>
-          <p className="product-price">${price.toFixed(2)}</p>
+          <p className="product-price">{getFormattedPrice()}</p>
           <div className="product-rating">{renderStars(rating)}</div>
         </div>
 
@@ -151,7 +174,6 @@ const Product = ({ product, viewMode = 'grid' }) => {
     );
   }
 
- 
   return (
     <>
       <div className="product-list-card">
@@ -163,7 +185,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
             />
           </Link>
         </div>
-        
+
         <div className="product-list-content">
           <div className="product-list-info">
             <h3 className="product-list-title">
@@ -171,12 +193,12 @@ const Product = ({ product, viewMode = 'grid' }) => {
                 {title?.[i18n.language] || title?.en || 'No title'}
               </Link>
             </h3>
-            <p className="product-list-price">${price.toFixed(2)}</p>
+            <p className="product-list-price">{getFormattedPrice()}</p>
             <div className="product-list-rating">{renderStars(rating)}</div>
             <p className="product-list-description">
               {description?.[i18n.language] || description?.en || 'No description available'}
             </p>
-            
+
             <div className="product-list-actions">
               <button
                 style={listButtonStyle}
@@ -199,7 +221,6 @@ const Product = ({ product, viewMode = 'grid' }) => {
                 className="list-action-btn"
                 onClick={() => handleNavigation('/cart')}
                 title="Add to Cart"
-          
               >
                 <PiShoppingCartThin size="23px" />
               </button>

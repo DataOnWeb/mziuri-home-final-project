@@ -6,7 +6,7 @@ body {
   
   .container {
     max-width: 60vw;
-    height: 2vw;
+    height: 1.7vw;
     margin: 0 auto;
     padding: 0 30px;
   }
@@ -35,8 +35,9 @@ body {
   }
   
 .promotion h5 {
-  letter-spacing: 0.3cqh;
-  font-size: 12px;
+  letter-spacing: 0.1cqh;
+  font-size: 14px;
+  font-weight: 500;
 }
 .currency-selector,
 .language-selector {
@@ -110,7 +111,7 @@ body {
   .navbar {
     padding: 20px ;
     height: 6vw;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #dee2e6;
     position: relative;
     top: 20px;
   }
@@ -170,7 +171,6 @@ body {
   
 
   .main-navigation {
-    border-top: 1px dotted #eeeeee;
     height: 4vw;
     padding: 15px 0;
   }
@@ -185,7 +185,7 @@ body {
   }
   
   .main-menu a {
-    font-size: 15px;
+    font-size: 14px;
 
     color: #444;
     font-weight: 500;

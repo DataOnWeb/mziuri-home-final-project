@@ -13,7 +13,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('Medium Size & Poot');
   const [selectedColor, setSelectedColor] = useState('Black & White');
-  const [activeDropdown, setActiveDropdown] = useState(null); // Track which dropdown is open
+  const [activeDropdown, setActiveDropdown] = useState(null); 
   const navigate = useNavigate();
   const { i18n } = useTranslation();
 
@@ -21,9 +21,22 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     navigate(path);
   };
 
+  // Helper function to get localized price
+  const getLocalizedPrice = (priceObj) => {
+    if (!priceObj) return 0;
+    if (typeof priceObj === 'number') return priceObj;
+    if (typeof priceObj === 'string') return parseFloat(priceObj) || 0;
+    if (typeof priceObj === 'object') {
+      // Try to get price in current language, fallback to USD, then any available currency
+      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
+    }
+    return 0;
+  };
+
   if (!isOpen || !product) return null;
 
   const { _id, title, price, rating, image, description, category } = product;
+  const localizedPrice = getLocalizedPrice(price);
 
   // Default options that match your screenshot
   const sizeOptions = ['Medium Size & Poot', 'Large Size With Poot', 'Small Size With Poot'];
@@ -56,7 +69,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     const cartItem = {
       id: _id,
       title: title?.[i18n.language] || title?.en || 'No title',
-      price,
+      price: localizedPrice,
       image,
       quantity,
       selectedSize,
@@ -73,7 +86,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 
   const handleDropdownToggle = (dropdownName) => {
     if (activeDropdown === dropdownName) {
-      setActiveDropdown(null); 
+      setActiveDropdown(null);
     } else {
       setActiveDropdown(dropdownName);
     }
@@ -116,7 +129,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           <div className="modal-details-section">
             <h2 className="product-title">{title?.[i18n.language] || title?.en || 'No title'}</h2>
             <div className="product-price">
-              <span className="current-price">${price.toFixed(2)}</span>
+              <span className="current-price">${localizedPrice}</span>
             </div>
 
             <div className="product-rating">
@@ -183,9 +196,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             </div>
 
             <div className="product-description">
-              <p>
-                {description?.[i18n.language] || description?.en || 'No description available'}
-              </p>
+              <p>{description?.[i18n.language] || description?.en || 'No description available'}</p>
             </div>
 
             <div className="quantity-and-actions">

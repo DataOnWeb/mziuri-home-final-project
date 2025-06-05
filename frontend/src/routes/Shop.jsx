@@ -6,7 +6,7 @@ import Pagination from '../components/Pagination';
 import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
 import { IoSearchOutline } from 'react-icons/io5';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -19,12 +19,22 @@ const Shop = () => {
   const [sortOption, setSortOption] = useState('default');
   const [totalProducts, setTotalProducts] = useState(0);
   const [priceRange, setPriceRange] = useState({ min: 10, max: 300 });
+  const [currency, setCurrency] = useState('USD'); // Add currency state
   const minThumbRef = useRef(null);
   const maxThumbRef = useRef(null);
   const trackActiveRef = useRef(null);
   const sliderContainerRef = useRef(null);
   const { useDataLoader } = useLoader();
   const {t, i18n} = useTranslation()
+
+  // Helper function to get price value based on currency
+  const getProductPrice = (product) => {
+    if (typeof product.price === 'object' && product.price !== null) {
+      return product.price[currency] || product.price.USD || 0;
+    }
+    return typeof product.price === 'number' ? product.price : 0;
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -59,29 +69,38 @@ const Shop = () => {
       result = result.filter((product) => product.color === activeColor);
     }
 
-    result = result.filter(
-      (product) => product.price >= priceRange.min && product.price <= priceRange.max
-    );
+    result = result.filter((product) => {
+      const price = getProductPrice(product);
+      return price >= priceRange.min && price <= priceRange.max;
+    });
 
     switch (sortOption) {
       case 'price-low':
-        result.sort((a, b) => a.price - b.price);
+        result.sort((a, b) => getProductPrice(a) - getProductPrice(b));
         break;
       case 'price-high':
-        result.sort((a, b) => b.price - a.price);
+        result.sort((a, b) => getProductPrice(b) - getProductPrice(a));
         break;
       case 'name-asc':
-        result.sort((a, b) => a.title.localeCompare(b.title));
+        result.sort((a, b) => {
+          const titleA = a.title?.[i18n.language] || a.title?.en || '';
+          const titleB = b.title?.[i18n.language] || b.title?.en || '';
+          return titleA.localeCompare(titleB);
+        });
         break;
       case 'name-desc':
-        result.sort((a, b) => b.title.localeCompare(a.title));
+        result.sort((a, b) => {
+          const titleA = a.title?.[i18n.language] || a.title?.en || '';
+          const titleB = b.title?.[i18n.language] || b.title?.en || '';
+          return titleB.localeCompare(titleA);
+        });
         break;
       default:
         break;
     }
 
     setFilteredProducts(result);
-  }, [products, searchTerm, activeCategory, activeColor, sortOption, priceRange]);
+  }, [products, searchTerm, activeCategory, activeColor, sortOption, priceRange, currency, i18n.language]);
 
   const updateTrackActive = () => {
     if (!minThumbRef.current || !maxThumbRef.current || !trackActiveRef.current) return;
@@ -175,9 +194,20 @@ const Shop = () => {
     document.addEventListener('mouseup', onUp);
   };
 
-  return (
+  // Function to get currency symbol
+  const getCurrencySymbol = (curr) => {
+    const symbols = {
+      USD: '$',
+      EUR: '€',
+      GEL: '₾',
+
+    };
+    return symbols[curr] || curr;
+  };
+
+ return (
     <div>
-      <RouteBanner title="shop" />
+      <RouteBanner title={t('shop')} />
 
       <div className="shop-container">
         <div className="sidebar">
@@ -192,10 +222,7 @@ const Shop = () => {
                 />
                 <IoSearchOutline className="input-search-icon" />
               </div>
-              <button
-                className="search-button"
-                aria-label="Search"
-              ></button>
+              <button className="search-button" aria-label={t('search')}></button>
             </div>
           </div>
 
@@ -213,7 +240,9 @@ const Shop = () => {
                       setActiveCategory(category.name);
                     }}
                   >
-                    <span className="category-label">› {category.name}</span>
+                    <span className="category-label">
+                      › {t(`categoriesList.${category.name}`)}
+                    </span>
                     <span className="count">({category.count})</span>
                   </a>
                 </li>
@@ -235,30 +264,33 @@ const Shop = () => {
                       setActiveColor(color.name);
                     }}
                   >
-                    <span className="category-label">› {color.name}</span>
+                    <span className="category-label">
+                      › {t(`colorsList.${color.name}`)}
+                    </span>
                     <span className="count">({color.count})</span>
                   </a>
                 </li>
               ))}
             </ul>
           </div>
+
           <div className="filter-container">
             <div className="price-filter">
               <h2>{t('priceFilter')}</h2>
               <div className="divider"></div>
               <div className="range-values">
-                <span className="price-bubble">${priceRange.min}</span>
-                <span className="price-bubble">${priceRange.max}</span>
+                <span className="price-bubble">
+                  {getCurrencySymbol(currency)}
+                  {priceRange.min}
+                </span>
+                <span className="price-bubble">
+                  {getCurrencySymbol(currency)}
+                  {priceRange.max}
+                </span>
               </div>
-              <div
-                className="slider-container"
-                ref={sliderContainerRef}
-              >
+              <div className="slider-container" ref={sliderContainerRef}>
                 <div className="slider-track"></div>
-                <div
-                  className="slider-track-active"
-                  ref={trackActiveRef}
-                ></div>
+                <div className="slider-track-active" ref={trackActiveRef}></div>
                 <div
                   className="slider-thumb min-thumb"
                   ref={minThumbRef}
@@ -276,42 +308,11 @@ const Shop = () => {
               <h2>{t('popularTags')}</h2>
               <div className="divider"></div>
               <div className="tags-container">
-                <span
-                  className="tag"
-                  onClick={scrollToTop}
-                >
-                  Fashion
-                </span>
-                <span
-                  className="tag"
-                  onClick={scrollToTop}
-                >
-                  Organic
-                </span>
-                <span
-                  className="tag"
-                  onClick={scrollToTop}
-                >
-                  Old Fashion
-                </span>
-                <span
-                  className="tag"
-                  onClick={scrollToTop}
-                >
-                  Men
-                </span>
-                <span
-                  className="tag"
-                  onClick={scrollToTop}
-                >
-                  Fashion
-                </span>
-                <span
-                  className="tag"
-                  onClick={scrollToTop}
-                >
-                  Dress
-                </span>
+                {['fashion', 'organic', 'oldFashion', 'men', 'fashion', 'dress'].map((tagKey, i) => (
+                  <span key={i} className="tag" onClick={scrollToTop}>
+                    {t(`tags.${tagKey}`)}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -321,15 +322,21 @@ const Shop = () => {
           <div className="toolbar">
             <div className="product-count">
               {loading ? (
-                'Loading products...'
+                t('loading')
               ) : (
                 <>
-                  <span className="highlight-number">{filteredProducts.length}</span> Product
-                  {filteredProducts.length !== 1 ? 's' : ''} Found of{' '}
-                  <span className="highlight-total">{totalProducts}</span>
+                  <h4>
+  <Trans
+    i18nKey="productCount"
+    count={filteredProducts.length}
+    values={{ count: filteredProducts.length, total: totalProducts }}
+    components={{ green: <span className="text-green" /> }}
+  />
+</h4>
                 </>
               )}
             </div>
+
             <div className="view-options">
               <div className="view-buttons">
                 <button
@@ -349,27 +356,25 @@ const Shop = () => {
               </div>
 
               <div className="sort-dropdown">
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                >
-                  <option value="default">Sort by Default</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="name-asc">Name: A-Z</option>
-                  <option value="name-desc">Name: Z-A</option>
+                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                  <option value="default">{t('sort.default')}</option>
+                  <option value="price-low">{t('sort.priceLowToHigh')}</option>
+                  <option value="price-high">{t('sort.priceHighToLow')}</option>
+                  <option value="name-asc">{t('sort.nameAZ')}</option>
+                  <option value="name-desc">{t('sort.nameZA')}</option>
                 </select>
               </div>
             </div>
           </div>
 
           {loading ? (
-            <div className="loading-indicator">Loading products...</div>
+            <div className="loading-indicator">{t('loading')}</div>
           ) : (
             <>
               <ProductList
                 products={filteredProducts}
                 viewMode={viewMode}
+                currency={currency}
               />
               <Pagination />
             </>

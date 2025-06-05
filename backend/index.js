@@ -9,6 +9,7 @@ import { rateLimit } from 'express-rate-limit'
 import helmet from "helmet";
 import compression from 'compression';
 import logger from './middlewares/logger.js';
+
 dotenv.config()
 
 const app = express()
@@ -27,16 +28,16 @@ app.use(limiter)
 
 app.use(cors({
   origin: (origin, callback) => {
-      callback(null, origin || '*'); // Allow any origin
+      callback(null, origin || '*'); 
   },    
-  credentials: true // Allow cookies to be sent
+  credentials: true 
 }));
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(helmet())
 app.use('/api/products', ProductsRouter);
-app.use('/api/users', UsersRouter);
+app.use('/api/users', logger, UsersRouter);
 app.use(compression)
 
 

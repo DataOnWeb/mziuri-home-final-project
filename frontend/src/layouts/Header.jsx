@@ -9,6 +9,7 @@ import SearchFunction from '../components/SearchFunction';
 import ShoppingCartSidebar from '../components/ShoppingCartSidebar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from '../context/CurrencyContext'; // Add currency context
 
 const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -22,6 +23,9 @@ const Header = () => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+  
+  // Add currency hook
+  const { currentCurrency, changeCurrency, currencyNames } = useCurrency();
 
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -86,6 +90,19 @@ const Header = () => {
     });
   };
 
+  // Add currency change handler
+  const handleCurrencyChange = (currency) => {
+    changeCurrency(currency);
+    setActiveDropdown(null);
+  };
+
+  // Add function to get current currency display
+
+  const getCurrentCurrencyDisplay = () => {
+    return currentCurrency === 'ka' ? `${t('gel')}` : `${t('USD')}`;
+  };
+
+
   const getCurrentLanguageDisplay = () => {
     return currentLanguage === 'ka' ? `${t('georgian')}` : `${t('english')}`;
   };
@@ -121,12 +138,13 @@ const Header = () => {
               ref={dropdownRef}
             >
               <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
-                <h5 onClick={(e) => toggleDropdown(e, 'currency')}>{t('usd')} ▼</h5>
+                <h5 onClick={(e) => toggleDropdown(e, 'currency')}>{getCurrentCurrencyDisplay()}▼</h5>
                 <ul
                   className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}
                 >
-                  <li>{t('usd')}</li>
-                  <li>{t('eur')}</li>
+                  <li onClick={() => handleCurrencyChange('usd')}>{t('usd')}</li>
+                  <li onClick={() => handleCurrencyChange('eur')}>{t('eur')}</li>
+                  <li onClick={() => handleCurrencyChange('gel')}>{t('gel')}</li>
                 </ul>
               </div>
               <div className={`language-selector ${activeDropdown === 'language' ? 'active' : ''}`}>

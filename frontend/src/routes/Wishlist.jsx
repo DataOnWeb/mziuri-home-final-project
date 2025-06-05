@@ -18,14 +18,28 @@ function Wishlist() {
     navigate(path);
   };
 
-  // Helper function to get localized product title
+  // Helper function to get localized price
+  const getLocalizedPrice = (priceObj) => {
+    if (!priceObj) return 0;
+    if (typeof priceObj === 'number') {
+      return priceObj;
+    }
+    if (typeof priceObj === 'object') {
+      // Try to get price in current language, fallback to USD, then any available currency
+      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
+    }
+    return 0;
+  };
+
   const getLocalizedTitle = (titleObj) => {
     if (!titleObj) return 'Unknown Product';
     if (typeof titleObj === 'string') {
       return titleObj;
     }
     if (typeof titleObj === 'object') {
-      return titleObj[i18n.language] || titleObj.en || Object.values(titleObj)[0] || 'Unknown Product';
+      return (
+        titleObj[i18n.language] || titleObj.en || Object.values(titleObj)[0] || 'Unknown Product'
+      );
     }
     return 'Unknown Product';
   };
@@ -35,31 +49,30 @@ function Wishlist() {
       try {
         setLoading(true);
         setError(null);
-        
+
         const allProducts = await useDataLoader(getProducts);
-        
+
         if (!Array.isArray(allProducts)) {
           throw new Error('Products data is not an array');
         }
 
-        // Filter by English titles to avoid language-dependent filtering
         const targetEnglishTitles = ['Bloody Viburnum', 'Black Eyed Susan', 'Bleeding Heart'];
-        
+
         const plantProducts = allProducts
           .filter((product) => {
             if (!product || !product.title) return false;
-            
-            // Get English title for filtering
-            const englishTitle = typeof product.title === 'object' 
-              ? (product.title.en || Object.values(product.title)[0])
-              : product.title;
-              
+
+            const englishTitle =
+              typeof product.title === 'object'
+                ? product.title.en || Object.values(product.title)[0]
+                : product.title;
+
             return targetEnglishTitles.includes(englishTitle);
           })
           .map((product) => ({
             _id: product._id,
-            name: getLocalizedTitle(product.title), // Only translate the title
-            price: product.price || 0,
+            name: getLocalizedTitle(product.title), 
+            price: getLocalizedPrice(product.price),
             image: product.image || (product.images && product.images[0]) || '',
             inStock: product.inStock !== undefined ? product.inStock : true,
           }));
@@ -75,15 +88,14 @@ function Wishlist() {
 
     fetchCartProducts();
     document.title = `Wishlist - Pronia`;
-  }, [t]); // Removed i18n.language dependency to prevent cycling
+  }, [t]);
 
-  // Update only the product names when language changes
   useEffect(() => {
     if (cartItems.length > 0) {
-      setCartItems(prevItems => 
-        prevItems.map(item => ({
+      setCartItems((prevItems) =>
+        prevItems.map((item) => ({
           ...item,
-          name: getLocalizedTitle(item.title) // This won't work as we don't store original title
+          name: getLocalizedTitle(item.title), 
         }))
       );
     }
