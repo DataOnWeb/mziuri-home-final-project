@@ -19,7 +19,7 @@ const Shop = () => {
   const [sortOption, setSortOption] = useState('default');
   const [totalProducts, setTotalProducts] = useState(0);
   const [priceRange, setPriceRange] = useState({ min: 10, max: 300 });
-  const [currency, setCurrency] = useState('USD'); // Add currency state
+  const [currency, setCurrency] = useState('USD');
   const minThumbRef = useRef(null);
   const maxThumbRef = useRef(null);
   const trackActiveRef = useRef(null);
@@ -27,7 +27,7 @@ const Shop = () => {
   const { useDataLoader } = useLoader();
   const {t, i18n} = useTranslation()
 
-  // Helper function to get price value based on currency
+
   const getProductPrice = (product) => {
     if (typeof product.price === 'object' && product.price !== null) {
       return product.price[currency] || product.price.USD || 0;

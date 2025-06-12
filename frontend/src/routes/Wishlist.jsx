@@ -5,6 +5,7 @@ import { useLoader } from '../hooks/useLoader';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from '../context/CurrencyContext'; // Import currency context
 
 function Wishlist() {
   const [cartItems, setCartItems] = useState([]);
@@ -13,22 +14,29 @@ function Wishlist() {
   const { useDataLoader } = useLoader();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Add currency hooks
 
   const handleNavigation = (path) => {
     navigate(path);
   };
 
-  // Helper function to get localized price
-  const getLocalizedPrice = (priceObj) => {
-    if (!priceObj) return 0;
-    if (typeof priceObj === 'number') {
-      return priceObj;
+  // Updated helper function to get formatted price using currency context
+  const getFormattedPrice = (priceObj) => {
+    try {
+      let priceValue;
+      
+      if (typeof priceObj === 'object' && priceObj !== null) {
+        priceValue = getPriceInCurrentCurrency(priceObj);
+      } else {
+        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+        priceValue = getPriceInCurrentCurrency(numericPrice);
+      }
+      
+      return formatPrice(priceValue);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return formatPrice(0);
     }
-    if (typeof priceObj === 'object') {
-      // Try to get price in current language, fallback to USD, then any available currency
-      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
-    }
-    return 0;
   };
 
   const getLocalizedTitle = (titleObj) => {
@@ -72,7 +80,7 @@ function Wishlist() {
           .map((product) => ({
             _id: product._id,
             name: getLocalizedTitle(product.title), 
-            price: getLocalizedPrice(product.price),
+            price: product.price, // Keep original price object
             image: product.image || (product.images && product.images[0]) || '',
             inStock: product.inStock !== undefined ? product.inStock : true,
           }));
@@ -151,7 +159,7 @@ function Wishlist() {
               <div className="cart-cell product-cell">
                 <a onClick={() => handleNavigation(`/product/${item._id}`)}>{item.name}</a>
               </div>
-              <div className="cart-cell price-cell">${item.price.toFixed(2)}</div>
+              <div className="cart-cell price-cell">{getFormattedPrice(item.price)}</div>
               <div className="cart-cell stock-cell">
                 <span className={item.inStock ? 'in-stock' : 'out-stock'}>
                   {item.inStock ? 'In Stock' : 'Out of Stock'}

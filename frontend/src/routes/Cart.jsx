@@ -5,6 +5,7 @@ import { useLoader } from '../hooks/useLoader';
 import { X, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from '../context/CurrencyContext'; // Import currency context
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -14,22 +15,44 @@ function Cart() {
   const { useDataLoader } = useLoader();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Add currency hooks
 
   const handleNavigation = (path) => {
     navigate(path);
   };
 
-  // Helper function to get localized price
-  const getLocalizedPrice = (priceObj) => {
-    if (!priceObj) return 0;
-    if (typeof priceObj === 'number') {
-      return priceObj;
+  // Updated helper function to get formatted price using currency context
+  const getFormattedPrice = (priceObj) => {
+    try {
+      let priceValue;
+      
+      if (typeof priceObj === 'object' && priceObj !== null) {
+        priceValue = getPriceInCurrentCurrency(priceObj);
+      } else {
+        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+        priceValue = getPriceInCurrentCurrency(numericPrice);
+      }
+      
+      return formatPrice(priceValue);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return formatPrice(0);
     }
-    if (typeof priceObj === 'object') {
-      // Try to get price in current language, fallback to USD, then any available currency
-      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
+  };
+
+  // Helper function to get numeric price value for calculations
+  const getNumericPrice = (priceObj) => {
+    try {
+      if (typeof priceObj === 'object' && priceObj !== null) {
+        return getPriceInCurrentCurrency(priceObj);
+      } else {
+        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+        return getPriceInCurrentCurrency(numericPrice);
+      }
+    } catch (error) {
+      console.error('Error getting numeric price:', error);
+      return 0;
     }
-    return 0;
   };
 
   const getLocalizedTitle = (titleObj) => {
@@ -62,7 +85,7 @@ function Cart() {
           return {
             _id: product._id,
             name: productName || 'Unknown Product',
-            price: getLocalizedPrice(product.price),
+            price: product.price, // Keep original price object
             image: product.image || (product.images && product.images[0]) || '',
             inStock: product.inStock !== undefined ? product.inStock : true,
             quantity: 1,
@@ -115,7 +138,10 @@ function Cart() {
   };
 
   const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce((total, item) => {
+      const itemPrice = getNumericPrice(item.price);
+      return total + (itemPrice * item.quantity);
+    }, 0);
   };
 
   const subtotal = calculateSubtotal();
@@ -174,7 +200,7 @@ function Cart() {
                       {item.name}
                     </a>
                   </td>
-                  <td className="cart-cell price-cell">${item.price.toFixed(2)}</td>
+                  <td className="cart-cell price-cell">{getFormattedPrice(item.price)}</td>
                   <td className="cart-cell quantity-cell">
                     <div className="quantity-controls">
                       <button
@@ -194,7 +220,7 @@ function Cart() {
                     </div>
                   </td>
                   <td className="cart-cell total-cell">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatPrice(getNumericPrice(item.price) * item.quantity)}
                   </td>
                 </tr>
               ))}
@@ -231,11 +257,11 @@ function Cart() {
           <div className="totals-content">
             <div className="total-row">
               <span className="total-label">SUBTOTAL</span>
-              <span className="total-value">${subtotal.toFixed(2)}</span>
+              <span className="total-value">{formatPrice(subtotal)}</span>
             </div>
             <div className="total-row final-total">
               <span className="total-label">TOTAL</span>
-              <span className="total-value">${subtotal.toFixed(2)}</span>
+              <span className="total-value">{formatPrice(subtotal)}</span>
             </div>
             <button
               className="checkout-btn"

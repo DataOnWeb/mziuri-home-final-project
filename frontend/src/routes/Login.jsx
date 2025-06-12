@@ -33,6 +33,7 @@ export default function Login() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const handleLoginChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -41,7 +42,8 @@ export default function Login() {
       [name]: type === 'checkbox' ? checked : value,
     });
 
-    if (errors[name]) {
+    // Only clear errors after first submit attempt (like in Register)
+    if (hasAttemptedSubmit && errors[name]) {
       setErrors({
         ...errors,
         [name]: '',
@@ -59,8 +61,12 @@ export default function Login() {
     setErrors(newErrors);
     return !newErrors.email && !newErrors.password;
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Mark that submit has been attempted (like in Register)
+    setHasAttemptedSubmit(true);
 
     if (!validateForm()) {
       return;
@@ -109,7 +115,26 @@ export default function Login() {
         <div className="auth-form login-form">
           <h2>Login</h2>
 
-          <form onSubmit={handleLogin}>
+          {errors.form && (
+            <div
+              className="error-message"
+              style={{
+                color: '#e74c3c',
+                fontSize: '14px',
+                fontWeight: '600',
+                backgroundColor: '#ffeaea',
+                border: '1px solid #e74c3c',
+                borderRadius: '4px',
+                padding: '10px',
+                marginBottom: '15px',
+                textAlign: 'center',
+              }}
+            >
+              {errors.form}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} noValidate>
             <div className="form-group">
               <label htmlFor="email">
                 Email Address<span className="required">*</span>
@@ -123,11 +148,25 @@ export default function Login() {
                 onChange={handleLoginChange}
                 required
               />
-              {errors.email && <div className="field-error">{errors.email}</div>}
+              {hasAttemptedSubmit && errors.email && (
+                <div 
+                  className="field-error"
+                  style={{
+                    color: '#e74c3c',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    marginTop: '4px',
+                  }}
+                >
+                  {errors.email}
+                </div>
+              )}
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">
+                Password<span className="required">*</span>
+              </label>
               <input
                 type="password"
                 id="password"
@@ -137,7 +176,7 @@ export default function Login() {
                 onChange={handleLoginChange}
                 required
               />
-              {errors.form && (
+              {hasAttemptedSubmit && errors.password && (
                 <div
                   className="field-error"
                   style={{
@@ -147,7 +186,7 @@ export default function Login() {
                     marginTop: '4px',
                   }}
                 >
-                  {errors.form}
+                  {errors.password}
                 </div>
               )}
             </div>

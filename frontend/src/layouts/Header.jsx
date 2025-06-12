@@ -9,7 +9,7 @@ import SearchFunction from '../components/SearchFunction';
 import ShoppingCartSidebar from '../components/ShoppingCartSidebar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCurrency } from '../context/CurrencyContext'; // Add currency context
+import { useCurrency } from '../context/CurrencyContext';
 
 const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -24,7 +24,6 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   
-  // Add currency hook
   const { currentCurrency, changeCurrency, currencyNames } = useCurrency();
 
   const isActive = (path) => {
@@ -90,18 +89,34 @@ const Header = () => {
     });
   };
 
-  // Add currency change handler
   const handleCurrencyChange = (currency) => {
     changeCurrency(currency);
+    // Persist the selected currency
+    localStorage.setItem('selectedCurrency', currency);
     setActiveDropdown(null);
   };
 
-  // Add function to get current currency display
+  // Load saved currency on component mount
+  useEffect(() => {
+    const savedCurrency = localStorage.getItem('selectedCurrency');
+    if (savedCurrency && savedCurrency !== currentCurrency) {
+      changeCurrency(savedCurrency);
+    }
+  }, []);
 
+  // Updated function to get currency display with proper translation
   const getCurrentCurrencyDisplay = () => {
-    return currentCurrency === 'ka' ? `${t('gel')}` : `${t('USD')}`;
+    switch(currentCurrency) {
+      case 'usd':
+        return t('usd');
+      case 'eur':
+        return t('eur');
+      case 'gel':
+        return t('gel');
+      default:
+        return t('gel');
+    }
   };
-
 
   const getCurrentLanguageDisplay = () => {
     return currentLanguage === 'ka' ? `${t('georgian')}` : `${t('english')}`;
@@ -142,9 +157,24 @@ const Header = () => {
                 <ul
                   className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}
                 >
-                  <li onClick={() => handleCurrencyChange('usd')}>{t('usd')}</li>
-                  <li onClick={() => handleCurrencyChange('eur')}>{t('eur')}</li>
-                  <li onClick={() => handleCurrencyChange('gel')}>{t('gel')}</li>
+                  <li 
+                    onClick={() => handleCurrencyChange('usd')}
+                    className={currentCurrency === 'usd' ? 'selected' : ''}
+                  >
+                    {t('usd')}
+                  </li>
+                  <li 
+                    onClick={() => handleCurrencyChange('eur')}
+                    className={currentCurrency === 'eur' ? 'selected' : ''}
+                  >
+                    {t('eur')}
+                  </li>
+                  <li 
+                    onClick={() => handleCurrencyChange('gel')}
+                    className={currentCurrency === 'gel' ? 'selected' : ''}
+                  >
+                    {t('gel')}
+                  </li>
                 </ul>
               </div>
               <div className={`language-selector ${activeDropdown === 'language' ? 'active' : ''}`}>

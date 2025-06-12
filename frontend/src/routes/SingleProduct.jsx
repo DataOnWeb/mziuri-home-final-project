@@ -14,10 +14,12 @@ import CommentsSection from '../components/CommentsSection';
 import { getProducts, getProduct } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from '../context/CurrencyContext'; // Add currency context
 
 const SingleProduct = () => {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Add currency hooks
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [error, setError] = useState(null);
@@ -34,16 +36,23 @@ const SingleProduct = () => {
 
   const { loading, useDataLoader } = useLoader();
 
-  // Helper function to get localized price
-  const getLocalizedPrice = (priceObj) => {
-    if (!priceObj) return 0;
-    if (typeof priceObj === 'number') {
-      return priceObj;
+  // Updated helper function to get formatted price using currency context
+  const getFormattedPrice = (priceObj) => {
+    try {
+      let priceValue;
+      
+      if (typeof priceObj === 'object' && priceObj !== null) {
+        priceValue = getPriceInCurrentCurrency(priceObj);
+      } else {
+        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+        priceValue = getPriceInCurrentCurrency(numericPrice);
+      }
+      
+      return formatPrice(priceValue);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return formatPrice(0);
     }
-    if (typeof priceObj === 'object') {
-      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
-    }
-    return 0;
   };
 
   useEffect(() => {
@@ -95,7 +104,7 @@ const SingleProduct = () => {
     return () => {
       isMounted = false;
     };
-  }, [id, t]);
+  }, [id]);
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -153,8 +162,6 @@ const SingleProduct = () => {
     );
   }
 
-  const productPrice = getLocalizedPrice(product.price);
-
   return (
     <>
       <RouteBanner title="singleproduct" />
@@ -203,7 +210,7 @@ const SingleProduct = () => {
               {product.title?.[i18n.language] || product.title?.en || product.title}
             </h1>
             <div className="product-detail__price">
-              ${productPrice.toFixed(2)}
+              {getFormattedPrice(product.price)}
             </div>
 
             <div className="product-detail__rating">

@@ -61,7 +61,7 @@ export const CurrencyProvider = ({ children }) => {
     
     // For GEL, put symbol after the price
     if (currency === 'gel') {
-      return `${formattedPrice}${symbol}`;
+      return `${symbol}${formattedPrice}`;
     }
     
     // For USD and EUR, put symbol before the price

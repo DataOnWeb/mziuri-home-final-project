@@ -10,7 +10,7 @@ import { useCurrency } from '../context/CurrencyContext'; // Import currency hoo
 const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, description } = product;
   const { i18n } = useTranslation();
-  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Use currency hook
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); 
 
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -38,14 +38,11 @@ const Product = ({ product, viewMode = 'grid' }) => {
   // Get the price in current currency and format it
   const getFormattedPrice = () => {
     try {
-      // Handle both new price object format and legacy single price
       let priceValue;
       
       if (typeof price === 'object' && price !== null) {
-        // New format: price is an object with multiple currencies
         priceValue = getPriceInCurrentCurrency(price);
       } else {
-        // Legacy format: price is a single number (convert string to number if needed)
         const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
         priceValue = getPriceInCurrentCurrency(numericPrice);
       }
