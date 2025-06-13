@@ -18,6 +18,7 @@
 @use './components/shoppingCartSideBar';
 @use './components/stickyHeader';
 @use './components/productModal';
+@use './components/greenCarousel';
 
 
 @use './routes/shop';
@@ -28,4 +29,5 @@
 @use './routes/forgotPassword';
 @use './routes/resetPassword';
 @use './routes/wishlist';
-@use './routes/cart'
+@use './routes/cart';
+@use './routes/about'

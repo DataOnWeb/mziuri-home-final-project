@@ -13,3 +13,14 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+@mixin hover-lift {
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px $shadow-hover;
+  }
+}
