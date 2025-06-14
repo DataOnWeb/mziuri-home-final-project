@@ -25,8 +25,7 @@ const Shop = () => {
   const trackActiveRef = useRef(null);
   const sliderContainerRef = useRef(null);
   const { useDataLoader } = useLoader();
-  const {t, i18n} = useTranslation()
-
+  const { t, i18n } = useTranslation();
 
   const getProductPrice = (product) => {
     if (typeof product.price === 'object' && product.price !== null) {
@@ -100,7 +99,16 @@ const Shop = () => {
     }
 
     setFilteredProducts(result);
-  }, [products, searchTerm, activeCategory, activeColor, sortOption, priceRange, currency, i18n.language]);
+  }, [
+    products,
+    searchTerm,
+    activeCategory,
+    activeColor,
+    sortOption,
+    priceRange,
+    currency,
+    i18n.language,
+  ]);
 
   const updateTrackActive = () => {
     if (!minThumbRef.current || !maxThumbRef.current || !trackActiveRef.current) return;
@@ -200,12 +208,11 @@ const Shop = () => {
       USD: '$',
       EUR: '€',
       GEL: '₾',
-
     };
     return symbols[curr] || curr;
   };
 
- return (
+  return (
     <div>
       <RouteBanner title={t('shop')} />
 
@@ -222,7 +229,10 @@ const Shop = () => {
                 />
                 <IoSearchOutline className="input-search-icon" />
               </div>
-              <button className="search-button" aria-label={t('search')}></button>
+              <button
+                className="search-button"
+                aria-label={t('search')}
+              ></button>
             </div>
           </div>
 
@@ -240,9 +250,7 @@ const Shop = () => {
                       setActiveCategory(category.name);
                     }}
                   >
-                    <span className="category-label">
-                      › {t(`categoriesList.${category.name}`)}
-                    </span>
+                    <span className="category-label">› {t(`categoriesList.${category.name}`)}</span>
                     <span className="count">({category.count})</span>
                   </a>
                 </li>
@@ -264,9 +272,7 @@ const Shop = () => {
                       setActiveColor(color.name);
                     }}
                   >
-                    <span className="category-label">
-                      › {t(`colorsList.${color.name}`)}
-                    </span>
+                    <span className="category-label">› {t(`colorsList.${color.name}`)}</span>
                     <span className="count">({color.count})</span>
                   </a>
                 </li>
@@ -288,9 +294,15 @@ const Shop = () => {
                   {priceRange.max}
                 </span>
               </div>
-              <div className="slider-container" ref={sliderContainerRef}>
+              <div
+                className="slider-container"
+                ref={sliderContainerRef}
+              >
                 <div className="slider-track"></div>
-                <div className="slider-track-active" ref={trackActiveRef}></div>
+                <div
+                  className="slider-track-active"
+                  ref={trackActiveRef}
+                ></div>
                 <div
                   className="slider-thumb min-thumb"
                   ref={minThumbRef}
@@ -308,11 +320,17 @@ const Shop = () => {
               <h2>{t('popularTags')}</h2>
               <div className="divider"></div>
               <div className="tags-container">
-                {['fashion', 'organic', 'oldFashion', 'men', 'fashion', 'dress'].map((tagKey, i) => (
-                  <span key={i} className="tag" onClick={scrollToTop}>
-                    {t(`tags.${tagKey}`)}
-                  </span>
-                ))}
+                {['fashion', 'organic', 'oldFashion', 'men', 'fashion', 'dress'].map(
+                  (tagKey, i) => (
+                    <span
+                      key={i}
+                      className="tag"
+                      onClick={scrollToTop}
+                    >
+                      {t(`tags.${tagKey}`)}
+                    </span>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -326,13 +344,13 @@ const Shop = () => {
               ) : (
                 <>
                   <h4>
-  <Trans
-    i18nKey="productCount"
-    count={filteredProducts.length}
-    values={{ count: filteredProducts.length, total: totalProducts }}
-    components={{ green: <span className="text-green" /> }}
-  />
-</h4>
+                    <Trans
+                      i18nKey="productCount"
+                      count={filteredProducts.length}
+                      values={{ count: filteredProducts.length, total: totalProducts }}
+                      components={{ green: <span className="text-green" /> }}
+                    />
+                  </h4>
                 </>
               )}
             </div>
@@ -356,7 +374,10 @@ const Shop = () => {
               </div>
 
               <div className="sort-dropdown">
-                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                >
                   <option value="default">{t('sort.default')}</option>
                   <option value="price-low">{t('sort.priceLowToHigh')}</option>
                   <option value="price-high">{t('sort.priceHighToLow')}</option>

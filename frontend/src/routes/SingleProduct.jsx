@@ -40,14 +40,14 @@ const SingleProduct = () => {
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
-      
+
       if (typeof priceObj === 'object' && priceObj !== null) {
         priceValue = getPriceInCurrentCurrency(priceObj);
       } else {
         const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
         priceValue = getPriceInCurrentCurrency(numericPrice);
       }
-      
+
       return formatPrice(priceValue);
     } catch (error) {
       console.error('Error formatting price:', error);
@@ -209,9 +209,7 @@ const SingleProduct = () => {
             <h1 className="product-detail__title">
               {product.title?.[i18n.language] || product.title?.en || product.title}
             </h1>
-            <div className="product-detail__price">
-              {getFormattedPrice(product.price)}
-            </div>
+            <div className="product-detail__price">{getFormattedPrice(product.price)}</div>
 
             <div className="product-detail__rating">
               <div className="stars">

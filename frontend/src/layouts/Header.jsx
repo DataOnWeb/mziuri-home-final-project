@@ -23,7 +23,7 @@ const Header = () => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
-  
+
   const { currentCurrency, changeCurrency, currencyNames } = useCurrency();
 
   const isActive = (path) => {
@@ -106,7 +106,7 @@ const Header = () => {
 
   // Updated function to get currency display with proper translation
   const getCurrentCurrencyDisplay = () => {
-    switch(currentCurrency) {
+    switch (currentCurrency) {
       case 'usd':
         return t('usd');
       case 'eur':
@@ -153,23 +153,25 @@ const Header = () => {
               ref={dropdownRef}
             >
               <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
-                <h5 onClick={(e) => toggleDropdown(e, 'currency')}>{getCurrentCurrencyDisplay()}▼</h5>
+                <h5 onClick={(e) => toggleDropdown(e, 'currency')}>
+                  {getCurrentCurrencyDisplay()}▼
+                </h5>
                 <ul
                   className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}
                 >
-                  <li 
+                  <li
                     onClick={() => handleCurrencyChange('usd')}
                     className={currentCurrency === 'usd' ? 'selected' : ''}
                   >
                     {t('usd')}
                   </li>
-                  <li 
+                  <li
                     onClick={() => handleCurrencyChange('eur')}
                     className={currentCurrency === 'eur' ? 'selected' : ''}
                   >
                     {t('eur')}
                   </li>
-                  <li 
+                  <li
                     onClick={() => handleCurrencyChange('gel')}
                     className={currentCurrency === 'gel' ? 'selected' : ''}
                   >

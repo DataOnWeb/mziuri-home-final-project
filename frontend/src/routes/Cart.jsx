@@ -25,14 +25,14 @@ function Cart() {
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
-      
+
       if (typeof priceObj === 'object' && priceObj !== null) {
         priceValue = getPriceInCurrentCurrency(priceObj);
       } else {
         const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
         priceValue = getPriceInCurrentCurrency(numericPrice);
       }
-      
+
       return formatPrice(priceValue);
     } catch (error) {
       console.error('Error formatting price:', error);
@@ -140,7 +140,7 @@ function Cart() {
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => {
       const itemPrice = getNumericPrice(item.price);
-      return total + (itemPrice * item.quantity);
+      return total + itemPrice * item.quantity;
     }, 0);
   };
 

@@ -134,7 +134,10 @@ export default function Login() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} noValidate>
+          <form
+            onSubmit={handleLogin}
+            noValidate
+          >
             <div className="form-group">
               <label htmlFor="email">
                 Email Address<span className="required">*</span>
@@ -149,7 +152,7 @@ export default function Login() {
                 required
               />
               {hasAttemptedSubmit && errors.email && (
-                <div 
+                <div
                   className="field-error"
                   style={{
                     color: '#e74c3c',

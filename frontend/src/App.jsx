@@ -16,6 +16,7 @@ import Pages from './routes/Pages';
 import Login from './routes/Login';
 import Blog from './routes/Blog';
 import Compare from './routes/Compare';
+import Checkout from './routes/Checkout';
 import ForgotPassword from './routes/ForgotPassword';
 import ResetPassword from './routes/ResetPassword';
 import { LoaderProvider } from './hooks/useLoader';
@@ -115,6 +116,10 @@ function App() {
           <Route
             path="/compare"
             element={<Compare />}
+          />
+          <Route
+            path="/checkout"
+            element={<Checkout />}
           />
         </Routes>
       </main>

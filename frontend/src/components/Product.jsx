@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CiHeart } from 'react-icons/ci';
 import { PiEyeThin, PiShoppingCartThin } from 'react-icons/pi';
-import ProductModal from './ProductModal'; 
+import ProductModal from './ProductModal';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext'; // Import currency hook
@@ -10,10 +10,10 @@ import { useCurrency } from '../context/CurrencyContext'; // Import currency hoo
 const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, description } = product;
   const { i18n } = useTranslation();
-  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); 
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
 
   const [isHovered, setIsHovered] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
@@ -39,14 +39,14 @@ const Product = ({ product, viewMode = 'grid' }) => {
   const getFormattedPrice = () => {
     try {
       let priceValue;
-      
+
       if (typeof price === 'object' && price !== null) {
         priceValue = getPriceInCurrentCurrency(price);
       } else {
         const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
         priceValue = getPriceInCurrentCurrency(numericPrice);
       }
-      
+
       return formatPrice(priceValue);
     } catch (error) {
       console.error('Error formatting price:', error);

@@ -29,7 +29,7 @@
 //     case CART_ACTIONS.ADD_TO_CART: {
 //       const { product, quantity = 1 } = action.payload;
 //       const existingItem = state.find(item => item._id === product._id);
-      
+
 //       if (existingItem) {
 //         return state.map(item =>
 //           item._id === product._id
@@ -37,13 +37,13 @@
 //             : item
 //         );
 //       }
-      
+
 //       return [...state, { ...product, quantity }];
 //     }
-    
+
 //     case CART_ACTIONS.REMOVE_FROM_CART:
 //       return state.filter(item => item._id !== action.payload);
-    
+
 //     case CART_ACTIONS.UPDATE_QUANTITY: {
 //       const { productId, quantity } = action.payload;
 //       if (quantity <= 0) {
@@ -53,13 +53,13 @@
 //         item._id === productId ? { ...item, quantity } : item
 //       );
 //     }
-    
+
 //     case CART_ACTIONS.CLEAR_CART:
 //       return [];
-    
+
 //     case CART_ACTIONS.LOAD_CART:
 //       return action.payload || [];
-    
+
 //     default:
 //       return state;
 //   }
@@ -74,19 +74,19 @@
 //       if (exists) return state;
 //       return [...state, product];
 //     }
-    
+
 //     case WISHLIST_ACTIONS.REMOVE_FROM_WISHLIST:
 //       return state.filter(item => item._id !== action.payload);
-    
+
 //     case WISHLIST_ACTIONS.CLEAR_WISHLIST:
 //       return [];
-    
+
 //     case WISHLIST_ACTIONS.LOAD_WISHLIST:
 //       return action.payload || [];
-    
+
 //     case WISHLIST_ACTIONS.MOVE_TO_CART:
 //       return state.filter(item => item._id !== action.payload);
-    
+
 //     default:
 //       return state;
 //   }
@@ -140,23 +140,23 @@
 
 //   // Cart functions
 //   const addToCart = (product, quantity = 1) => {
-//     dispatch({ 
-//       type: CART_ACTIONS.ADD_TO_CART, 
-//       payload: { product, quantity } 
+//     dispatch({
+//       type: CART_ACTIONS.ADD_TO_CART,
+//       payload: { product, quantity }
 //     });
 //   };
 
 //   const removeFromCart = (productId) => {
-//     dispatch({ 
-//       type: CART_ACTIONS.REMOVE_FROM_CART, 
-//       payload: productId 
+//     dispatch({
+//       type: CART_ACTIONS.REMOVE_FROM_CART,
+//       payload: productId
 //     });
 //   };
 
 //   const updateCartQuantity = (productId, quantity) => {
-//     dispatch({ 
-//       type: CART_ACTIONS.UPDATE_QUANTITY, 
-//       payload: { productId, quantity } 
+//     dispatch({
+//       type: CART_ACTIONS.UPDATE_QUANTITY,
+//       payload: { productId, quantity }
 //     });
 //   };
 
@@ -166,16 +166,16 @@
 
 //   // Wishlist functions
 //   const addToWishlist = (product) => {
-//     dispatch({ 
-//       type: WISHLIST_ACTIONS.ADD_TO_WISHLIST, 
-//       payload: product 
+//     dispatch({
+//       type: WISHLIST_ACTIONS.ADD_TO_WISHLIST,
+//       payload: product
 //     });
 //   };
 
 //   const removeFromWishlist = (productId) => {
-//     dispatch({ 
-//       type: WISHLIST_ACTIONS.REMOVE_FROM_WISHLIST, 
-//       payload: productId 
+//     dispatch({
+//       type: WISHLIST_ACTIONS.REMOVE_FROM_WISHLIST,
+//       payload: productId
 //     });
 //   };
 
@@ -187,9 +187,9 @@
 //     const wishlistItem = state.wishlist.find(item => item._id === productId);
 //     if (wishlistItem) {
 //       addToCart(wishlistItem, quantity);
-//       dispatch({ 
-//         type: WISHLIST_ACTIONS.MOVE_TO_CART, 
-//         payload: productId 
+//       dispatch({
+//         type: WISHLIST_ACTIONS.MOVE_TO_CART,
+//         payload: productId
 //       });
 //     }
 //   };
@@ -210,8 +210,8 @@
 
 //   const getCartTotal = () => {
 //     return state.cart.reduce((total, item) => {
-//       const price = typeof item.price === 'object' 
-//         ? Object.values(item.price)[0] || 0 
+//       const price = typeof item.price === 'object'
+//         ? Object.values(item.price)[0] || 0
 //         : item.price || 0;
 //       return total + (price * item.quantity);
 //     }, 0);
@@ -225,19 +225,19 @@
 //     // State
 //     cart: state.cart,
 //     wishlist: state.wishlist,
-    
+
 //     // Cart functions
 //     addToCart,
 //     removeFromCart,
 //     updateCartQuantity,
 //     clearCart,
-    
+
 //     // Wishlist functions
 //     addToWishlist,
 //     removeFromWishlist,
 //     clearWishlist,
 //     moveToCartFromWishlist,
-    
+
 //     // Helper functions
 //     isInCart,
 //     isInWishlist,

@@ -62,8 +62,12 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
   };
 
-  const closeCart = () => {
+  const toCart = () => {
     handleNavigation('/cart');
+    setIsOpen(false);
+  };
+  const toCheckout = () => {
+    handleNavigation('/checkout');
     setIsOpen(false);
   };
 
@@ -97,7 +101,10 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
               <div className="loading-indicator">Loading cart...</div>
             ) : cartItems.length > 0 ? (
               cartItems.map((item, index) => (
-                <div key={`${item.id}-${index}`} className="cart-item">
+                <div
+                  key={`${item.id}-${index}`}
+                  className="cart-item"
+                >
                   <div className="item-image">
                     <img
                       src={item.image}
@@ -107,7 +114,8 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
                   <div className="item-details">
                     <h3>{item.title?.[i18n.language] || item.title?.en || 'No title'}</h3>
                     <p>
-                      {item.quantity} × {getCurrencySymbol(currency)}{getProductPrice(item).toFixed(2)}
+                      {item.quantity} × {getCurrencySymbol(currency)}
+                      {getProductPrice(item).toFixed(2)}
                     </p>
                   </div>
                   <button
@@ -130,15 +138,23 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
             <div className="cart-footer">
               <div className="subtotal">
                 <span>Subtotal</span>
-                <span>{getCurrencySymbol(currency)}{subtotal}</span>
+                <span>
+                  {getCurrencySymbol(currency)}
+                  {subtotal}
+                </span>
               </div>
               <button
                 className="cart-sidebar-btn"
-                onClick={closeCart}
+                onClick={toCart}
               >
                 View Cart
               </button>
-              <button className="checkout-btn">Checkout</button>
+              <button
+                className="checkout-btn"
+                onClick={toCheckout}
+              >
+                Checkout
+              </button>
             </div>
           )}
         </div>

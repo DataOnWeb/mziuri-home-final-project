@@ -3,9 +3,9 @@ import CarouselImage1 from '../assets/images/plant1.png';
 import CarouselImage2 from '../assets/images/plant2.png';
 import { useEffect } from 'react';
 import { useLoader } from '../hooks/useLoader';
-import { useTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 const Home = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const carouselSlides = [
     {
       discount: t('plantCarousel.discount1'),

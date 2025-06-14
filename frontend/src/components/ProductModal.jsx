@@ -13,7 +13,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('Medium Size & Poot');
   const [selectedColor, setSelectedColor] = useState('Black & White');
-  const [activeDropdown, setActiveDropdown] = useState(null); 
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
   const { i18n } = useTranslation();
 
@@ -28,7 +28,9 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     if (typeof priceObj === 'string') return parseFloat(priceObj) || 0;
     if (typeof priceObj === 'object') {
       // Try to get price in current language, fallback to USD, then any available currency
-      return priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0;
+      return (
+        priceObj[i18n.language] || priceObj.usd || priceObj.USD || Object.values(priceObj)[0] || 0
+      );
     }
     return 0;
   };

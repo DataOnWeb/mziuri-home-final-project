@@ -24,14 +24,14 @@ function Wishlist() {
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
-      
+
       if (typeof priceObj === 'object' && priceObj !== null) {
         priceValue = getPriceInCurrentCurrency(priceObj);
       } else {
         const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
         priceValue = getPriceInCurrentCurrency(numericPrice);
       }
-      
+
       return formatPrice(priceValue);
     } catch (error) {
       console.error('Error formatting price:', error);
@@ -79,7 +79,7 @@ function Wishlist() {
           })
           .map((product) => ({
             _id: product._id,
-            name: getLocalizedTitle(product.title), 
+            name: getLocalizedTitle(product.title),
             price: product.price, // Keep original price object
             image: product.image || (product.images && product.images[0]) || '',
             inStock: product.inStock !== undefined ? product.inStock : true,
@@ -103,7 +103,7 @@ function Wishlist() {
       setCartItems((prevItems) =>
         prevItems.map((item) => ({
           ...item,
-          name: getLocalizedTitle(item.title), 
+          name: getLocalizedTitle(item.title),
         }))
       );
     }

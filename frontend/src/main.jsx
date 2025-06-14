@@ -9,11 +9,10 @@ createRoot(document.getElementById('root')).render(
   <LoaderProvider>
     <CurrencyProvider>
       <Router>
-      <StrictMode>
-        <App />
-      </StrictMode>
-    </Router>
+        <StrictMode>
+          <App />
+        </StrictMode>
+      </Router>
     </CurrencyProvider>
-      
   </LoaderProvider>
 );

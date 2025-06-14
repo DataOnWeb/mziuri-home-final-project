@@ -7,21 +7,21 @@ const CurrencyContext = createContext();
 const CURRENCY_SYMBOLS = {
   usd: '$',
   gel: '₾',
-  eur: '€'
+  eur: '€',
 };
 
 // Currency names mapping
 const CURRENCY_NAMES = {
   usd: 'USD',
   gel: 'GEL',
-  eur: 'EUR'
+  eur: 'EUR',
 };
 
 // Exchange rates (you can fetch these from an API)
 const EXCHANGE_RATES = {
-  usd: 1,      // Base currency
-  gel: 2.65,   // 1 USD = 2.65 GEL
-  eur: 0.92    // 1 USD = 0.92 EUR
+  usd: 1, // Base currency
+  gel: 2.65, // 1 USD = 2.65 GEL
+  eur: 0.92, // 1 USD = 0.92 EUR
 };
 
 export const CurrencyProvider = ({ children }) => {
@@ -47,7 +47,7 @@ export const CurrencyProvider = ({ children }) => {
   // Convert price from one currency to another
   const convertPrice = (price, fromCurrency, toCurrency) => {
     if (fromCurrency === toCurrency) return price;
-    
+
     // Convert to USD first (base currency)
     const priceInUSD = price / exchangeRates[fromCurrency];
     // Then convert to target currency
@@ -58,12 +58,12 @@ export const CurrencyProvider = ({ children }) => {
   const formatPrice = (price, currency = currentCurrency) => {
     const symbol = CURRENCY_SYMBOLS[currency];
     const formattedPrice = price.toFixed(2);
-    
+
     // For GEL, put symbol after the price
     if (currency === 'gel') {
       return `${symbol}${formattedPrice}`;
     }
-    
+
     // For USD and EUR, put symbol before the price
     return `${symbol}${formattedPrice}`;
   };
@@ -88,7 +88,7 @@ export const CurrencyProvider = ({ children }) => {
 
   // Update exchange rates (you can call this from an API)
   const updateExchangeRates = (newRates) => {
-    setExchangeRates(prev => ({ ...prev, ...newRates }));
+    setExchangeRates((prev) => ({ ...prev, ...newRates }));
   };
 
   const value = {
@@ -101,14 +101,10 @@ export const CurrencyProvider = ({ children }) => {
     getPriceInCurrentCurrency,
     currencySymbols: CURRENCY_SYMBOLS,
     currencyNames: CURRENCY_NAMES,
-    availableCurrencies: Object.keys(CURRENCY_SYMBOLS)
+    availableCurrencies: Object.keys(CURRENCY_SYMBOLS),
   };
 
-  return (
-    <CurrencyContext.Provider value={value}>
-      {children}
-    </CurrencyContext.Provider>
-  );
+  return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
 };
 
 // Hook to use currency context
