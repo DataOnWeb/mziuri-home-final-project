@@ -8,6 +8,7 @@ import { useLoader } from '../hooks/useLoader';
 import { IoSearchOutline } from 'react-icons/io5';
 import { useTranslation, Trans } from 'react-i18next';
 
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -215,7 +216,7 @@ const Shop = () => {
   return (
     <div>
       <RouteBanner title={t('shop')} />
-
+      
       <div className="shop-container">
         <div className="sidebar">
           <div className="search-box">

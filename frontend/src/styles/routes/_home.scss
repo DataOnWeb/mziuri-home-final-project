@@ -1,7 +1,7 @@
 @use '../abstracts' as *;
 
-.homepage{
-    height: 400vh;
+.route-container{
+  min-height: 400vh;
 }
 
 .product-feature-home {
@@ -121,7 +121,7 @@
   padding: 70px 0 80px;
   background-color: #fff;
 
-  .container {
+  .products-container {
     max-width: 70vw;
     margin: 0 auto;
     padding: 0 20px;

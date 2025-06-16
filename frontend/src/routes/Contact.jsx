@@ -4,6 +4,7 @@ import { LuMapPin } from 'react-icons/lu';
 import { FiPhone } from 'react-icons/fi';
 import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -176,6 +177,7 @@ export default function Contact() {
           title="Google Maps"
         ></iframe>
       </div>
+
     </div>
   );
 }
