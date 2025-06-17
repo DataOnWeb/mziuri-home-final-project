@@ -177,7 +177,6 @@ export default function Contact() {
           title="Google Maps"
         ></iframe>
       </div>
-
     </div>
   );
 }

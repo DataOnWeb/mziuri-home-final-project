@@ -9,6 +9,7 @@ import { getProducts } from '../api/api';
 import { CiDeliveryTruck, CiCreditCard1 } from 'react-icons/ci';
 import { BsPostcard } from 'react-icons/bs';
 import ProductCollection from '../components/ProductCollection';
+import ProductCarousel from '../components/ProductCarousel';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -37,11 +38,11 @@ const Home = () => {
 
   useEffect(() => {
     document.title = 'Pronia - Home';
-    
+
     // Fetch featured products
     const fetchFeaturedProducts = async () => {
       try {
-        const data = await useDataLoader(getProducts)        // Get only first 8 products for the grid (2 rows × 4 products)
+        const data = await useDataLoader(getProducts); // Get only first 8 products for the grid (2 rows × 4 products)
         setFeaturedProducts(data.slice(0, 8));
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -54,81 +55,81 @@ const Home = () => {
   const tabs = ['Featured', 'Bestseller', 'Latest'];
 
   return (
-    <div className='route-container'>
-        <PlantCarousel slides={carouselSlides}></PlantCarousel>
-        
-        <div className="product-feature-home">
-          <div className="feature-home">
+    <div className="route-container">
+      <PlantCarousel slides={carouselSlides}></PlantCarousel>
+
+      <div className="product-feature-home">
+        <div className="feature-home">
+          <div className="feature-home-icon">
             <div className="feature-home-icon">
-              <div className="feature-home-icon">
-                <CiDeliveryTruck size={40} />
-              </div>
-            </div>
-            <div className="feature-home-content">
-              <strong>Free Shipping</strong>
-              <span>Capped at $319 per order</span>
+              <CiDeliveryTruck size={40} />
             </div>
           </div>
-
-          <div className="feature-home">
-            <div className="feature-home-icon">
-              <CiCreditCard1 size={40} />
-            </div>
-            <div className="feature-home-content">
-              <strong>Safe Payment</strong>
-              <span>With our payment gateway</span>
-            </div>
-          </div>
-
-          <div className="feature-home">
-            <div className="feature-home-icon">
-              <BsPostcard size={25} />
-            </div>
-            <div className="feature-home-content">
-              <strong>Best Services</strong>
-              <span>Friendly & Supper Services</span>
-            </div>
+          <div className="feature-home-content">
+            <strong>Free Shipping</strong>
+            <span>Capped at $319 per order</span>
           </div>
         </div>
 
-
-
-        {/* Our Products Section */}
-        {/* Our Products Section */}
-<section className="our-products-section">
-  <div className="products-container">
-    <div className="section-header">
-      <h2 className="section-title">OUR PRODUCTS</h2>
-      <div className="product-tabs">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={`tab-button ${activeTab === tab ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-    </div>
-    
-    <div className="home-products-wrapper">
-      <div className="home-products-grid">
-        {featuredProducts.map((product, index) => (
-          <div key={product._id} className="product-card-wrapper">
-            <Product
-              product={product}
-              viewMode="grid"
-            />
+        <div className="feature-home">
+          <div className="feature-home-icon">
+            <CiCreditCard1 size={40} />
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-      <ProductCollection/>
+          <div className="feature-home-content">
+            <strong>Safe Payment</strong>
+            <span>With our payment gateway</span>
+          </div>
+        </div>
 
-        
+        <div className="feature-home">
+          <div className="feature-home-icon">
+            <BsPostcard size={25} />
+          </div>
+          <div className="feature-home-content">
+            <strong>Best Services</strong>
+            <span>Friendly & Supper Services</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Products Section */}
+      {/* Our Products Section */}
+      <section className="our-products-section">
+        <div className="products-container">
+          <div className="section-header">
+            <h2 className="section-title">OUR PRODUCTS</h2>
+            <div className="product-tabs">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  className={`tab-button ${activeTab === tab ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="home-products-wrapper">
+            <div className="home-products-grid">
+              {featuredProducts.map((product, index) => (
+                <div
+                  key={product._id}
+                  className="product-card-wrapper"
+                >
+                  <Product
+                    product={product}
+                    viewMode="grid"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <ProductCollection />
+      <ProductCarousel />
     </div>
   );
 };

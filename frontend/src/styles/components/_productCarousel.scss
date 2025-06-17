@@ -1,0 +1,148 @@
+@use '../abstracts/' as *;
+
+.product-carousel-container {
+  margin: 4rem auto;
+  max-width: 70vw;
+  padding: 0 2rem;
+}
+
+.product-carousel-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 100px;
+    height: 2px;
+    background-color: $primary-color;
+  }
+        &::before {
+        transform: translateX(-120px);
+      }
+
+      &::after {
+        transform: translateX(20px);
+      }
+}
+.product-carousel-subtitle{
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.12rem;
+    color: #000000;
+    position: relative;
+}
+
+
+
+.product-carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  max-width: 70vw;
+  margin: 0 auto;
+  cursor: grab;
+  user-select: none;
+  border-radius: 12px;
+  padding: 1rem;
+  
+  &.dragging {
+    cursor: grabbing;
+  }
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  scrollbar-width: none;
+}
+
+.carousel-track {
+  display: flex;
+  width: fit-content;
+  gap: 1rem;
+}
+
+.product-carousel-item {
+  flex-grow: 2;
+  min-width: 300px;
+  pointer-events: none;
+}
+
+.product-carousel:not(.dragging) .product-carousel-item {
+  pointer-events:all; /* Enable clicks when not dragging */
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .product-carousel-container {
+    max-width: 900px;
+  }
+  
+  .product-carousel {
+    max-width: 800px;
+  }
+  
+  .carousel-title {
+    font-size: 2.2rem;
+    
+    &::before,
+    &::after {
+      width: 80px;
+    }
+    
+    &::before {
+      left: calc(50% - 160px);
+    }
+    
+    &::after {
+      right: calc(50% - 160px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .product-carousel-container {
+    padding: 0 1rem;
+  }
+  
+  .product-carousel {
+    max-width: 100%;
+  }
+  
+  .carousel-item {
+    min-width: 250px;
+  }
+  
+  .carousel-title {
+    font-size: 2rem;
+    
+    &::before,
+    &::after {
+      width: 60px;
+    }
+    
+    &::before {
+      left: calc(50% - 120px);
+    }
+    
+    &::after {
+      right: calc(50% - 120px);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-title {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
