@@ -10,6 +10,8 @@ import { CiDeliveryTruck, CiCreditCard1 } from 'react-icons/ci';
 import { BsPostcard } from 'react-icons/bs';
 import ProductCollection from '../components/ProductCollection';
 import ProductCarousel from '../components/ProductCarousel';
+import ClientCarousel from '../components/ClientCarousel';
+import GreenCarousel from '../components/GreenCarousel';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -130,6 +132,11 @@ const Home = () => {
       </section>
       <ProductCollection />
       <ProductCarousel />
+      <ClientCarousel />
+
+      <>
+        <GreenCarousel />
+      </>
     </div>
   );
 };

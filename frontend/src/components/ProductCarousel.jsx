@@ -37,7 +37,7 @@ const ProductCarousel = ({ title = 'New Products' }) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startX) * 2; 
+    const walk = (x - startX) * 2;
     carouselRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -48,7 +48,6 @@ const ProductCarousel = ({ title = 'New Products' }) => {
   const handleMouseLeave = () => {
     setIsDragging(false);
   };
-
 
   const displayProducts = products;
 

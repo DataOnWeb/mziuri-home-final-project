@@ -1,0 +1,304 @@
+@use '../abstracts/' as *;
+
+$primary-green: #9fdc7a;
+$dark-green: #2d5016;
+$medium-green: #3d6b26;
+$light-green: #4d7c36;
+$white: #ffffff;
+$gray-50: #f9fafb;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-800: #1f2937;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Main component
+.client-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 70vw;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  background-image: url('../assets/images/home-bg.webp');
+  background-repeat: no-repeat;
+  background-size: 100% !important; 
+  overflow: hidden;
+
+  // Decorative leaves
+
+
+  // Header section
+  &__header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #414141;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+     &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    width: 100px;
+    height: 2px;
+    background-color: $primary-color;
+  }
+        &::before {
+        transform: translateX(-120px);
+      }
+
+      &::after {
+        transform: translateX(20px);
+      }
+
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  &__subtitle {
+    color: #2c2c2c;
+    max-width: 32rem;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-size: 1rem;
+
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+      padding: 0 1rem;
+    }
+  }
+
+ 
+  &__container {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__track {
+    display: flex;
+    overflow-x: hidden;
+    cursor: grab;
+    user-select: none;
+    -webkit-overflow-scrolling: touch;
+
+    &.dragging {
+      cursor: grabbing;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__item {
+    flex-shrink: 0;
+    width: 33.333%;
+    min-width: 33.333%;
+    padding: 0 1.25rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+      width: 50%;
+      min-width: 50%;
+    }
+  }
+
+
+  &__dots {
+    @include flex-center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+  }
+
+  &__dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: none;
+    background-color: $gray-300;
+    cursor: pointer;
+    @include transition(background-color);
+
+    &:hover {
+      background-color: $primary-color;
+    }
+
+    &.active {
+      background-color: $primary-color;
+    }
+  }
+}
+
+// Testimonial card
+.testimonial-card {
+  background-color: $white;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 3rem 2.5rem;
+  height: 100%;
+  min-height: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @include transition(transform);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.06);
+  }
+
+  &__quote {
+    position: absolute;
+    top: 2rem;
+    right: 1.5rem;
+    width: 5rem;
+    height: 5rem;
+    background-color: $primary-color;
+    border-radius: 50%;
+    @include flex-center;
+    @include transition(transform);
+    color: $white;
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+
+    &:hover{
+      background-color: #666;
+      transition: 200ms;
+    }
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  &__avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    background-color: $gray-200;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 3px solid $white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    margin-left: 1.25rem;
+  }
+
+  &__name {
+    font-weight: 700;
+    color: $gray-800;
+    font-size: 1rem;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  &__role {
+    color: $gray-500;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  &__text {
+    color: $gray-600;
+    font-style: italic;
+    line-height: 1.7;
+    margin: 0;
+    padding-right: 4rem; // Make space for quote mark
+    font-size: 1.05rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .client-carousel {
+    padding: 2rem 0.5rem;
+
+    .leaves {
+      &--top-left {
+        width: 12rem;
+        height: 12rem;
+      }
+
+      &--bottom-right {
+        width: 14rem;
+        height: 14rem;
+      }
+    }
+
+    &__track {
+      cursor: default;
+    }
+
+    &__item {
+      padding: 0 0.5rem;
+    }
+  }
+
+  .testimonial-card {
+    padding: 1.5rem;
+
+    &__quote {
+      width: 3rem;
+      height: 3rem;
+      top: 1rem;
+      right: 1rem;
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    &__text {
+      padding-right: 2rem;
+      font-size: 0.9rem;
+    }
+
+    &__avatar {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+}
+
