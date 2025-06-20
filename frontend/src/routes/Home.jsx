@@ -12,7 +12,7 @@ import ProductCollection from '../components/ProductCollection';
 import ProductCarousel from '../components/ProductCarousel';
 import ClientCarousel from '../components/ClientCarousel';
 import GreenCarousel from '../components/GreenCarousel';
-
+import BlogCarousel from '../components/BlogCarousel';
 const Home = () => {
   const { t } = useTranslation();
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -130,13 +130,12 @@ const Home = () => {
           </div>
         </div>
       </section>
+
       <ProductCollection />
       <ProductCarousel />
       <ClientCarousel />
-
-      <>
-        <GreenCarousel />
-      </>
+      <GreenCarousel />
+      <BlogCarousel />
     </div>
   );
 };

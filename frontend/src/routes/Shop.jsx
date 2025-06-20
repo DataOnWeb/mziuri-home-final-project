@@ -26,7 +26,6 @@ const Shop = () => {
   const sliderContainerRef = useRef(null);
   const { useDataLoader } = useLoader();
   const { t, i18n } = useTranslation();
-
   const getProductPrice = (product) => {
     if (typeof product.price === 'object' && product.price !== null) {
       return product.price[currency] || product.price.USD || 0;
@@ -332,6 +331,18 @@ const Shop = () => {
                   )
                 )}
               </div>
+            </div>
+          </div>
+          <div class="shop-collection-item shop-collection-item-medium">
+            <div class="product-collection-content">
+              <span class="product-collection-category">New Collection</span>
+              <h3 class="product-collection-title">Plant Port</h3>
+              <button
+                class="product-collection-button"
+                onclick="handleShopClick()"
+              >
+                SHOP NOW
+              </button>
             </div>
           </div>
         </div>
