@@ -16,7 +16,7 @@ import BlogCarousel from '../components/BlogCarousel';
 const Home = () => {
   const { t } = useTranslation();
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [activeTab, setActiveTab] = useState('Featured');
+  const [activeTab, setActiveTab] = useState(t('ourProducts.option1'));
   const { useDataLoader } = useLoader();
 
   const carouselSlides = [
@@ -44,7 +44,7 @@ const Home = () => {
     // Fetch featured products
     const fetchFeaturedProducts = async () => {
       try {
-        const data = await useDataLoader(getProducts); // Get only first 8 products for the grid (2 rows × 4 products)
+        const data = await useDataLoader(getProducts);
         setFeaturedProducts(data.slice(0, 8));
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -54,7 +54,7 @@ const Home = () => {
     fetchFeaturedProducts();
   }, []);
 
-  const tabs = ['Featured', 'Bestseller', 'Latest'];
+  const tabs = [t('ourProducts.option1'), t('ourProducts.option2'), t('ourProducts.option3')];
 
   return (
     <div className="route-container">
@@ -68,8 +68,8 @@ const Home = () => {
             </div>
           </div>
           <div className="feature-home-content">
-            <strong>Free Shipping</strong>
-            <span>Capped at $319 per order</span>
+            <strong>{t('features.title1')}</strong>
+            <span>{t('features.subtitle1')}</span>
           </div>
         </div>
 
@@ -78,8 +78,8 @@ const Home = () => {
             <CiCreditCard1 size={40} />
           </div>
           <div className="feature-home-content">
-            <strong>Safe Payment</strong>
-            <span>With our payment gateway</span>
+            <strong>{t('features.title2')}</strong>
+            <span>{t('features.subtitle2')}</span>
           </div>
         </div>
 
@@ -88,8 +88,8 @@ const Home = () => {
             <BsPostcard size={25} />
           </div>
           <div className="feature-home-content">
-            <strong>Best Services</strong>
-            <span>Friendly & Supper Services</span>
+            <strong>{t('features.title3')}</strong>
+            <span>{t('features.subtitle3')}</span>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@ const Home = () => {
       <section className="our-products-section">
         <div className="products-container">
           <div className="section-header">
-            <h2 className="section-title">OUR PRODUCTS</h2>
+            <h2 className="section-title">{t('ourProducts.title')}</h2>
             <div className="product-tabs">
               {tabs.map((tab) => (
                 <button

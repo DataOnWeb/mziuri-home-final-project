@@ -9,10 +9,12 @@ import { useUserData } from '../context/UserContext';
 export default function Login() {
   const { useFakeLoader } = useLoader();
   const navigate = useNavigate();
-  const { setLoggedIn, setUserData } = useUserData();
+  const { setLoggedIn, setUserData, setRememberMe, getRememberedEmail } = useUserData();
+
   const handleNavigation = (path) => {
     navigate(path);
   };
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -35,6 +37,18 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
+  // Load remembered email on component mount
+  useEffect(() => {
+    const rememberedEmail = getRememberedEmail();
+    if (rememberedEmail) {
+      setLoginInputs((prev) => ({
+        ...prev,
+        email: rememberedEmail,
+        rememberMe: true,
+      }));
+    }
+  }, [getRememberedEmail]);
+
   const handleLoginChange = (e) => {
     const { name, value, type, checked } = e.target;
     setLoginInputs({
@@ -42,7 +56,7 @@ export default function Login() {
       [name]: type === 'checkbox' ? checked : value,
     });
 
-    // Only clear errors after first submit attempt (like in Register)
+    // Only clear errors after first submit attempt
     if (hasAttemptedSubmit && errors[name]) {
       setErrors({
         ...errors,
@@ -65,7 +79,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Mark that submit has been attempted (like in Register)
+    // Mark that submit has been attempted
     setHasAttemptedSubmit(true);
 
     if (!validateForm()) {
@@ -82,9 +96,14 @@ export default function Login() {
       const response = await loginUser(data);
       console.log('Login successful:', response);
 
+      // Set user data and login status (this will save to localStorage)
       setUserData(response.data);
       setLoggedIn(true);
 
+      // Handle remember me functionality
+      setRememberMe(loginInputs.rememberMe, { email: loginInputs.email });
+
+      // Clear form
       setLoginInputs({
         email: '',
         password: '',

@@ -19,6 +19,7 @@ const Header = () => {
   const [headerVisible, setHeaderVisible] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const dropdownRef = useRef(null);
+  const mainHeaderRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { t, i18n } = useTranslation();
@@ -70,7 +71,11 @@ const Header = () => {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      const isInsideMainHeader =
+        mainHeaderRef.current && mainHeaderRef.current.contains(event.target);
+      const isInsideFixedHeader = dropdownRef.current && dropdownRef.current.contains(event.target);
+
+      if (!isInsideMainHeader && !isInsideFixedHeader) {
         setActiveDropdown(null);
       }
     }
@@ -91,12 +96,10 @@ const Header = () => {
 
   const handleCurrencyChange = (currency) => {
     changeCurrency(currency);
-    // Persist the selected currency
     localStorage.setItem('selectedCurrency', currency);
     setActiveDropdown(null);
   };
 
-  // Load saved currency on component mount
   useEffect(() => {
     const savedCurrency = localStorage.getItem('selectedCurrency');
     if (savedCurrency && savedCurrency !== currentCurrency) {
@@ -104,7 +107,6 @@ const Header = () => {
     }
   }, []);
 
-  // Updated function to get currency display with proper translation
   const getCurrentCurrencyDisplay = () => {
     switch (currentCurrency) {
       case 'usd':
@@ -142,16 +144,16 @@ const Header = () => {
 
   return (
     <>
-      <header className={`header ${scrollPosition > 200 ? 'scroll-hidden' : ''}`}>
+      <header
+        className={`header ${scrollPosition > 200 ? 'scroll-hidden' : ''}`}
+        ref={mainHeaderRef}
+      >
         <div className="top-bar">
           <div className="container">
             <div className="promotion">
               <h5>{t('promotion')}</h5>
             </div>
-            <div
-              className="options"
-              ref={dropdownRef}
-            >
+            <div className="options">
               <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
                 <h5 onClick={(e) => toggleDropdown(e, 'currency')}>
                   {getCurrentCurrencyDisplay()}▼
@@ -232,7 +234,7 @@ const Header = () => {
                 className="account-icon"
                 onClick={(e) => toggleDropdown(e, 'user')}
               >
-                <ul className={`user-dropdown ${activeDropdown === 'user' ? 'active' : ''}`}>
+                <ul className={`user-dropdown1 ${activeDropdown === 'user' ? 'active' : ''}`}>
                   <li onClick={() => handleNavigation('/register')}>{t('register')}</li>
                   <li onClick={() => handleNavigation('/login')}>{t('login')}</li>
                   <li onClick={() => handleNavigation('/profile')}>{t('profile')}</li>
@@ -287,6 +289,8 @@ const Header = () => {
           handleSearchSubmit={handleSearchSubmit}
         />
       </header>
+
+      {/* Fixed Header component */}
 
       <header
         className={`sticky-header ${headerVisible ? 'visible' : ''}`}

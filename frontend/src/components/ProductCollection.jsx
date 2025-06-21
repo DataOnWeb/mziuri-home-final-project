@@ -4,38 +4,39 @@ import CollectionImage2 from '../assets/images/collection2.jpg';
 import CollectionImage3 from '../assets/images/collection3.jpg';
 import CollectionImage4 from '../assets/images/collection4.jpg';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 function ProductCollection() {
+  const { t } = useTranslation();
   const collectionData = [
     {
       id: 1,
-      category: 'Collection Of Cactus',
-      title: 'Pottery Pots & Plant',
-      buttonText: 'SHOP NOW',
+      category: t('collection.subtitle1'),
+      title: t('collection.title1'),
+      buttonText: t('collection.buttonText'),
       imageUrl: CollectionImage1,
       className: 'product-collection-item-large',
     },
     {
       id: 2,
-      category: 'New Collection',
-      title: 'Plant Port',
-      buttonText: 'SHOP NOW',
+      category: t('collection.subtitle2'),
+      title: t('collection.title2'),
+      buttonText: t('collection.buttonText'),
       imageUrl: CollectionImage2,
       className: 'product-collection-item-medium',
     },
     {
       id: 3,
-      category: 'New Collection',
-      title: 'Plant Port',
-      buttonText: 'SHOP NOW',
+      category: t('collection.subtitle3'),
+      title: t('collection.title3'),
+      buttonText: t('collection.buttonText'),
       imageUrl: CollectionImage3,
       className: 'product-collection-item-small',
     },
     {
       id: 4,
-      category: 'Collection Of Cactus',
-      title: 'Hanging Pots & Plant',
-      buttonText: 'SHOP NOW',
+      category: t('collection.subtitle4'),
+      title: t('collection.title4'),
+      buttonText: t('collection.buttonText'),
       imageUrl: CollectionImage4,
       className: 'product-collection-item-wide',
     },

@@ -5,14 +5,17 @@ import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { LoaderProvider } from './hooks/useLoader';
 import { CurrencyProvider } from './context/CurrencyContext';
+import { UserProvider } from './context/UserContext';
 createRoot(document.getElementById('root')).render(
   <LoaderProvider>
-    <CurrencyProvider>
-      <Router>
-        <StrictMode>
-          <App />
-        </StrictMode>
-      </Router>
-    </CurrencyProvider>
+    <UserProvider>
+      <CurrencyProvider>
+        <Router>
+          <StrictMode>
+            <App />
+          </StrictMode>
+        </Router>
+      </CurrencyProvider>
+    </UserProvider>
   </LoaderProvider>
 );

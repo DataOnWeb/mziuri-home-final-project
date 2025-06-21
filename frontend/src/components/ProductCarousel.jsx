@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getProducts } from '../api/api';
 import Product from './Product';
 import { useLoader } from '../hooks/useLoader';
-
-const ProductCarousel = ({ title = 'New Products' }) => {
+import { useTranslation } from 'react-i18next';
+const ProductCarousel = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
@@ -11,7 +11,7 @@ const ProductCarousel = ({ title = 'New Products' }) => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const { useDataLoader } = useLoader();
   const carouselRef = useRef(null);
-
+  const { t } = useTranslation();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -53,11 +53,8 @@ const ProductCarousel = ({ title = 'New Products' }) => {
 
   return (
     <div className="product-carousel-container">
-      <h2 className="product-carousel-title">{title}</h2>
-      <h6 className="product-carousel-subtitle">
-        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece
-        of classical Latin literature
-      </h6>
+      <h2 className="product-carousel-title">{t('productCarousel.title')}</h2>
+      <h6 className="product-carousel-subtitle">{t('productCarousel.subtitle')}</h6>
       <div
         className={`product-carousel ${isDragging ? 'dragging' : ''}`}
         ref={carouselRef}

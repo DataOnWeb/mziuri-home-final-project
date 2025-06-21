@@ -333,16 +333,11 @@ const Shop = () => {
               </div>
             </div>
           </div>
-          <div class="shop-collection-item shop-collection-item-medium">
-            <div class="product-collection-content">
-              <span class="product-collection-category">New Collection</span>
-              <h3 class="product-collection-title">Plant Port</h3>
-              <button
-                class="product-collection-button"
-                onclick="handleShopClick()"
-              >
-                SHOP NOW
-              </button>
+          <div className="shop-collection-item shop-collection-item-medium">
+            <div className="product-collection-content">
+              <span className="product-collection-category">New Collection</span>
+              <h3 className="product-collection-title">Plant Port</h3>
+              <button className="product-collection-button">SHOP NOW</button>
             </div>
           </div>
         </div>

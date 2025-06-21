@@ -69,5 +69,34 @@
     "title2": "FRESH HERBS",
     "description2": "Modern planters with organic herbs for your home.",
     "buttonText2": "SHOP NOW"
+  },
+  "features":{
+    "title1": "Free Shipping",
+    "subtitle1": "Capped at $319 per order",
+    "title2": "Safe Payment",
+    "subtitle2":"With our payment gateway",
+    "title3":"Best Services",
+    "subtitle3":"Friendly & Supper Services"
+  },
+  "ourProducts":{
+    "title": "OUR PRODUCTS",
+    "option1": "Featured",
+    "option2":"Bestseller",
+    "option3":"Latest"
+  },
+  "collection":{
+    "title1":"Pottery Pots & Plant",
+    "subtitle1": "Collection Of Cactus",
+    "title2":"Plant Port",
+    "subtitle2":"New Collection",
+    "title3":"Plant Port",
+    "subtitle3":"New Collection",
+    "title4":"Hanging Pots & Plant",
+    "subtitle4":"Collection Of Cactus",
+    "buttonText":"SHOP NOW"
+  },
+  "productCarousel":{
+    "title":"New Products",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature"
   }
 }

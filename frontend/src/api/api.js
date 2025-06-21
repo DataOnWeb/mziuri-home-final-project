@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-// Make sure this port matches your Node.js server port (3003 from your index.js)
 const API_BASE_URL = 'http://localhost:3000/api';
 
-// Configure axios defaults for all requests
 axios.defaults.withCredentials = true;
 
 export const getProducts = async () => {
@@ -28,9 +26,7 @@ export const getProduct = async (id) => {
 
 export const registerUser = async (userData) => {
   try {
-    // Format the data exactly as the backend expects it
     const response = await axios.post(`${API_BASE_URL}/users/register`, {
-      // Create username by combining first and last name with a space
       username: `${userData.firstName} ${userData.lastName}`,
       email: userData.email,
       password: userData.password,
@@ -50,6 +46,7 @@ export const registerUser = async (userData) => {
     throw new Error(err.message || 'Registration failed');
   }
 };
+
 export const loginUser = async (credentials) => {
   try {
     const response = await axios.post(
@@ -57,6 +54,7 @@ export const loginUser = async (credentials) => {
       {
         usernameOrPassword: credentials.email,
         password: credentials.password,
+        rememberMe: credentials.rememberMe || false,
       },
       {
         headers: { 'Content-Type': 'application/json' },
@@ -71,11 +69,20 @@ export const loginUser = async (credentials) => {
     return response.data;
   } catch (err) {
     console.error('Error logging in:', err);
-    // Better error handling
     if (err.response && err.response.data) {
       throw new Error(err.response.data.err || 'Login failed');
     }
     throw new Error(err.message || 'Login failed');
+  }
+};
+
+export const checkAuth = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/check-auth`);
+    return response.data;
+  } catch (err) {
+    console.error('Error checking auth:', err);
+    throw err;
   }
 };
 
@@ -101,6 +108,16 @@ export const getUser = async (token) => {
   }
 };
 
+export const logoutUser = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/users/logout`);
+    return response.data;
+  } catch (err) {
+    console.error('Error logging out:', err);
+    throw err;
+  }
+};
+
 export const forgotPasswordUser = (data) => {
   return axios.put(`${API_BASE_URL}/users/forgot-password`, data, {
     withCredentials: true,
@@ -112,4 +129,67 @@ export const resetPasswordUser = (data, token) => {
     headers: { Authorization: token },
     withCredentials: true,
   });
+};
+
+export const updateUserProfile = async (updateData) => {
+  try {
+    console.log('API: Sending update request with data:', updateData);
+
+    const response = await axios.put(`${API_BASE_URL}/users/update`, updateData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+      timeout: 10000,
+    });
+
+    console.log('API: Update response:', response.data);
+
+    // Validate response structure
+    if (!response.data) {
+      throw new Error('Empty response from server');
+    }
+
+    return response;
+  } catch (error) {
+    console.error('API: Update error:', error);
+
+    if (error.code === 'ECONNABORTED') {
+      throw new Error('Request timed out. Please try again.');
+    }
+
+    if (error.response) {
+      const serverMessage =
+        error.response.data?.message || error.response.data?.err || error.response.data?.error;
+
+      console.log('Server error response:', error.response.data);
+
+      if (serverMessage) {
+        throw new Error(serverMessage);
+      }
+
+      switch (error.response.status) {
+        case 400:
+          throw new Error('Invalid data provided. Please check your inputs.');
+        case 401:
+          throw new Error('Current password is incorrect.');
+        case 403:
+          throw new Error('You are not authorized to perform this action.');
+        case 404:
+          throw new Error('User not found.');
+        case 409:
+          throw new Error('Email already exists.');
+        case 500:
+          throw new Error('Server error. Please try again later.');
+        default:
+          throw new Error(`Server error: ${error.response.status}`);
+      }
+    } else if (error.request) {
+      console.log('No response received:', error.request);
+      throw new Error('Unable to connect to server. Please check your connection.');
+    } else {
+      console.log('Request setup error:', error.message);
+      throw new Error(error.message || 'An unexpected error occurred.');
+    }
+  }
 };

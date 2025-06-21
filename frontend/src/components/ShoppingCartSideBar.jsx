@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from '../context/CurrencyContext';
 
 const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -11,16 +12,40 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
   const navigate = useNavigate();
   const { useDataLoader } = useLoader();
   const { i18n } = useTranslation();
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
 
-  // Helper function to get price value based on currency
-  const getProductPrice = (product) => {
-    if (typeof product.price === 'object' && product.price !== null) {
-      return product.price[currency] || product.price.USD || 0;
+  const getFormattedPrice = (priceObj) => {
+    try {
+      let priceValue;
+
+      if (typeof priceObj === 'object' && priceObj !== null) {
+        priceValue = getPriceInCurrentCurrency(priceObj);
+      } else {
+        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+        priceValue = getPriceInCurrentCurrency(numericPrice);
+      }
+
+      return formatPrice(priceValue);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return formatPrice(0);
     }
-    return typeof product.price === 'number' ? product.price : 0;
   };
 
-  // Function to get currency symbol
+  const getNumericPrice = (priceObj) => {
+    try {
+      if (typeof priceObj === 'object' && priceObj !== null) {
+        return getPriceInCurrentCurrency(priceObj);
+      } else {
+        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+        return getPriceInCurrentCurrency(numericPrice);
+      }
+    } catch (error) {
+      console.error('Error getting numeric price:', error);
+      return 0;
+    }
+  };
+
   const getCurrencySymbol = (curr) => {
     const symbols = {
       USD: '$',
@@ -39,9 +64,10 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
       try {
         setLoading(true);
         const allProducts = await useDataLoader(getProducts);
-        const items = allProducts.slice(0, 3).map((product) => ({
+        const items = allProducts.slice(0, 3).map((product, index) => ({
           ...product,
           quantity: 1,
+          id: product.id || product._id || `fallback-id-${index}`,
         }));
         setCartItems(items);
         setLoading(false);
@@ -54,9 +80,10 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
     fetchCartItems();
   }, []);
 
-  const subtotal = cartItems
-    .reduce((sum, item) => sum + getProductPrice(item) * item.quantity, 0)
-    .toFixed(2);
+  const subtotal = cartItems.reduce((sum, item) => {
+    const itemPrice = getNumericPrice(item.price);
+    return sum + itemPrice * item.quantity;
+  }, 0);
 
   const handleRemoveItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
@@ -66,6 +93,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
     handleNavigation('/cart');
     setIsOpen(false);
   };
+
   const toCheckout = () => {
     handleNavigation('/checkout');
     setIsOpen(false);
@@ -114,8 +142,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
                   <div className="item-details">
                     <h3>{item.title?.[i18n.language] || item.title?.en || 'No title'}</h3>
                     <p>
-                      {item.quantity} × {getCurrencySymbol(currency)}
-                      {getProductPrice(item).toFixed(2)}
+                      {item.quantity} ×{getFormattedPrice(item.price)}
                     </p>
                   </div>
                   <button
@@ -138,10 +165,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
             <div className="cart-footer">
               <div className="subtotal">
                 <span>Subtotal</span>
-                <span>
-                  {getCurrencySymbol(currency)}
-                  {subtotal}
-                </span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
               <button
                 className="cart-sidebar-btn"

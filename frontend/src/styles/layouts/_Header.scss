@@ -375,4 +375,44 @@ color: #a4ce6a;
     }
   }
 }
+.user-dropdown1{
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background-color: white;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+  list-style: none;
+  padding: 8px 0;
+  margin-top: 5px;
+  min-width: 150px;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
 
+
+.user-dropdown1.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
+
+.user-dropdown1 li {
+  padding: 8px 15px;
+  cursor: pointer;
+  color: #333;
+  font-size: 12px;
+}
+
+
+.user-dropdown1 li:hover {
+  background-color: #a4ce6a;
+  color: whitesmoke;
+  transition: 400ms ease;
+}

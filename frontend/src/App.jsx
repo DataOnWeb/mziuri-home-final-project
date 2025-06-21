@@ -39,8 +39,6 @@ function App() {
           if (userResponse.data) {
             setUserData(userResponse.data);
             setLoggedIn(true);
-            // Uncomment if you want to redirect logged in users
-            // navigate('/profile');
           }
         }
       } catch (error) {

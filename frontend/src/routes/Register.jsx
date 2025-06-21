@@ -13,7 +13,7 @@ import { useUserData } from '../context/UserContext';
 
 function Register() {
   const navigate = useNavigate();
-  const { setLoggedIn, setUserData } = useUserData();
+  const { setLoggedIn, setUserData, setRememberMe } = useUserData();
 
   const [registerInputs, setRegisterInputs] = useState({
     firstName: '',
@@ -21,6 +21,7 @@ function Register() {
     email: '',
     password: '',
     confirmPassword: '',
+    rememberMe: false, // Add remember me to registration
   });
 
   const [registerErrors, setRegisterErrors] = useState({
@@ -36,10 +37,10 @@ function Register() {
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const handleRegisterChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setRegisterInputs({
       ...registerInputs,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     });
 
     // Only clear errors after first submit attempt
@@ -101,32 +102,49 @@ function Register() {
         const loginResponse = await loginUser({
           email: userData.email,
           password: userData.password,
+          rememberMe: registerInputs.rememberMe, // Pass remember me to login
         });
 
         console.log('Auto login response:', loginResponse);
 
+        // Set user data and login status (this will save to localStorage)
         setUserData(loginResponse.data);
         setLoggedIn(true);
 
+        // Handle remember me functionality
+        setRememberMe(registerInputs.rememberMe, { email: userData.email });
+
+        // Clear form
         setRegisterInputs({
           firstName: '',
           lastName: '',
           email: '',
           password: '',
           confirmPassword: '',
+          rememberMe: false,
         });
 
         navigate('/profile');
       } catch (loginError) {
         console.error('Auto-login after registration failed:', loginError);
-        setRegisterErrors({
-          ...registerErrors,
-          form:
-            loginError.message ||
-            'Registration successful but login failed. Please try logging in manually.',
-        });
 
-        setTimeout(() => navigate('/login'), 3000);
+        // Even if auto-login fails, the registration was successful
+        // So we should still save the user data from registration
+        if (registerResponse.data) {
+          setUserData(registerResponse.data);
+          setLoggedIn(true);
+          setRememberMe(registerInputs.rememberMe, { email: userData.email });
+          navigate('/profile');
+        } else {
+          setRegisterErrors({
+            ...registerErrors,
+            form:
+              loginError.message ||
+              'Registration successful but login failed. Please try logging in manually.',
+          });
+
+          setTimeout(() => navigate('/login'), 3000);
+        }
       }
     } catch (error) {
       console.error('Registration failed:', error);
@@ -318,6 +336,20 @@ function Register() {
                       {registerErrors.confirmPassword}
                     </div>
                   )}
+                </div>
+              </div>
+
+              {/* Add Remember Me checkbox to registration */}
+              <div className="form-group checkbox-group">
+                <div className="remember-me">
+                  <input
+                    type="checkbox"
+                    id="registerRememberMe"
+                    name="rememberMe"
+                    checked={registerInputs.rememberMe}
+                    onChange={handleRegisterChange}
+                  />
+                  <label htmlFor="registerRememberMe">Remember Me</label>
                 </div>
               </div>
 

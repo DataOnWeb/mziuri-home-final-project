@@ -6,7 +6,8 @@ import {
     getUser, 
     registerUser, 
     forgotPasswordUser, 
-    resetPasswordUser 
+    resetPasswordUser ,
+    updateUser
 } from "../controllers/users.js";
 import { auth } from '../middlewares/auth.js';
 
@@ -17,7 +18,7 @@ UsersRouter.post('/register', registerUser);
 UsersRouter.post('/login', loginUser);
 UsersRouter.put('/forgot-password', forgotPasswordUser);
 UsersRouter.put('/reset-password', resetPasswordUser);
-
+UsersRouter.put('/update', updateUser)
 
 UsersRouter.post('/logout', auth, logoutUser);
 UsersRouter.post('/get-token', auth, getToken);
