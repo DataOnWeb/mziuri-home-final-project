@@ -335,9 +335,9 @@ const Shop = () => {
           </div>
           <div className="shop-collection-item shop-collection-item-medium">
             <div className="product-collection-content">
-              <span className="product-collection-category">New Collection</span>
-              <h3 className="product-collection-title">Plant Port</h3>
-              <button className="product-collection-button">SHOP NOW</button>
+              <span className="product-collection-category">{t('collection.subtitle2')}</span>
+              <h3 className="product-collection-title">{t('collection.title2')}</h3>
+              <button className="product-collection-button">{t('collection.buttonText')}</button>
             </div>
           </div>
         </div>

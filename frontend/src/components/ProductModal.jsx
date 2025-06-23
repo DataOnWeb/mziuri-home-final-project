@@ -45,7 +45,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const { _id, title, price, rating, image, description, category } = product;
   const localizedPrice = getFormattedPrice(price);
 
-  // Default options that match your screenshot
   const sizeOptions = ['Medium Size & Poot', 'Large Size With Poot', 'Small Size With Poot'];
   const colorOptions = ['Black & White', 'Green & Brown', 'Blue & Gray'];
 

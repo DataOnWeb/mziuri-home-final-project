@@ -2,49 +2,49 @@ import React, { useState, useRef, useEffect } from 'react';
 import Client1 from '../assets/images/home-1.webp';
 import Client2 from '../assets/images/home-2.webp';
 import Client3 from '../assets/images/home-3.webp';
-
+import { useTranslation } from 'react-i18next';
 const ClientCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const carouselRef = useRef(null);
-
+  const { t } = useTranslation();
   const testimonials = [
     {
       id: 1,
-      name: 'PHOENIX BAKER',
-      role: 'Client',
+      name: t('clientCarousel.author'),
+      role: t('clientCarousel.client'),
       image: Client1,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: t('clientCarousel.text'),
     },
     {
       id: 2,
-      name: 'PHOENIX BAKER',
-      role: 'Client',
+      name: t('clientCarousel.author'),
+      role: t('clientCarousel.client'),
       image: Client2,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: t('clientCarousel.text'),
     },
     {
       id: 3,
-      name: 'PHOENIX BAKER',
-      role: 'Client',
+      name: t('clientCarousel.author'),
+      role: t('clientCarousel.client'),
       image: Client3,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: t('clientCarousel.text'),
     },
     {
       id: 4,
-      name: 'SARAH JOHNSON',
-      role: 'Client',
+      name: t('clientCarousel.author'),
+      role: t('clientCarousel.client'),
       image: Client1,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: t('clientCarousel.text'),
     },
     {
       id: 5,
-      name: 'MIKE CHEN',
+      name: t('clientCarousel.author'),
       role: 'Client',
       image: Client2,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: t('clientCarousel.text'),
     },
   ];
 
@@ -106,11 +106,8 @@ const ClientCarousel = () => {
 
       {/* Header */}
       <div className="client-carousel__header">
-        <h2 className="client-carousel__title">WHAT SAY CLIENT</h2>
-        <p className="client-carousel__subtitle">
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece
-          of classical Latin literature
-        </p>
+        <h2 className="client-carousel__title">{t('clientCarousel.title')}</h2>
+        <p className="client-carousel__subtitle">{t('clientCarousel.subtitle')}</p>
       </div>
 
       {/* Carousel Container */}

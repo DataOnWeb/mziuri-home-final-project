@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import blog1 from '../assets/images/blog1.webp';
 import blog2 from '../assets/images/blog2.webp';
 import blog3 from '../assets/images/blog3.webp';
-
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 const BlogCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -10,61 +11,54 @@ const BlogCarousel = () => {
   const [translateX, setTranslateX] = useState(0);
   const trackRef = useRef(null);
   const autoSlideRef = useRef(null);
-
+  const { t } = useTranslation();
   const blogPosts = [
     {
       id: 1,
-      title: 'Maecenas Laoreet Massa',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
+      excerpt: t('blogCarousel.text'),
       image: blog1,
     },
     {
       id: 2,
-      title: 'Aenean Vulputate Lorem',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
+      excerpt: t('blogCarousel.text'),
       image: blog2,
     },
     {
       id: 3,
-      title: 'There Many Variations',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
+      excerpt: t('blogCarousel.text'),
       image: blog3,
     },
     {
       id: 4,
-      title: 'Lorem Ipsum Dolor',
-      author: 'ADMIN',
-      date: '25 APRIL 2021',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
+      excerpt: t('blogCarousel.text'),
       image: blog1,
     },
     {
       id: 5,
-      title: 'Consectetur Adipiscing',
-      author: 'ADMIN',
-      date: '25 APRIL 2021',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
+      excerpt: t('blogCarousel.text'),
       image: blog2,
     },
   ];
 
-  // Create endless array by duplicating items
   const extendedPosts = [...blogPosts, ...blogPosts, ...blogPosts];
   const itemsToShow = 3;
   const totalItems = blogPosts.length;
 
-  // Auto slide functionality
   const startAutoSlide = () => {
     autoSlideRef.current = setInterval(() => {
       if (!isDragging) {
@@ -166,11 +160,8 @@ const BlogCarousel = () => {
   return (
     <section className="blog-section">
       <div className="blog-header">
-        <h2>LATEST BLOG</h2>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece
-          of classical Latin literature
-        </p>
+        <h2>{t('blogCarousel.title')}</h2>
+        <p>{t('blogCarousel.subtitle')}</p>
       </div>
 
       <div className="blog-carousel-container">
@@ -209,14 +200,16 @@ const BlogCarousel = () => {
                   </svg>
                 </div>
               </div>
-              <div className="blog-card-content">
-                <div className="blog-meta">
-                  <span className="blog-author">BY: {post.author}</span>
-                  <span className="blog-date">{post.date}</span>
+              <Link to={'/blog'}>
+                <div className="blog-card-content">
+                  <div className="blog-meta">
+                    <span className="blog-author">BY: {post.author}</span>
+                    <span className="blog-date">{post.date}</span>
+                  </div>
+                  <h3 className="blog-title">{post.title}</h3>
+                  <p className="blog-excerpt">{post.excerpt}</p>
                 </div>
-                <h3 className="blog-title">{post.title}</h3>
-                <p className="blog-excerpt">{post.excerpt}</p>
-              </div>
+              </Link>
             </div>
           ))}
         </div>

@@ -22,6 +22,7 @@
   "categories": "Categories",
   "color": "Color",
   "search": "Search",
+  "recentPost": "Recent Posts",
   "categoriesTitle": "Categories",
   "colorTitle": "Color",
   "priceFilter": "Price Filter",
@@ -98,5 +99,20 @@
   "productCarousel":{
     "title":"New Products",
     "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature"
+  },
+  "clientCarousel":{
+    "title":"WHAT CLIENTS SAY",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
+    "author":"PHOENIX BAKER",
+    "client":"Client",
+    "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  "blogCarousel":{
+    "title":"LATEST BLOG",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
+    "header":"Aenean Vulputate Lorem",
+    "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "author": "ADMIN",
+    "date": "24 APRIL 2021"
   }
 }
