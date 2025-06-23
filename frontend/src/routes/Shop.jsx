@@ -26,8 +26,29 @@ const Shop = () => {
   const sliderContainerRef = useRef(null);
   const { useDataLoader } = useLoader();
   const { t, i18n } = useTranslation();
+
   const getProductPrice = (product) => {
     if (typeof product.price === 'object' && product.price !== null) {
+      const currencyLower = currency.toLowerCase();
+
+      if (product.price[currencyLower]) {
+        if (
+          typeof product.price[currencyLower] === 'object' &&
+          product.price[currencyLower].$numberDouble
+        ) {
+          return parseFloat(product.price[currencyLower].$numberDouble);
+        }
+
+        return parseFloat(product.price[currencyLower]) || 0;
+      }
+
+      if (product.price.usd) {
+        if (typeof product.price.usd === 'object' && product.price.usd.$numberDouble) {
+          return parseFloat(product.price.usd.$numberDouble);
+        }
+        return parseFloat(product.price.usd) || 0;
+      }
+
       return product.price[currency] || product.price.USD || 0;
     }
     return typeof product.price === 'number' ? product.price : 0;
@@ -41,7 +62,10 @@ const Shop = () => {
         setFilteredProducts(data);
         setTotalProducts(data.length);
         setLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      }
     };
 
     fetchProducts();
@@ -54,22 +78,47 @@ const Shop = () => {
     let result = [...products];
 
     if (searchTerm) {
-      result = result.filter((product) =>
-        product.title?.[i18n.language].toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      result = result.filter((product) => {
+        let title = '';
+        if (typeof product.title === 'object' && product.title !== null) {
+          // Get title in current language or fallback to English
+          title = product.title[i18n.language] || product.title.en || product.title.ka || '';
+        } else if (typeof product.title === 'string') {
+          title = product.title;
+        }
+        return title.toLowerCase().includes(searchTerm.toLowerCase());
+      });
     }
 
+    // Category filter
     if (activeCategory !== 'All') {
-      result = result.filter((product) => product.category === activeCategory);
+      result = result.filter((product) => {
+        return product.category === activeCategory;
+      });
     }
 
+    // Color filter
     if (activeColor !== 'All') {
-      result = result.filter((product) => product.color === activeColor);
+      result = result.filter((product) => {
+        return product.color === activeColor;
+      });
     }
 
+    // Price filter
     result = result.filter((product) => {
       const price = getProductPrice(product);
-      return price >= priceRange.min && price <= priceRange.max;
+      const inRange = price >= priceRange.min && price <= priceRange.max;
+      if (!inRange) {
+        console.log(
+          'Product filtered out by price:',
+          product.title,
+          'Price:',
+          price,
+          'Range:',
+          priceRange
+        );
+      }
+      return inRange;
     });
 
     switch (sortOption) {
@@ -81,15 +130,31 @@ const Shop = () => {
         break;
       case 'name-asc':
         result.sort((a, b) => {
-          const titleA = a.title?.[i18n.language] || a.title?.en || '';
-          const titleB = b.title?.[i18n.language] || b.title?.en || '';
+          const titleA = (
+            typeof a.title === 'object'
+              ? a.title?.[i18n.language] || a.title?.en || a.title?.ka || ''
+              : a.title || ''
+          ).toLowerCase();
+          const titleB = (
+            typeof b.title === 'object'
+              ? b.title?.[i18n.language] || b.title?.en || b.title?.ka || ''
+              : b.title || ''
+          ).toLowerCase();
           return titleA.localeCompare(titleB);
         });
         break;
       case 'name-desc':
         result.sort((a, b) => {
-          const titleA = a.title?.[i18n.language] || a.title?.en || '';
-          const titleB = b.title?.[i18n.language] || b.title?.en || '';
+          const titleA = (
+            typeof a.title === 'object'
+              ? a.title?.[i18n.language] || a.title?.en || a.title?.ka || ''
+              : a.title || ''
+          ).toLowerCase();
+          const titleB = (
+            typeof b.title === 'object'
+              ? b.title?.[i18n.language] || b.title?.en || b.title?.ka || ''
+              : b.title || ''
+          ).toLowerCase();
           return titleB.localeCompare(titleA);
         });
         break;
@@ -112,25 +177,32 @@ const Shop = () => {
   const updateTrackActive = () => {
     if (!minThumbRef.current || !maxThumbRef.current || !trackActiveRef.current) return;
 
-    const minLeft = parseFloat(minThumbRef.current.style.left);
-    const maxLeft = parseFloat(maxThumbRef.current.style.left);
+    const minLeft = parseFloat(minThumbRef.current.style.left) || 0;
+    const maxLeft = parseFloat(maxThumbRef.current.style.left) || 100;
 
     trackActiveRef.current.style.left = `${minLeft}%`;
     trackActiveRef.current.style.width = `${maxLeft - minLeft}%`;
   };
+
   const initializePriceSlider = () => {
     if (!minThumbRef.current || !maxThumbRef.current) return;
 
     const minThumb = minThumbRef.current;
     const maxThumb = maxThumbRef.current;
 
-    minThumb.style.left = '10%';
-    maxThumb.style.left = '90%';
+    const minPercentage = ((priceRange.min - 10) / (300 - 10)) * 100;
+    const maxPercentage = ((priceRange.max - 10) / (300 - 10)) * 100;
+
+    minThumb.style.left = `${Math.max(0, Math.min(95, minPercentage))}%`;
+    maxThumb.style.left = `${Math.max(5, Math.min(100, maxPercentage))}%`;
+
     updateTrackActive();
   };
+
   useEffect(() => {
     initializePriceSlider();
-  }, []);
+  }, [priceRange.min, priceRange.max]);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -176,10 +248,10 @@ const Shop = () => {
       let percentage = (position / containerWidth) * 100;
 
       if (isMinThumb) {
-        const maxLeftPct = parseFloat(maxThumbRef.current.style.left);
+        const maxLeftPct = parseFloat(maxThumbRef.current.style.left) || 100;
         percentage = Math.min(percentage, maxLeftPct - 5);
       } else {
-        const minLeftPct = parseFloat(minThumbRef.current.style.left);
+        const minLeftPct = parseFloat(minThumbRef.current.style.left) || 0;
         percentage = Math.max(percentage, minLeftPct + 5);
       }
 
@@ -187,8 +259,8 @@ const Shop = () => {
 
       updateTrackActive();
       updatePrices(
-        parseFloat(minThumbRef.current.style.left),
-        parseFloat(maxThumbRef.current.style.left)
+        parseFloat(minThumbRef.current.style.left) || 0,
+        parseFloat(maxThumbRef.current.style.left) || 100
       );
     };
 
@@ -200,8 +272,6 @@ const Shop = () => {
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
   };
-
-  // Function to get currency symbol
   const getCurrencySymbol = (curr) => {
     const symbols = {
       USD: '$',
@@ -209,6 +279,14 @@ const Shop = () => {
       GEL: '₾',
     };
     return symbols[curr] || curr;
+  };
+
+  const clearAllFilters = () => {
+    setSearchTerm('');
+    setActiveCategory('All');
+    setActiveColor('All');
+    setPriceRange({ min: 10, max: 300 });
+    setSortOption('default');
   };
 
   return (
@@ -233,6 +311,25 @@ const Shop = () => {
                 aria-label={t('search')}
               ></button>
             </div>
+          </div>
+
+          {/* Clear filters button */}
+          <div className="filter-section">
+            <button
+              onClick={clearAllFilters}
+              className="clear-filters-btn"
+              style={{
+                width: '100%',
+                padding: '8px 16px',
+                marginBottom: '20px',
+                backgroundColor: '#f8f9fa',
+                border: '1px solid #dee2e6',
+                borderRadius: '4px',
+                cursor: 'pointer',
+              }}
+            >
+              {t('clearFilters') || 'Clear All Filters'}
+            </button>
           </div>
 
           <div className="filter-section">
@@ -389,6 +486,19 @@ const Shop = () => {
                   <option value="price-high">{t('sort.priceHighToLow')}</option>
                   <option value="name-asc">{t('sort.nameAZ')}</option>
                   <option value="name-desc">{t('sort.nameZA')}</option>
+                </select>
+              </div>
+
+              {/* Currency selector */}
+              <div className="currency-dropdown">
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  style={{ marginLeft: '10px' }}
+                >
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GEL">GEL (₾)</option>
                 </select>
               </div>
             </div>

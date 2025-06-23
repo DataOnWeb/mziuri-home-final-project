@@ -78,7 +78,6 @@ const BlogCarousel = () => {
     return () => stopAutoSlide();
   }, [isDragging]);
 
-  // Handle infinite loop
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -103,7 +102,6 @@ const BlogCarousel = () => {
     return () => track.removeEventListener('transitionend', handleTransitionEnd);
   }, [currentIndex, totalItems]);
 
-  // Mouse drag handlers
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.pageX);
@@ -132,8 +130,6 @@ const BlogCarousel = () => {
     setTranslateX(0);
     startAutoSlide();
   };
-
-  // Touch handlers for mobile
   const handleTouchStart = (e) => {
     setIsDragging(true);
     setStartX(e.touches[0].pageX);
