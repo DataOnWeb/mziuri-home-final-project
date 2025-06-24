@@ -1,17 +1,12 @@
 @use './index' as *;
 * {
-  font-family: 'Rubik', sans-serif;
-  font-weight:500;
+  font-family: 'Rubik-Medium', sans-serif;
+  font-weight: 400;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Rubik', sans-serif;
-  color: #525252; 
-
-}
 
 a {
     text-decoration: none;
@@ -26,4 +21,4 @@ svg {
   background-color: $primary-color;
   color: white;
 }
-  
+

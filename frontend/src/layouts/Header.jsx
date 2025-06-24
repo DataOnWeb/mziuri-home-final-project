@@ -5,6 +5,7 @@ import { LuUsers } from 'react-icons/lu';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { PiShoppingBagLight } from 'react-icons/pi';
 import { FaSquarePhone } from 'react-icons/fa6';
+import { IoClose } from 'react-icons/io5';
 import SearchFunction from '../components/SearchFunction';
 import ShoppingCartSidebar from '../components/ShoppingCartSidebar';
 import StickyHeader from '../components/StickyHeader';
@@ -29,7 +30,6 @@ const Header = () => {
 
   const { currentCurrency, changeCurrency } = useCurrency();
 
-  // Check if device is mobile
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -49,7 +49,10 @@ const Header = () => {
   const handleNavigation = (path) => {
     navigate(path);
     setActiveDropdown(null);
-    setMobileMenuOpen(false); // Close mobile menu on navigation
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+      document.body.classList.remove('mobile-menu-open');
+    }
   };
 
   const toggleSearch = () => {
@@ -84,16 +87,16 @@ const Header = () => {
   };
 
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-    // Prevent body scroll when mobile menu is open
-    if (!mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+    const newState = !mobileMenuOpen;
+    setMobileMenuOpen(newState);
+
+    if (newState) {
+      document.body.classList.add('mobile-menu-open');
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.classList.remove('mobile-menu-open');
     }
   };
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       const isInsideMainHeader =
@@ -110,12 +113,11 @@ const Header = () => {
     };
   }, []);
 
-  // Close mobile menu on escape key
   useEffect(() => {
     const handleEscapeKey = (e) => {
       if (e.key === 'Escape' && mobileMenuOpen) {
         setMobileMenuOpen(false);
-        document.body.style.overflow = 'unset';
+        document.body.classList.remove('mobile-menu-open');
       }
     };
 
@@ -123,31 +125,42 @@ const Header = () => {
     return () => document.removeEventListener('keydown', handleEscapeKey);
   }, [mobileMenuOpen]);
 
-  // Clean up body overflow on unmount
+  useEffect(() => {
+    document.body.classList.remove('mobile-menu-open');
+    setMobileMenuOpen(false);
+    setActiveDropdown(null);
+  }, [location.pathname]);
+
   useEffect(() => {
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.classList.remove('mobile-menu-open');
     };
   }, []);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng).then(() => {
       setCurrentLanguage(lng);
-      localStorage.setItem('lang', lng);
+      if (typeof Storage !== 'undefined') {
+        localStorage.setItem('lang', lng);
+      }
       setActiveDropdown(null);
     });
   };
 
   const handleCurrencyChange = (currency) => {
     changeCurrency(currency);
-    localStorage.setItem('selectedCurrency', currency);
+    if (typeof Storage !== 'undefined') {
+      localStorage.setItem('selectedCurrency', currency);
+    }
     setActiveDropdown(null);
   };
 
   useEffect(() => {
-    const savedCurrency = localStorage.getItem('selectedCurrency');
-    if (savedCurrency && savedCurrency !== currentCurrency) {
-      changeCurrency(savedCurrency);
+    if (typeof Storage !== 'undefined') {
+      const savedCurrency = localStorage.getItem('selectedCurrency');
+      if (savedCurrency && savedCurrency !== currentCurrency) {
+        changeCurrency(savedCurrency);
+      }
     }
   }, []);
 
@@ -195,46 +208,95 @@ const Header = () => {
 
   const MobileMenu = () => (
     <div className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}>
-      <div className="mobile-menu-content">
-        <ul className="mobile-main-menu">
-          {navigationItems.map((item) => (
-            <li
-              key={item.path}
-              className={isActive(item.path) ? 'active' : ''}
-            >
-              <a onClick={() => handleNavigation(item.path)}>{item.label}</a>
-            </li>
-          ))}
-        </ul>
+      <div className="mobile-menu-sidebar">
+        <div className="mobile-menu-content">
+          {/* Close Button */}
+          <button
+            className="mobile-menu-close"
+            onClick={toggleMobileMenu}
+          >
+            <IoClose />
+          </button>
 
-        <div className="mobile-user-actions">
-          <div
-            className="mobile-action-item"
-            onClick={toggleSearch}
-          >
-            <IoSearchOutline />
-            <span>{t('search')}</span>
+          {/* Phone Section */}
+          <div className="mobile-phone-section">
+            <div className="mobile-phone-icon">
+              <FaSquarePhone />
+            </div>
+            <a
+              href="tel:+00123456789"
+              className="mobile-phone-number"
+            >
+              +00 123 456 789
+            </a>
           </div>
-          <div
-            className="mobile-action-item"
-            onClick={() => handleNavigation('/login')}
-          >
-            <LuUsers />
-            <span>{t('account')}</span>
+
+          {/* Language and Currency Options */}
+          <div className="mobile-options-section">
+            <div
+              className="mobile-option-item"
+              onClick={() => changeLanguage(currentLanguage === 'en' ? 'ka' : 'en')}
+            >
+              <div className="flag-icon"></div>
+              <span>{getCurrentLanguageDisplay()}</span>
+              <span>▼</span>
+            </div>
+            <div
+              className="mobile-option-item"
+              onClick={() => {
+                const currencies = ['usd', 'eur', 'gel'];
+                const currentIndex = currencies.indexOf(currentCurrency);
+                const nextCurrency = currencies[(currentIndex + 1) % currencies.length];
+                handleCurrencyChange(nextCurrency);
+              }}
+            >
+              <span>{getCurrentCurrencyDisplay()}</span>
+              <span>▼</span>
+            </div>
           </div>
-          <div
-            className="mobile-action-item"
-            onClick={() => handleNavigation('/wishlist')}
-          >
-            <IoMdHeartEmpty />
-            <span>{t('wishlist')}</span>
-          </div>
-          <div
-            className="mobile-action-item"
-            onClick={toggleCart}
-          >
-            <PiShoppingBagLight />
-            <span>{t('cart')} (3)</span>
+
+          {/* Main Navigation */}
+          <ul className="mobile-main-menu">
+            {navigationItems.map((item) => (
+              <li
+                key={item.path}
+                className={isActive(item.path) ? 'active' : ''}
+              >
+                <a onClick={() => handleNavigation(item.path)}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+
+          {/* User Actions */}
+          <div className="mobile-user-actions">
+            <div
+              className="mobile-action-item"
+              onClick={toggleSearch}
+            >
+              <IoSearchOutline />
+              <span>{t('search')}</span>
+            </div>
+            <div
+              className="mobile-action-item"
+              onClick={() => handleNavigation('/login')}
+            >
+              <LuUsers />
+              <span>{t('account')}</span>
+            </div>
+            <div
+              className="mobile-action-item"
+              onClick={() => handleNavigation('/wishlist')}
+            >
+              <IoMdHeartEmpty />
+              <span>{t('wishlist')}</span>
+            </div>
+            <div
+              className="mobile-action-item"
+              onClick={toggleCart}
+            >
+              <PiShoppingBagLight />
+              <span>{t('cart')} (3)</span>
+            </div>
           </div>
         </div>
       </div>
@@ -359,7 +421,7 @@ const Header = () => {
 
               {isMobile && (
                 <div
-                  className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
+                  className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''} ${mobileMenuOpen ? 'hidden' : ''}`}
                   onClick={toggleMobileMenu}
                 >
                   <span></span>
@@ -395,7 +457,6 @@ const Header = () => {
         />
       </header>
 
-      {/* Mobile Menu */}
       {isMobile && <MobileMenu />}
 
       {/* Sticky Header Component */}

@@ -1,7 +1,5 @@
 @use '../abstracts' as *;
 
-
-
 @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
   transition: $property $duration $timing;
 }
@@ -17,12 +15,11 @@
   background-color: $white;
   padding: 80px 0;
   min-height: 280vh;
-  
 
   .container {
     max-width: 55%;
     padding: 0 20px;
-
+    margin: 0 auto;
   }
 
   // Story Header
@@ -82,43 +79,43 @@
     }
   }
 
-
+  // Features Grid
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-bottom: 80px;
 
     .feature-card {
       border: 1px dashed $primary-color;
       border-radius: 5px;
-      padding: 20px 20px;
+      padding: 20px;
       background-color: $white;
       display: flex;
       justify-content: space-around;
       align-items: center;
       cursor: pointer;
+      @include transition();
 
-   
-     }
-
+      &:hover {
+        @include hover-lift();
+        border-color: $secondary-color;
+      }
 
       .feature-icon {
-
         color: $primary-color;
-
+        margin-right: 15px;
 
         svg {
           width: 60px;
           height: 60px;
-
           fill: none;
         }
-
-        
       }
 
       .feature-content {
+        flex: 1;
+
         h3 {
           font-size: 1.175rem;
           font-weight: 600;
@@ -133,10 +130,331 @@
           line-height: 1.6;
         }
       }
-    
+    }
   }
 
+  // Video Section
+  .video-section {
+    margin-bottom: 80px;
+    border: 10px solid white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.1);
 
+    .video-container {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+
+      .video-background {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-image: url('../assets/images/video-bg.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .video-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button {
+          position: relative;
+          z-index: 2;
+          background: none;
+          border: none;
+          cursor: pointer;
+          @include transition(transform);
+
+          &:hover {
+            transform: scale(1.1);
+          }
+
+          .play-button-inner {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+            .play-icon {
+              width: 32px;
+              height: 32px;
+              color: #7fb069;
+              margin-left: 4px;
+            }
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: -10px;
+              left: -10px;
+              right: -10px;
+              bottom: -10px;
+              border: 2px solid rgba(127, 176, 105, 0.3);
+              border-radius: 50%;
+              animation: about-pulse 2s infinite;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Stats Section
+  .stats-section {
+    background-color: #fff;
+    padding: 60px 40px;
+
+    .stats-content {
+      text-align: center;
+
+      .stats-description {
+        font-size: 2rem;
+        color: #666;
+        margin-bottom: 50px;
+        font-weight: 700;
+        font-style: italic;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+
+        .highlight-green {
+          color: $primary-color;
+          font-weight: 500;
+        }
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+
+        .stat-item {
+          text-align: center;
+          position: relative;
+
+          &:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 20%;
+            bottom: 20%;
+            width: 1px;
+            background-color: #c1c1c1;
+          }
+
+          .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: $primary-color;
+            margin-bottom: 8px;
+            line-height: 1;
+          }
+
+          .stat-label {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+
+  // Team Section
+  .team-section {
+    padding: 80px 0;
+    background-color: white;
+
+    .team-header {
+      text-align: center;
+      margin-bottom: 60px;
+
+      .team-title {
+        font-family: 'Rubik-Bold', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333333;
+        margin-bottom: 20px;
+        position: relative;
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          width: 60px;
+          height: 2px;
+          background-color: $primary-color;
+        }
+
+        &::before {
+          left: -70px;
+        }
+
+        &::after {
+          right: -70px;
+        }
+      }
+
+      .team-description {
+        font-size: 1.1rem;
+        color: #666666;
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+
+    .team-grid {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .team-member {
+      position: relative;
+      text-align: center;
+      flex: 0 0 auto;
+
+      &.team-member-top {
+        margin-top: 0;
+      }
+
+      &.team-member-bottom {
+        margin-top: 60px;
+      }
+
+      .team-member-image {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        overflow: hidden;
+        cursor: pointer;
+        @include transition();
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          @include transition(transform);
+        }
+
+        .team-member-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          visibility: hidden;
+          @include transition(all, 0.4s);
+          border-radius: 50%;
+          clip-path: circle(0% at 50% 50%);
+
+          .team-member-info {
+            text-align: center;
+            padding: 20px;
+
+            .team-member-name {
+              font-size: 1.1rem;
+              font-weight: 600;
+              color: #333333;
+              margin-bottom: 5px;
+            }
+
+            .team-member-role {
+              font-size: 0.85rem;
+              color: #666666;
+              margin-bottom: 15px;
+            }
+
+            .team-member-social {
+              display: flex;
+              justify-content: center;
+              gap: 8px;
+
+              .social-link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: white;
+                color: $primary-color;
+                border: 1px solid $primary-color;
+                text-decoration: none;
+                @include transition();
+
+                &:hover {
+                  background-color: $primary-color;
+                  color: white;
+                  transform: translateY(-2px);
+                }
+
+                svg {
+                  width: 14px;
+                  height: 14px;
+                }
+              }
+            }
+          }
+        }
+
+        &:hover {
+          transform: translateY(-5px);
+
+          .team-member-overlay {
+            opacity: 1;
+            visibility: visible;
+            clip-path: circle(50% at 50% 50%);
+          }
+        }
+      }
+
+      .team-member-details {
+        .team-member-name-bottom {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #333333;
+          margin-bottom: 5px;
+        }
+
+        .team-member-role-bottom {
+          font-size: 0.95rem;
+          color: #666666;
+        }
+      }
+    }
+  }
+
+  // Bottom Decoration
   .bottom-decoration {
     display: flex;
     justify-content: center;
@@ -151,108 +469,61 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 1024px) {
-  .about-section {
-    padding: 60px 0;
+// Video Modal Styles
+.about-video-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
 
-    .container {
-      padding: 0 30px;
-    }
+  .about-video-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
 
-    .story-header .story-title {
-      font-size: 3.5rem;
-    }
+    .about-video-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      @include transition();
 
-    .features-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .about-section {
-    padding: 50px 0;
-
-    .container {
-      padding: 0 20px;
-    }
-
-    .story-header {
-      margin-bottom: 40px;
-
-      .story-title {
-        font-size: 2.75rem;
+      &:hover {
+        background: rgba(255, 255, 255, 1);
       }
     }
 
-    .story-content {
-      margin-bottom: 40px;
+    .about-video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; // 16:9 aspect ratio
+      height: 0;
+      overflow: hidden;
 
-      p {
-        font-size: 1rem;
-        text-align: left;
-      }
-    }
-
-    .signature {
-      margin-bottom: 60px;
-
-      .signature-text {
-        font-size: 2rem;
-      }
-    }
-
-    .features-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-bottom: 60px;
-
-      .feature-card {
-        padding: 30px 25px;
-        text-align: center;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .about-section {
-    padding: 40px 0;
-
-    .container {
-      padding: 0 15px;
-    }
-
-    .story-header .story-title {
-      font-size: 2.25rem;
-
-      &::after {
-        width: 80px;
-        height: 3px;
-      }
-    }
-
-    .story-content p {
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    .signature .signature-text {
-      font-size: 1.75rem;
-    }
-
-    .features-grid .feature-card {
-      padding: 25px 20px;
-
-      .feature-icon svg {
-        width: 36px;
-        height: 36px;
-      }
-
-      .feature-content h3 {
-        font-size: 1.25rem;
+      iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
       }
     }
   }
@@ -280,483 +551,7 @@
     transform: translateX(0);
   }
 }
-.stats-section {
-      background-color: #fff;
-      padding: 60px 40px;
 
-      .stats-content {
-        text-align: center;
-
-        .stats-description {
-          font-size: 2rem;
-          color: #666;
-          margin-bottom: 50px;
-          row-gap: 10px;
-          font-weight: 700;
-          font-style: italic;
-          max-width: 100vw;
-          margin-left: auto;
-          margin-right: auto;
-
-          .highlight-green {
-            color: $primary-color;
-            font-weight: 500;
-          }
-        }
-
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 4fr minmax(200px, 1fr));
-          gap: 40px;
-          max-width: 800px;
-          margin: 0 auto;
-
-          .stat-item {
-            text-align: center;
-            position: relative;
-
-            &:not(:last-child)::after {
-              content: '';
-              position: absolute;
-              right: -20px;
-              top: 20%;
-              bottom: 20%;
-              width: 1px;
-              background-color: #c1c1c1;
-            }
-
-            .stat-number {
-              font-size: 3rem;
-              font-weight: 700;
-              color: $primary-color;
-              margin-bottom: 8px;
-              line-height: 1;
-            }
-
-            .stat-label {
-              font-size: 1.2rem;
-              color: #666;
-              font-weight: 500;
-            }
-          }
-        }
-      }
-    }
-// Optional animation classes (can be added with JavaScript)
-.animate-fade-in {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.animate-slide-in {
-  animation: slideInLeft 0.6s ease-out;
-}
-
-// Utility classes
-.text-primary {
-  color: $primary-green;
-}
-
-.bg-primary {
-  background-color: $primary-green;
-}
-
-.border-primary {
-  border-color: $primary-green;
-}
-
-
-// Video Section Styles - Only for the new video section added to About page
-
-  .video-section {
-    margin-bottom: 80px;
-    border: 10px solid white;
-    overflow: hidden;
-    box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.1);
-
-    .video-container {
-      position: relative;
-      height: 400px;
-      overflow: hidden;
-      
-
-      .video-background {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background-image: url('../assets/images/video-bg.webp'); // Replace with your image path
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .video-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.3);
-        }
-
-        .play-button {
-          position: relative;
-          z-index: 2;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: transform 0.3s ease;
-
-          &:hover {
-            transform: scale(1.1);
-          }
-
-          .play-button-inner {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-
-            .play-icon {
-              width: 32px;
-              height: 32px;
-              color: #7fb069;
-              margin-left: 4px; 
-            }
-
-            &::before {
-              content: '';
-              position: absolute;
-              top: -10px;
-              left: -10px;
-              right: -10px;
-              bottom: -10px;
-              border: 2px solid rgba(127, 176, 105, 0.3);
-              border-radius: 50%;
-              animation: about-pulse 2s infinite;
-            }
-          }
-        }
-      }
-    }
-
-    
-    
-  }
-
-
-// Video Modal Styles - Only for the video modal
-.about-video-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-
-  .about-video-modal-content {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    background: #000;
-    overflow: hidden;
-
-    .about-video-modal-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: rgba(255, 255, 255, 0.9);
-      border: none;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background: rgba(255, 255, 255, 1);
-      }
-    }
-
-    .about-video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%; // 16:9 aspect ratio
-      height: 0;
-      overflow: hidden;
-
-      iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-}
-// Team Section Styles
-.team-section {
-  padding: 80px 0;
-  background-color: white;
-
-  .team-header {
-    text-align: center;
-    margin-bottom: 60px;
-
-    .team-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #333333;
-      margin-bottom: 20px;
-      position: relative;
-
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        width: 60px;
-        height: 2px;
-        background-color: $primary-color;
-      }
-
-      &::before {
-        left: 0px;
-      }
-
-      &::after {
-        right: -50px;
-      }
-    }
-
-    .team-description {
-      font-size: 1.1rem;
-      color: #666666;
-      line-height: 1.6;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-  }
-
-  .team-grid {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    max-width: 100vw;
-    margin: 0 auto;
-
-  }
-
-  .team-member {
-    position: relative;
-    text-align: center;
-    flex: 0 0 auto;
-
-    &.team-member-top {
-      margin-top: 0;
-    }
-
-    &.team-member-bottom {
-      margin-top: 60px;
-    }
-    
-    .team-member-image {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-      }
-
-      .team-member-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s ease;
-        border-radius: 50%;
-        clip-path: circle(0% at 50% 50%);
-
-        .team-member-info {
-          text-align: center;
-          padding: 20px;
-
-          .team-member-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333333;
-            margin-bottom: 5px;
-          }
-
-          .team-member-role {
-            font-size: 0.85rem;
-            color: #666666;
-            margin-bottom: 15px;
-          }
-
-          .team-member-social {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-
-            .social-link {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              width: 40px;
-              height: 40px;
-              border-radius: 50%;
-              background-color: white;
-              color: $primary-color;
-              border: 1px solid $primary-color;
-              text-decoration: none;
-              transition: all 0.3s ease;
-
-              &:hover {
-                background-color: $primary-color;
-                color: white;
-                transform: translateY(-2px);
-              }
-
-              svg {
-                width: 14px;
-                height: 14px;
-              }
-            }
-          }
-        }
-      }
-
-      &:hover {
-        transform: translateY(-5px);
-
-        .team-member-overlay {
-          opacity: 1;
-          visibility: visible;
-          clip-path: circle(50% at 50% 50%);
-        }
-      }
-    }
-
-    .team-member-details {
-      .team-member-name-bottom {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #333333;
-        margin-bottom: 5px;
-      }
-
-      .team-member-role-bottom {
-        font-size: 0.95rem;
-        color: #666666;
-      }
-    }
-  }
-}
-
-// Responsive Design
-@media (max-width: 1024px) {
-  .team-section {
-    .team-grid {
-      gap: 30px;
-    }
-
-    .team-member {
-      .team-member-image {
-        width: 180px;
-        height: 180px;
-      }
-
-      &.team-member-bottom {
-        margin-top: 40px;
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .team-section {
-    padding: 60px 0;
-
-    .team-header {
-      .team-title {
-        font-size: 2rem;
-
-        &::before,
-        &::after {
-          display: none;
-        }
-      }
-
-      .team-description {
-        font-size: 1rem;
-        padding: 0 20px;
-      }
-    }
-
-    .team-grid {
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .team-member {
-      &.team-member-bottom {
-        margin-top: 0;
-      }
-
-      .team-member-image {
-        width: 160px;
-        height: 160px;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .team-section {
-    .team-member {
-      .team-member-image {
-        width: 150px;
-        height: 150px;
-      }
-    }
-  }
-}
-// Pulse animation for play button
 @keyframes about-pulse {
   0% {
     transform: scale(1);
@@ -768,12 +563,365 @@
   }
 }
 
-// Responsive Design - Only for the new video section
-@media (max-width: 768px) {
+// Animation classes
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+// Utility classes
+.text-primary {
+  color: $primary-color;
+}
+
+.bg-primary {
+  background-color: $primary-color;
+}
+
+.border-primary {
+  border-color: $primary-color;
+}
+
+// ===========================
+// RESPONSIVE DESIGN
+// ===========================
+
+// Large Desktop (1440px and up)
+@media (min-width: 1440px) {
   .about-section {
+    padding: 100px 0;
+
+    .container {
+      max-width: 50%;
+    }
+
+    .story-header .story-title {
+      font-size: 3.75rem;
+    }
+
+    .signature .signature-text {
+      font-size: 2.75rem;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .video-section .video-container {
+      height: 500px;
+    }
+
+    .stats-section {
+      padding: 80px 60px;
+
+      .stats-content .stats-description {
+        font-size: 2.25rem;
+      }
+    }
+
+    .team-section .team-member .team-member-image {
+      width: 320px;
+      height: 320px;
+    }
+  }
+}
+
+// Desktop/Laptop (1024px - 1439px)
+@media (max-width: 1439px) and (min-width: 1024px) {
+  .about-section {
+    padding: 80px 0;
+
+    .container {
+      max-width: 65%;
+      padding: 0 30px;
+    }
+
+    .story-header .story-title {
+      font-size: 3rem;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .video-section .video-container {
+      height: 380px;
+    }
+
+    .team-section {
+      .team-grid {
+        gap: 35px;
+      }
+
+      .team-member .team-member-image {
+        width: 240px;
+        height: 240px;
+      }
+    }
+  }
+}
+
+// Tablet Landscape (768px - 1023px)
+@media (max-width: 1023px) and (min-width: 768px) {
+  .about-section {
+    padding: 70px 0;
+    min-height: auto;
+
+    .container {
+      max-width: 85%;
+      padding: 0 25px;
+    }
+
+    .story-header {
+      margin-bottom: 50px;
+
+      .story-title {
+        font-size: 2.75rem;
+        text-align: center;
+
+        &::after {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100px;
+        }
+      }
+    }
+
+    .story-content {
+      margin-bottom: 50px;
+
+      p {
+        font-size: 1.05rem;
+        text-align: left;
+      }
+    }
+
+    .signature {
+      margin-bottom: 70px;
+      text-align: center;
+
+      .signature-text {
+        font-size: 2.2rem;
+      }
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin-bottom: 60px;
+
+      .feature-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+
+        .feature-icon {
+          margin-right: 0;
+          margin-bottom: 15px;
+
+          svg {
+            width: 50px;
+            height: 50px;
+          }
+        }
+      }
+    }
+
     .video-section {
+      margin-bottom: 60px;
+      border-width: 8px;
+
       .video-container {
-        height: 300px;
+        height: 320px;
+
+        .video-background .play-button .play-button-inner {
+          width: 70px;
+          height: 70px;
+
+          .play-icon {
+            width: 28px;
+            height: 28px;
+          }
+        }
+      }
+    }
+
+    .stats-section {
+      padding: 50px 30px;
+
+      .stats-content {
+        .stats-description {
+          font-size: 1.75rem;
+          margin-bottom: 40px;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 30px;
+
+          .stat-item {
+            &:nth-child(2n)::after {
+              display: none;
+            }
+
+            .stat-number {
+              font-size: 2.5rem;
+            }
+
+            .stat-label {
+              font-size: 1.1rem;
+            }
+          }
+        }
+      }
+    }
+
+    .team-section {
+      padding: 60px 0;
+
+      .team-header {
+        margin-bottom: 50px;
+
+        .team-title {
+          font-size: 2.25rem;
+
+          &::before,
+          &::after {
+            width: 50px;
+          }
+
+          &::before {
+            left: -60px;
+          }
+
+          &::after {
+            right: -60px;
+          }
+        }
+
+        .team-description {
+          font-size: 1rem;
+          padding: 0 20px;
+        }
+      }
+
+      .team-grid {
+        gap: 30px;
+      }
+
+      .team-member {
+        &.team-member-bottom {
+          margin-top: 40px;
+        }
+
+        .team-member-image {
+          width: 200px;
+          height: 200px;
+        }
+
+        .team-member-details {
+          .team-member-name-bottom {
+            font-size: 1.2rem;
+          }
+
+          .team-member-role-bottom {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Tablet Portrait & Large Mobile (480px - 767px)
+@media (max-width: 767px) and (min-width: 480px) {
+  .about-section {
+    padding: 50px 0;
+
+    .container {
+      max-width: 95%;
+      padding: 0 20px;
+    }
+
+    .story-header {
+      margin-bottom: 40px;
+
+      .story-title {
+        font-size: 2.5rem;
+        text-align: center;
+        line-height: 1.2;
+
+        &::after {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px;
+          height: 3px;
+        }
+      }
+    }
+
+    .story-content {
+      margin-bottom: 40px;
+
+      p {
+        font-size: 1rem;
+        text-align: left;
+        line-height: 1.7;
+      }
+    }
+
+    .signature {
+      margin-bottom: 60px;
+      text-align: center;
+
+      .signature-text {
+        font-size: 2rem;
+      }
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 50px;
+
+      .feature-card {
+        flex-direction: row;
+        text-align: left;
+        padding: 20px;
+
+        .feature-icon {
+          margin-right: 15px;
+          margin-bottom: 0;
+
+          svg {
+            width: 45px;
+            height: 45px;
+          }
+        }
+
+        .feature-content {
+          h3 {
+            font-size: 1.1rem;
+          }
+
+          p {
+            font-size: 0.95rem;
+          }
+        }
+      }
+    }
+
+    .video-section {
+      margin-bottom: 50px;
+      border-width: 6px;
+
+      .video-container {
+        height: 280px;
 
         .video-background .play-button .play-button-inner {
           width: 60px;
@@ -785,59 +933,353 @@
           }
         }
       }
+    }
 
-      .stats-section {
-        padding: 40px 20px;
+    .stats-section {
+      padding: 40px 20px;
 
-        .stats-content {
-          .stats-description {
-            font-size: 1.1rem;
-          }
+      .stats-content {
+        .stats-description {
+          font-size: 1.5rem;
+          margin-bottom: 35px;
+        }
 
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 25px;
 
-            .stat-item {
-              &::after {
-                display: none;
-              }
+          .stat-item {
+            &::after {
+              display: none;
+            }
 
-              .stat-number {
-                font-size: 2.5rem;
-              }
+            .stat-number {
+              font-size: 2.25rem;
+            }
+
+            .stat-label {
+              font-size: 1rem;
             }
           }
         }
       }
     }
-  }
 
-  .about-video-modal-overlay {
-    padding: 10px;
+    .team-section {
+      padding: 50px 0;
 
-    .about-video-modal-content .about-video-modal-close {
-      top: 10px;
-      right: 10px;
-      width: 35px;
-      height: 35px;
+      .team-header {
+        margin-bottom: 40px;
+
+        .team-title {
+          font-size: 2rem;
+
+          &::before,
+          &::after {
+            display: none;
+          }
+        }
+
+        .team-description {
+          font-size: 0.95rem;
+          padding: 0 15px;
+        }
+      }
+
+      .team-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 35px;
+      }
+
+      .team-member {
+        &.team-member-bottom {
+          margin-top: 0;
+        }
+
+        .team-member-image {
+          width: 180px;
+          height: 180px;
+        }
+
+        .team-member-details {
+          .team-member-name-bottom {
+            font-size: 1.15rem;
+          }
+
+          .team-member-role-bottom {
+            font-size: 0.85rem;
+          }
+        }
+      }
     }
   }
 }
 
-@media (max-width: 480px) {
+// Small Mobile (320px - 479px)
+@media (max-width: 479px) {
   .about-section {
-    .video-section {
-      .stats-section {
-        .stats-content {
-          .stats-grid {
-            grid-template-columns: 1fr;
+    padding: 40px 0;
 
-            .stat-item .stat-number {
+    .container {
+      max-width: 100%;
+      padding: 0 15px;
+    }
+
+    .story-header {
+      margin-bottom: 30px;
+
+      .story-title {
+        font-size: 2rem;
+        text-align: center;
+        line-height: 1.2;
+
+        &::after {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 3px;
+        }
+      }
+    }
+
+    .story-content {
+      margin-bottom: 30px;
+
+      p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        text-align: left;
+      }
+    }
+
+    .signature {
+      margin-bottom: 50px;
+      text-align: center;
+
+      .signature-text {
+        font-size: 1.75rem;
+      }
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-bottom: 40px;
+
+      .feature-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px;
+
+        .feature-icon {
+          margin-right: 0;
+          margin-bottom: 12px;
+
+          svg {
+            width: 36px;
+            height: 36px;
+          }
+        }
+
+        .feature-content {
+          h3 {
+            font-size: 1rem;
+          }
+
+          p {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .video-section {
+      margin-bottom: 40px;
+      border-width: 4px;
+
+      .video-container {
+        height: 240px;
+
+        .video-background .play-button .play-button-inner {
+          width: 50px;
+          height: 50px;
+
+          .play-icon {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+
+    .stats-section {
+      padding: 30px 15px;
+
+      .stats-content {
+        .stats-description {
+          font-size: 1.25rem;
+          margin-bottom: 30px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+
+          .stat-item {
+            &::after {
+              display: none;
+            }
+
+            .stat-number {
               font-size: 2rem;
+            }
+
+            .stat-label {
+              font-size: 0.95rem;
             }
           }
         }
+      }
+    }
+
+    .team-section {
+      padding: 40px 0;
+
+      .team-header {
+        margin-bottom: 35px;
+
+        .team-title {
+          font-size: 1.75rem;
+        }
+
+        .team-description {
+          font-size: 0.9rem;
+          padding: 0 10px;
+        }
+      }
+
+      .team-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .team-member {
+        .team-member-image {
+          width: 150px;
+          height: 150px;
+
+          .team-member-overlay .team-member-info {
+            padding: 15px;
+
+            .team-member-name {
+              font-size: 1rem;
+            }
+
+            .team-member-role {
+              font-size: 0.8rem;
+            }
+
+            .team-member-social .social-link {
+              width: 35px;
+              height: 35px;
+
+              svg {
+                width: 12px;
+                height: 12px;
+              }
+            }
+          }
+        }
+
+        .team-member-details {
+          .team-member-name-bottom {
+            font-size: 1.1rem;
+          }
+
+          .team-member-role-bottom {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+
+    .bottom-decoration .decoration-line {
+      width: 60px;
+      height: 3px;
+    }
+  }
+}
+
+// Video Modal Responsive
+@media (max-width: 767px) {
+  .about-video-modal-overlay {
+    padding: 15px;
+
+    .about-video-modal-content {
+      .about-video-modal-close {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+      }
+    }
+  }
+}
+
+@media (max-width: 479px) {
+  .about-video-modal-overlay {
+    padding: 10px;
+
+    .about-video-modal-content {
+      .about-video-modal-close {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+// Touch device optimizations
+@media (hover: none) and (pointer: coarse) {
+  .about-section {
+    .features-grid .feature-card {
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    .team-section .team-member .team-member-image {
+      &:hover {
+        transform: none;
+
+        .team-member-overlay {
+          opacity: 0;
+          visibility: hidden;
+          clip-path: circle(0% at 50% 50%);
+        }
+      }
+
+      &:active .team-member-overlay {
+        opacity: 1;
+        visibility: visible;
+        clip-path: circle(50% at 50% 50%);
+      }
+    }
+
+    .video-section .video-container .video-background .play-button {
+      &:hover {
+        transform: none;
+      }
+
+      &:active {
+        transform: scale(0.95);
       }
     }
   }
