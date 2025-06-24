@@ -4,7 +4,16 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1rem;
+
+  // Mobile first approach
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 992px) {
+    padding: 2rem 1rem;
+  }
 
   .contact-container {
     display: flex;
@@ -12,25 +21,71 @@
     box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
-    max-width: 60vw;
-    max-height: 700px;
+    width: 100%;
     margin: 0 auto;
+    
+    // Mobile: full width with some margin
+    max-width: 95vw;
+    min-height: auto;
 
+    // Tablet
+    @media (min-width: 768px) {
+      max-width: 85vw;
+      max-height: 600px;
+    }
+
+    // Desktop
     @media (min-width: 992px) {
       flex-direction: row;
+      max-width: 60vw;
+      max-height: 700px;
+    }
+
+    // Large desktop
+    @media (min-width: 1200px) {
+      max-width: 900px;
     }
 
     .contact-info {
-        background-image: url('../assets/images/leaves.jpg');
-        background-repeat: no-repeat;
-        object-fit: cover;
-        display: block;
-         padding: 2.5rem;
+      background-image: url('../assets/images/leaves.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      padding: 2rem 1.5rem;
       color: $white;
       width: 100%;
+      min-height: 300px;
 
+      // Tablet
+      @media (min-width: 768px) {
+        padding: 2.5rem 2rem;
+        min-height: 350px;
+      }
+
+      // Desktop
       @media (min-width: 992px) {
         width: 40%;
+        min-height: auto;
+        padding: 2.5rem;
+      }
+
+      // Add dark overlay for better text readability
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+      }
+
+      // Ensure content is above overlay
+      > * {
+        position: relative;
+        z-index: 2;
       }
 
       .bg-overlay {
@@ -42,30 +97,51 @@
         background-size: cover;
         background-position: bottom left;
         background-repeat: no-repeat;
+        z-index: 1;
       }
 
       .contact-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 800;
         letter-spacing: 0.5px;
+        margin-bottom: 1rem;
 
-        
+        @media (min-width: 768px) {
+          font-size: 1.75rem;
+        }
+
+        @media (min-width: 992px) {
+          font-size: 2rem;
+        }
       }
 
       .contact-description {
         margin-top: 1rem;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         line-height: 1.6;
-        color: rgba(255, 255, 255, 0.85);
-        font-weight: 300;
-        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+
+        @media (min-width: 768px) {
+          font-size: 0.95rem;
+        }
+
+        @media (min-width: 992px) {
+          font-size: 1rem;
+        }
       }
 
       .contact-method {
-        
         display: flex;
         align-items: center;
         margin-top: 1.5rem;
+
+        // Stack on very small screens if needed
+        @media (max-width: 480px) {
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+        }
 
         .icon-wrapper {
           background-color: $white;
@@ -75,92 +151,182 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 50px;
-          height: 50px;
+          width: 45px;
+          height: 45px;
+          flex-shrink: 0;
+
+          @media (min-width: 768px) {
+            width: 50px;
+            height: 50px;
+          }
+
+          @media (max-width: 480px) {
+            margin-right: 0;
+            margin-bottom: 0.5rem;
+          }
 
           svg {
             color: $primary-color;
+            font-size: 1.2rem;
+
+            @media (min-width: 768px) {
+              font-size: 1.4rem;
+            }
           }
         }
 
         span {
           color: $white;
-          font-size: 0.9rem;
-          font-weight: 300;
-          opacity: 0.9;
+          font-size: 0.85rem;
+          font-weight: 400;
+          opacity: 0.95;
+          line-height: 1.4;
+
+          @media (min-width: 768px) {
+            font-size: 0.9rem;
+          }
+
+          @media (min-width: 992px) {
+            font-size: 0.95rem;
+          }
         }
       }
     }
 
     .contact-form {
       background-color: $white;
-      padding: 2rem;
+      padding: 1.5rem;
       width: 100%;
+
+      @media (min-width: 768px) {
+        padding: 2rem;
+      }
 
       @media (min-width: 992px) {
         width: 60%;
+        padding: 2.5rem 2rem;
+      }
+
+      .form-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $gray-text;
+        margin-bottom: 1.5rem;
+        text-align: center;
+
+        @media (min-width: 768px) {
+          text-align: left;
+          font-size: 1.75rem;
+        }
       }
 
       .form-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1rem;
 
         @media (min-width: 768px) {
           grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
         }
       }
 
       .form-group {
         margin-bottom: 1.5rem;
 
+        &.full-width {
+          @media (min-width: 768px) {
+            grid-column: 1 / -1;
+          }
+        }
+
         label {
           display: block;
           margin-bottom: 0.5rem;
           color: $gray-text;
           font-weight: 500;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
+
+          @media (min-width: 768px) {
+            font-size: 0.95rem;
+          }
         }
 
         input, textarea {
           width: 100%;
-          padding: 0.5rem 0;
+          padding: 0.75rem 0;
           border: none;
           border-bottom: 1px solid $border-color;
           transition: border-color $transition-speed;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
+          background: transparent;
+
+          @media (min-width: 768px) {
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+          }
 
           &:focus {
             outline: none;
-            border-bottom-color: $primary-green;
+            border-bottom-color: $primary-color;
+          }
+
+          &::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 0.9rem;
           }
         }
 
         textarea {
           resize: vertical;
           min-height: 100px;
+          padding-top: 0.75rem;
+
+          @media (min-width: 768px) {
+            min-height: 120px;
+          }
         }
       }
 
-      .text-right {
+      .form-actions {
         display: flex;
-        justify-content: flex-end;
-        margin-top: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+
+        @media (min-width: 768px) {
+          justify-content: flex-end;
+          margin-top: 1.5rem;
+        }
       }
 
       .submit-btn {
         background-color: $primary-color;
         color: $white;
-        padding: 1.3em 2.3rem;
+        padding: 1rem 2rem;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: background-color $transition-speed;
-        font-size: 0.95rem;
+        transition: all $transition-speed ease;
+        font-size: 0.9rem;
         font-weight: 600;
+        min-width: 140px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        @media (min-width: 768px) {
+          padding: 1.2rem 2.5rem;
+          font-size: 0.95rem;
+          border-radius: 10px;
+        }
 
         &:hover {
           background-color: #333333;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+          transform: translateY(0);
         }
       }
     }
@@ -168,11 +334,20 @@
 
   .map-section {
     width: 100%;
-    height: 400px;
-    margin-top: 2rem;
+    height: 300px;
+    margin-top: 1.5rem;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    @media (min-width: 768px) {
+      height: 350px;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 992px) {
+      height: 400px;
+    }
 
     iframe {
       width: 100%;
@@ -182,7 +357,83 @@
   }
 }
 
-// Utility classes
+
 .mt-4 {
   margin-top: 1rem;
+
+  @media (min-width: 768px) {
+    margin-top: 1.5rem;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .mobile-center {
+    text-align: center;
+  }
+  
+  .mobile-left {
+    text-align: left;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+
+.contact-form {
+  input:focus,
+  textarea:focus {
+    border-bottom-color: $primary-green;
+    box-shadow: 0 1px 0 0 $primary-green;
+  }
+}
+
+
+.submit-btn {
+  &.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-left: 8px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

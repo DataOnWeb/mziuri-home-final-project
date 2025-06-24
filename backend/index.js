@@ -10,6 +10,7 @@ import helmet from "helmet";
 import compression from 'compression';
 import logger from './middlewares/logger.js';
 import { fileURLToPath } from 'url';
+import { URL } from 'url'
 import path from 'path'
 dotenv.config()
 
@@ -40,6 +41,8 @@ app.use(helmet())
 app.use('/api/products', ProductsRouter);
 app.use('/api/users', logger, UsersRouter);
 app.use(compression)
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'dist')));

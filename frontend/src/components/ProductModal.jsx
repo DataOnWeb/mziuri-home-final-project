@@ -9,6 +9,7 @@ import { FaArrowsRotate } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
+import { addToCart, addToWishlist } from '../api/api';
 const ProductModal = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('Medium Size & Poot');
@@ -71,17 +72,24 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     }
   };
 
-  const handleAddToCart = () => {
-    const cartItem = {
-      id: _id,
-      title: title?.[i18n.language] || title?.en || 'No title',
-      price: localizedPrice,
-      image,
-      quantity,
-      selectedSize,
-      selectedColor,
-    };
-    console.log('Added to cart:', cartItem);
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    try {
+      await addToCart(_id, 1);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+    navigate('/cart');
+  };
+
+  const handleAddToWishlist = async (e) => {
+    e.preventDefault();
+    try {
+      await addToWishlist(_id);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+    }
+    navigate('/wishlist');
   };
 
   const handleOverlayClick = (e) => {
@@ -232,7 +240,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 
               <button
                 className="wishlist-btn"
-                onClick={() => handleNavigation('/wishlist')}
+                onClick={handleAddToWishlist}
               >
                 <CiHeart size={20} />
               </button>

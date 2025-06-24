@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import proniaImage from '../assets/images/pronia-image.png';
-import { IoSearchOutline } from 'react-icons/io5';
-import { LuUsers } from 'react-icons/lu';
-import { IoMdHeartEmpty } from 'react-icons/io';
 import { PiShoppingBagLight } from 'react-icons/pi';
 import { FaSquarePhone } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
@@ -12,7 +9,14 @@ import StickyHeader from '../components/StickyHeader';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
-
+import {
+  PiMagnifyingGlassThin,
+  PiUserThin,
+  PiHeartStraightThin,
+  PiShoppingBagThin,
+  PiCaretDownBold,
+  PiList,
+} from 'react-icons/pi';
 const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -273,21 +277,21 @@ const Header = () => {
               className="mobile-action-item"
               onClick={toggleSearch}
             >
-              <IoSearchOutline />
+              <PiMagnifyingGlassThin />
               <span>{t('search')}</span>
             </div>
             <div
               className="mobile-action-item"
               onClick={() => handleNavigation('/login')}
             >
-              <LuUsers />
+              <PiUserThin />
               <span>{t('account')}</span>
             </div>
             <div
               className="mobile-action-item"
               onClick={() => handleNavigation('/wishlist')}
             >
-              <IoMdHeartEmpty />
+              <PiHeartStraightThin />
               <span>{t('wishlist')}</span>
             </div>
             <div
@@ -392,7 +396,7 @@ const Header = () => {
                 className="search-icon"
                 onClick={toggleSearch}
               >
-                <IoSearchOutline size="25px" />
+                <PiMagnifyingGlassThin size="25px" />
               </div>
               <div
                 className="account-icon"
@@ -403,19 +407,19 @@ const Header = () => {
                   <li onClick={() => handleNavigation('/login')}>{t('login')}</li>
                   <li onClick={() => handleNavigation('/profile')}>{t('profile')}</li>
                 </ul>
-                <LuUsers size="25px" />
+                <PiUserThin size="25px" />
               </div>
               <div
                 className="wishlist-icon"
                 onClick={() => handleNavigation('/wishlist')}
               >
-                <IoMdHeartEmpty size="27px" />
+                <PiHeartStraightThin size="27px" />
               </div>
               <div
                 className="cart-icon"
                 onClick={toggleCart}
               >
-                <PiShoppingBagLight size="27" />
+                <PiShoppingBagThin size="27" />
                 <span className="cart-count">3</span>
               </div>
 

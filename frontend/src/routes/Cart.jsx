@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import RouteBanner from '../components/RouteBanner';
-import { getProducts } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { X, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCurrency } from '../context/CurrencyContext'; // Import currency context
+import { useCurrency } from '../context/CurrencyContext';
+import { getCart, removeFromCart, updateCartItem } from '../api/api';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -15,13 +15,12 @@ function Cart() {
   const { useDataLoader } = useLoader();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Add currency hooks
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
 
   const handleNavigation = (path) => {
     navigate(path);
   };
 
-  // Updated helper function to get formatted price using currency context
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
@@ -40,7 +39,6 @@ function Cart() {
     }
   };
 
-  // Helper function to get numeric price value for calculations
   const getNumericPrice = (priceObj) => {
     try {
       if (typeof priceObj === 'object' && priceObj !== null) {
@@ -64,61 +62,69 @@ function Cart() {
     return '';
   };
 
-  const isCartProduct = (product) => {
-    const localizedTitle = getLocalizedTitle(product.title);
-    const englishTitle =
-      typeof product.title === 'object' && product.title.en ? product.title.en : localizedTitle;
-
-    const targetProducts = ['Bloody Viburnum', 'Black Eyed Susan', 'Bleeding Heart'];
-    return targetProducts.includes(englishTitle) || targetProducts.includes(localizedTitle);
-  };
-
   useEffect(() => {
-    const fetchCartProducts = async () => {
+    const fetchCart = async () => {
       try {
-        setLoading(true);
-        const allProducts = await useDataLoader(getProducts);
-
-        const plantProducts = allProducts.filter(isCartProduct).map((product) => {
-          const productName = getLocalizedTitle(product.title);
-
-          return {
-            _id: product._id,
-            name: productName || 'Unknown Product',
-            price: product.price, // Keep original price object
-            image: product.image || (product.images && product.images[0]) || '',
-            inStock: product.inStock !== undefined ? product.inStock : true,
-            quantity: 1,
-          };
-        });
-
-        setCartItems(plantProducts);
-        setLoading(false);
+        const response = await useDataLoader(getCart);
+        setCartItems(response.cart || []);
       } catch (err) {
         setError(err.message);
+        console.error('Failed to fetch cart:', err);
+      } finally {
         setLoading(false);
-        console.error('Failed to fetch products:', err);
       }
     };
 
-    fetchCartProducts();
+    fetchCart();
     document.title = `My Cart - Pronia`;
-  }, [t]);
+  }, []);
 
-  const handleRemoveItem = (itemId) => {
-    setCartItems(cartItems.filter((item) => item._id !== itemId));
+  const handleRemoveItem = async (itemId) => {
+    try {
+      setCartItems((prevItems) => prevItems.filter((item) => item.productId._id !== itemId));
+
+      const response = await removeFromCart(itemId);
+
+      if (response && response.cart) {
+        setCartItems(response.cart);
+      } else {
+        const updatedCart = await getCart();
+        setCartItems(updatedCart.cart || []);
+      }
+    } catch (error) {
+      console.error('Error removing item:', error);
+      const currentCart = await getCart();
+      setCartItems(currentCart.cart || []);
+      alert(t('Failed to remove item. Please try again.'));
+    }
   };
 
-  const handleQuantityChange = (itemId, change) => {
-    setCartItems(
-      cartItems.map((item) => {
-        if (item._id === itemId) {
-          const newQuantity = Math.max(1, item.quantity + change);
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      })
-    );
+  const handleQuantityChange = async (itemId, change) => {
+    try {
+      setCartItems((prevItems) => {
+        return prevItems.map((item) => {
+          if (item.productId._id === itemId) {
+            const newQuantity = Math.max(1, item.quantity + change);
+            return { ...item, quantity: newQuantity };
+          }
+          return item;
+        });
+      });
+      const item = cartItems.find((item) => item.productId._id === itemId);
+      if (!item) return;
+
+      const newQuantity = Math.max(1, item.quantity + change);
+
+      await updateCartItem(itemId, newQuantity);
+
+      const updatedCart = await getCart();
+      setCartItems(updatedCart.cart || []);
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+      const originalCart = await getCart();
+      setCartItems(originalCart.cart || []);
+      alert(t('Failed to update quantity. Please try again.'));
+    }
   };
 
   const handleUpdateCart = () => {
@@ -139,7 +145,7 @@ function Cart() {
 
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => {
-      const itemPrice = getNumericPrice(item.price);
+      const itemPrice = getNumericPrice(item.productId.price);
       return total + itemPrice * item.quantity;
     }, 0);
   };
@@ -173,13 +179,13 @@ function Cart() {
             <tbody>
               {cartItems.map((item) => (
                 <tr
-                  key={item._id}
+                  key={item.productId._id}
                   className="cart-row"
                 >
                   <td className="cart-cell remove-cell">
                     <button
                       className="remove-button"
-                      onClick={() => handleRemoveItem(item._id)}
+                      onClick={() => handleRemoveItem(item.productId._id)}
                       aria-label="REMOVE ITEM"
                     >
                       <X size={18} />
@@ -187,25 +193,27 @@ function Cart() {
                   </td>
                   <td className="cart-cell image-cell">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.productId.image}
+                      alt={getLocalizedTitle(item.productId.title)}
                       className="product-image"
                     />
                   </td>
                   <td className="cart-cell product-cell">
                     <a
                       className="product-link"
-                      onClick={() => handleNavigation(`/product/${item._id}`)}
+                      onClick={() => handleNavigation(`/product/${item.productId._id}`)}
                     >
-                      {item.name}
+                      {getLocalizedTitle(item.productId.title)}
                     </a>
                   </td>
-                  <td className="cart-cell price-cell">{getFormattedPrice(item.price)}</td>
+                  <td className="cart-cell price-cell">
+                    {getFormattedPrice(item.productId.price)}
+                  </td>
                   <td className="cart-cell quantity-cell">
                     <div className="quantity-controls">
                       <button
                         className="quantity-btn"
-                        onClick={() => handleQuantityChange(item._id, -1)}
+                        onClick={() => handleQuantityChange(item.productId._id, -1)}
                         disabled={item.quantity <= 1}
                       >
                         <Minus size={16} />
@@ -213,14 +221,14 @@ function Cart() {
                       <span className="quantity-value">{item.quantity}</span>
                       <button
                         className="quantity-btn"
-                        onClick={() => handleQuantityChange(item._id, 1)}
+                        onClick={() => handleQuantityChange(item.productId._id, 1)}
                       >
                         <Plus size={16} />
                       </button>
                     </div>
                   </td>
                   <td className="cart-cell total-cell">
-                    {formatPrice(getNumericPrice(item.price) * item.quantity)}
+                    {formatPrice(getNumericPrice(item.productId.price) * item.quantity)}
                   </td>
                 </tr>
               ))}

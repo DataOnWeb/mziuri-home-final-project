@@ -5,7 +5,8 @@ import { PiEyeThin, PiShoppingCartThin } from 'react-icons/pi';
 import ProductModal from './ProductModal';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCurrency } from '../context/CurrencyContext'; // Import currency hook
+import { useCurrency } from '../context/CurrencyContext';
+import { addToCart, addToWishlist } from '../api/api';
 
 const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, description } = product;
@@ -35,7 +36,6 @@ const Product = ({ product, viewMode = 'grid' }) => {
     return stars;
   };
 
-  // Get the price in current currency and format it
   const getFormattedPrice = () => {
     try {
       let priceValue;
@@ -51,6 +51,36 @@ const Product = ({ product, viewMode = 'grid' }) => {
     } catch (error) {
       console.error('Error formatting price:', error);
       return formatPrice(0);
+    }
+  };
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    try {
+      await addToCart(_id, 1);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+    navigate('/cart');
+  };
+
+  const handleAddToWishlist = async (e) => {
+    e.preventDefault();
+    try {
+      if (!product?._id) {
+        throw new Error('No product selected');
+      }
+
+      const response = await addToWishlist(product._id);
+
+      navigate('/wishlist');
+    } catch (error) {
+      if (error.message.includes('already in your wishlist')) {
+        alert('This product is already in your wishlist!');
+      } else {
+        console.error('Wishlist error:', error);
+        alert(`Failed to add to wishlist: ${error.message}`);
+      }
     }
   };
 
@@ -133,7 +163,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={buttonStyle}
                 className="like-btn"
-                onClick={() => handleNavigation('/wishlist')}
+                onClick={handleAddToWishlist}
                 title="Add to Wishlist"
               >
                 <CiHeart size="25px" />
@@ -149,7 +179,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={buttonStyle}
                 className="cart-btn"
-                onClick={() => handleNavigation('/cart')}
+                onClick={handleAddToCart}
                 title="Add to Cart"
               >
                 <PiShoppingCartThin size="25px" />
@@ -200,7 +230,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={listButtonStyle}
                 className="list-action-btn"
-                onClick={() => handleNavigation('/wishlist')}
+                onClick={handleAddToWishlist}
                 title="Add to Wishlist"
               >
                 <CiHeart size="23px" />
@@ -216,7 +246,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={listButtonStyle}
                 className="list-action-btn"
-                onClick={() => handleNavigation('/cart')}
+                onClick={handleAddToCart}
                 title="Add to Cart"
               >
                 <PiShoppingCartThin size="23px" />

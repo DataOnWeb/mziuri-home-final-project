@@ -34,14 +34,7 @@
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-
-      .product-collection-image img {
-        transform: scale(1.05);
-      }
-    }
+  
 
 
     &.product-collection-item-large {
@@ -132,7 +125,7 @@
       }
     }
 
-    // Wide item (bottom-right, spans 2 columns)
+
     &.product-collection-item-wide {
       grid-column: 2 / 4;
       grid-row: 2;
@@ -225,4 +218,44 @@
       transition: transform 0.3s ease;
     }
   }
+}
+
+
+.overlay1,
+.overlay2 {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 2;
+  pointer-events: none;
+}
+.overlay1 {
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+
+.overlay2 {
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 0;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+
+.product-collection-item:hover .overlay1 {
+  width: 100%;
+  opacity: 0;
+  transition: width 1.8s ease-in-out, opacity 0.8s ease-in-out 0.3s;
+}
+
+.product-collection-item:hover .overlay2 {
+  height: 100%;
+  opacity: 0;
+  transition: height 1.8s ease-in-out, opacity 0.8s ease-in-out 0.3s;
 }

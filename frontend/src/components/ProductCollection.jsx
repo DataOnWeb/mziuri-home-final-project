@@ -62,6 +62,8 @@ function ProductCollection() {
                 key={collection.id}
                 className={`product-collection-item ${collection.className}`}
               >
+                <div className="overlay1"></div>
+                <div className="overlay2"></div>
                 <div className="product-collection-content">
                   <span className="product-collection-category">{collection.category}</span>
                   <h3 className="product-collection-title">{collection.title}</h3>

@@ -193,3 +193,114 @@ export const updateUserProfile = async (updateData) => {
     }
   }
 };
+
+// Cart API functions
+export const addToCart = async (productId, quantity = 1) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/users/cart`,
+      {
+        productId,
+        quantity,
+      },
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error adding to cart:', err);
+    throw err;
+  }
+};
+
+export const removeFromCart = async (productId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/users/cart/${productId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error removing from cart:', err);
+    throw new Error(err.response?.data?.err || 'Failed to remove item from cart');
+  }
+};
+
+export const getCart = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/cart`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching cart:', err);
+    throw err;
+  }
+};
+
+export const addToWishlist = async (productId) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/users/wishlist`,
+      { productId },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    if (err.response?.status === 400) {
+      throw new Error('Product is already in your wishlist');
+    }
+    console.error('Error adding to wishlist:', err);
+    throw new Error(err.response?.data?.message || 'Failed to add to wishlist');
+  }
+};
+
+export const removeFromWishlist = async (productId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/users/wishlist/${productId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error removing from wishlist:', err);
+    throw new Error(err.response?.data?.err || 'Failed to remove item from wishlist');
+  }
+};
+
+export const getWishlist = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/wishlist`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching wishlist:', err);
+    throw err;
+  }
+};
+
+export const updateCartItem = async (productId, quantity) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/users/cart/${productId}`,
+      { quantity },
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error updating cart item:', err);
+
+    if (err.response) {
+      const errorMessage =
+        err.response.data?.message || err.response.data?.err || 'Failed to update cart item';
+      throw new Error(errorMessage);
+    } else if (err.request) {
+      throw new Error('No response from server. Please check your connection.');
+    } else {
+      throw new Error(err.message || 'Error setting up request');
+    }
+  }
+};

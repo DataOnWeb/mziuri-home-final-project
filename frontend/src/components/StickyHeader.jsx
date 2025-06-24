@@ -7,7 +7,14 @@ import { PiShoppingBagLight } from 'react-icons/pi';
 import SearchFunction from '../components/SearchFunction';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import {
+  PiMagnifyingGlassThin,
+  PiUserThin,
+  PiHeartStraightThin,
+  PiShoppingBagThin,
+  PiCaretDownBold,
+  PiList,
+} from 'react-icons/pi';
 const StickyHeader = ({
   headerVisible,
   searchVisible,
@@ -98,7 +105,7 @@ const StickyHeader = ({
               className="search-icon"
               onClick={toggleSearch}
             >
-              <IoSearchOutline size="22px" />
+              <PiMagnifyingGlassThin size="22px" />
             </div>
             <div
               className="account-icon"
@@ -109,19 +116,19 @@ const StickyHeader = ({
                 <li onClick={() => handleNavigation('/login')}>{t('login')}</li>
                 <li onClick={() => handleNavigation('/profile')}>{t('profile')}</li>
               </ul>
-              <LuUsers size="22px" />
+              <PiUserThin size="22px" />
             </div>
             <div
               className="wishlist-icon"
               onClick={() => handleNavigation('/wishlist')}
             >
-              <IoMdHeartEmpty size="24px" />
+              <PiHeartStraightThin size="24px" />
             </div>
             <div
               className="cart-icon"
               onClick={toggleCart}
             >
-              <PiShoppingBagLight size="24px" />
+              <PiShoppingBagThin size="24px" />
               <span className="cart-count">3</span>
             </div>
           </div>

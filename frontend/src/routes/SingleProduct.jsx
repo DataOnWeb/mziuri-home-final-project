@@ -14,8 +14,9 @@ import CommentsSection from '../components/CommentsSection';
 import { getProducts, getProduct } from '../api/api';
 import { useLoader } from '../hooks/useLoader';
 import { useTranslation } from 'react-i18next';
-import { useCurrency } from '../context/CurrencyContext'; // Add currency context
-
+import { useCurrency } from '../context/CurrencyContext';
+import { addToCart, addToWishlist } from '../api/api';
+import { useNavigate } from 'react-router-dom';
 const SingleProduct = () => {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
@@ -36,7 +37,7 @@ const SingleProduct = () => {
 
   const { loading, useDataLoader } = useLoader();
 
-  // Updated helper function to get formatted price using currency context
+  const navigate = useNavigate();
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
@@ -114,6 +115,26 @@ const SingleProduct = () => {
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
+  };
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    try {
+      await addToCart(product._id, quantity);
+      navigate('/cart');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert(t('product.failedToAddToCart'));
+    }
+  };
+  const handleAddToWishlist = async (e) => {
+    e.preventDefault();
+    try {
+      await addToWishlist(product._id);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+    }
+    navigate('/wishlist');
   };
 
   const handleChange = (e) => {
@@ -271,9 +292,17 @@ const SingleProduct = () => {
                 </button>
               </div>
 
-              <button className="add-to-cart-btn">Add To Cart</button>
+              <button
+                className="add-to-cart-btn"
+                onClick={handleAddToCart}
+              >
+                Add To Cart
+              </button>
 
-              <button className="wishlist-btn">
+              <button
+                className="wishlist-btn"
+                onClick={handleAddToWishlist}
+              >
                 <FontAwesomeIcon icon={faHeart} />
               </button>
 
