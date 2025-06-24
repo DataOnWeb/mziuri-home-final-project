@@ -21,6 +21,8 @@
   .cart-table-container {
     margin-bottom: 2rem;
     border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   .cart-table {
@@ -63,9 +65,14 @@
 
     .cart-row {
       border-bottom: 1px solid #e8e8e8;
+      transition: background-color 0.2s ease;
 
       &:last-child {
         border-bottom: none;
+      }
+
+      &:hover {
+        background-color: #fafafa;
       }
 
       .cart-cell {
@@ -84,12 +91,16 @@
             border: none;
             color: #999;
             cursor: pointer;
-            padding: 0.25rem;
+            padding: 0.5rem;
             font-size: 1.2rem;
             transition: color 0.2s ease;
+            min-width: 40px;
+            min-height: 40px;
+            border-radius: 4px;
 
             &:hover {
-              color: #666;
+              color: #d32f2f;
+              background-color: #f5f5f5;
             }
           }
         }
@@ -99,7 +110,7 @@
             width: 100px;
             height: 100px;
             object-fit: cover;
-
+            border-radius: 4px;
           }
         }
 
@@ -113,6 +124,7 @@
             font-weight: 500;
             cursor: pointer;
             font-size: 0.95rem;
+            line-height: 1.4;
 
             &:hover {
               text-decoration: none;
@@ -135,12 +147,13 @@
             align-items: center;
             background: #5c5c5c;
             border-radius: 6px;
+            overflow: hidden;
 
             .quantity-btn {
               background: transparent;
               color: white;
               border: none;
-              width: 23px;
+              width: 32px;
               height: 45px;
               display: flex;
               align-items: center;
@@ -150,18 +163,22 @@
               font-weight: bold;
               transition: background-color 0.2s ease;
 
+              &:hover:not(:disabled) {
+                background: rgba(255, 255, 255, 0.1);
+              }
 
               &:disabled {
                 cursor: not-allowed;
+                opacity: 0.5;
               }
             }
 
             .quantity-value {
-              min-width: 30px;
+              min-width: 40px;
               text-align: center;
-              padding: 0 0.25rem;
+              padding: 0 0.5rem;
               font-weight: 500;
-              line-height: 32px;
+              line-height: 45px;
               color: white;
               font-size: 0.9rem;
             }
@@ -182,16 +199,19 @@
     .coupon-section {
       display: flex;
       gap: 0;
+      border-radius: 4px;
+      overflow: hidden;
 
       .coupon-input {
         padding: 0.8rem 1rem;
         border: 1px solid #ddd;
         font-size: 0.9rem;
-        min-width: 90px;
+        min-width: 200px;
         border-right: none;
 
         &:focus {
           outline: none;
+          border-color: $primary-color;
         }
 
         &::placeholder {
@@ -202,7 +222,7 @@
       .apply-coupon-btn {
         background: #666;
         color: white;
-        border: 1px solid white;
+        border: 1px solid #666;
         padding: 0.8rem 1.5rem;
         font-weight: 600;
         font-size: 0.8rem;
@@ -213,8 +233,8 @@
 
         &:hover {
           background: $primary-color;
+          border-color: $primary-color;
           transition: 200ms;
-
         }
       }
     }
@@ -230,6 +250,7 @@
       cursor: pointer;
       text-transform: uppercase;
       transition: background-color 0.2s ease;
+      border-radius: 4px;
 
       &:hover {
         background: $primary-color;
@@ -240,6 +261,9 @@
   .cart-totals {
     max-width: 350px;
     border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-left: auto;
 
     .totals-title {
       background: #f9f9f9;
@@ -274,7 +298,7 @@
           .total-label,
           .total-value {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #333;
           }
         }
@@ -300,11 +324,12 @@
         padding: 1rem;
         margin-top: 1.5rem;
         font-weight: 500;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         letter-spacing: 0.5px;
         cursor: pointer;
         text-transform: uppercase;
         transition: background-color 0.2s ease;
+        border-radius: 4px;
 
         &:hover {
           background: $primary-color;
@@ -315,37 +340,161 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 768px) {
+// Tablet responsive design
+@media (max-width: 1024px) {
   .shopping-cart {
-    padding: 2rem 0.5rem;
+    padding: 2rem 1rem;
 
     .cart-table {
       .header-cell,
       .cart-cell {
-        padding: 1rem 0.5rem;
-        font-size: 0.8rem;
+        padding: 1rem 0.75rem;
       }
 
       .cart-cell {
         &.image-cell .product-image {
-          width: 50px;
-          height: 50px;
+          width: 80px;
+          height: 80px;
         }
 
         &.product-cell {
-          padding-left: 0.75rem;
+          padding-left: 1rem;
+          
+          .product-link {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .cart-actions {
+      .coupon-section .coupon-input {
+        min-width: 150px;
+      }
+    }
+
+    .cart-totals {
+      max-width: 300px;
+    }
+  }
+}
+
+// Mobile responsive design
+@media (max-width: 768px) {
+  .shopping-cart {
+    padding: 1.5rem 0.5rem;
+
+    // Hide table headers on mobile
+    .cart-table .cart-header {
+      display: none;
+    }
+
+    .cart-table-container {
+      border: none;
+      margin-bottom: 1rem;
+    }
+
+    .cart-table {
+      .cart-row {
+        display: block;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        &:hover {
+          background-color: white;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        &.quantity-cell .quantity-controls {
-          .quantity-btn {
-            width: 28px;
-            height: 28px;
+        .cart-cell {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem 0;
+          border-right: none;
+          border-bottom: 1px solid #f0f0f0;
+          text-align: left;
+
+          &:last-child {
+            border-bottom: none;
           }
 
-          .quantity-value {
-            min-width: 25px;
-            line-height: 28px;
+          // Add mobile labels
+          &::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #666;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 100px;
+          }
+
+          &.remove-cell {
+            justify-content: flex-end;
+            border-bottom: none;
+            padding-top: 0;
+
+            &::before {
+              display: none;
+            }
+
+            .remove-button {
+              padding: 0.75rem;
+              font-size: 1.1rem;
+            }
+          }
+
+          &.image-cell {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            &::before {
+              display: none;
+            }
+
+            .product-image {
+              width: 120px;
+              height: 120px;
+              margin-bottom: 0.5rem;
+            }
+          }
+
+          &.product-cell {
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 0;
+
+            &::before {
+              margin-bottom: 0.5rem;
+            }
+
+            .product-link {
+              font-size: 1rem;
+              font-weight: 600;
+            }
+          }
+
+          &.price-cell,
+          &.total-cell {
+            font-size: 1rem;
+            font-weight: 600;
+          }
+
+          &.quantity-cell .quantity-controls {
+            .quantity-btn {
+              width: 36px;
+              height: 48px;
+            }
+
+            .quantity-value {
+              min-width: 45px;
+              line-height: 48px;
+            }
           }
         }
       }
@@ -354,40 +503,92 @@
     .cart-actions {
       flex-direction: column;
       align-items: stretch;
+      gap: 1.5rem;
 
       .coupon-section {
+        order: 2;
+        
         .coupon-input {
           min-width: auto;
           flex: 1;
         }
+      }
+
+      .update-cart-btn {
+        order: 1;
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.9rem;
       }
     }
 
     .cart-totals {
       margin: 0;
       max-width: none;
+      margin-top: 2rem;
+
+      .totals-title {
+        font-size: 1.1rem;
+        padding: 1rem;
+      }
+
+      .totals-content {
+        padding: 1rem;
+
+        .checkout-btn {
+          font-size: 0.9rem;
+          padding: 1.2rem;
+        }
+      }
     }
   }
 }
 
+// Extra small mobile devices
 @media (max-width: 480px) {
   .shopping-cart {
-    .cart-table {
-      font-size: 0.75rem;
+    padding: 1rem 0.25rem;
 
-      .header-cell,
-      .cart-cell {
-        padding: 0.75rem 0.25rem;
-      }
+    .cart-table .cart-row {
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
 
       .cart-cell {
-        &.product-cell {
-          padding-left: 0.5rem;
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+
+        &::before {
+          font-size: 0.75rem;
+          min-width: 90px;
+        }
+
+        &.image-cell .product-image {
+          width: 100px;
+          height: 100px;
+        }
+
+        &.product-cell .product-link {
+          font-size: 0.95rem;
+        }
+
+        &.quantity-cell .quantity-controls {
+          .quantity-btn {
+            width: 32px;
+            height: 42px;
+          }
+
+          .quantity-value {
+            min-width: 40px;
+            line-height: 42px;
+            font-size: 0.85rem;
+          }
         }
       }
     }
 
     .cart-actions {
+      gap: 1rem;
+
       .coupon-section {
         flex-direction: column;
         width: 100%;
@@ -395,11 +596,90 @@
         .coupon-input,
         .apply-coupon-btn {
           width: 100%;
+          border-radius: 4px;
+          border: 1px solid #ddd;
+        }
+
+        .apply-coupon-btn {
+          margin-top: 0.5rem;
         }
       }
+    }
 
-      .update-cart-btn {
-        width: 100%;
+    .cart-totals {
+      .totals-content {
+        padding: 0.75rem;
+
+        .total-row {
+          padding: 0.6rem 0;
+
+          &.final-total {
+            .total-label,
+            .total-value {
+              font-size: 1rem;
+            }
+          }
+
+          .total-label,
+          .total-value {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Large screens optimization
+@media (min-width: 1400px) {
+  .shopping-cart {
+    max-width: 1400px;
+    padding: 4rem 2rem;
+
+    .cart-table {
+      .header-cell,
+      .cart-cell {
+        padding: 1.75rem 1.25rem;
+      }
+
+      .cart-cell {
+        &.image-cell .product-image {
+          width: 120px;
+          height: 120px;
+        }
+
+        &.product-cell {
+          padding-left: 2rem;
+
+          .product-link {
+            font-size: 1rem;
+          }
+        }
+
+        &.quantity-cell .quantity-controls {
+          .quantity-btn {
+            width: 36px;
+            height: 50px;
+          }
+
+          .quantity-value {
+            min-width: 45px;
+            line-height: 50px;
+          }
+        }
+      }
+    }
+
+    .cart-totals {
+      max-width: 400px;
+
+      .totals-content {
+        padding: 2rem;
+
+        .checkout-btn {
+          padding: 1.25rem;
+          font-size: 0.9rem;
+        }
       }
     }
   }

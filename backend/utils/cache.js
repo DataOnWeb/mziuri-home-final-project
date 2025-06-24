@@ -1,5 +1,5 @@
-// import NodeCache from 'node-cache';
+import NodeCache from 'node-cache';
 
-// const cache = new NodeCache({ stdTTL: 60 }); 
+const cache = new NodeCache({ stdTTL: 60 }); 
 
-// export default cache;
+export default cache;

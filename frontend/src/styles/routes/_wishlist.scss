@@ -1,11 +1,11 @@
 @use '../abstracts' as *;
 
-
 .shopping-cart {
-  font-family: 'Rubik', sans-serif; // Matching your app's font if that's what you use
+  font-family: 'Rubik', sans-serif;
   margin: 20px auto;
   max-width: 1200px;
   width: 100%;
+  padding: 0 15px; // Add horizontal padding for mobile
 
   .cart-table {
     width: 100%;
@@ -20,8 +20,6 @@
     background-color: #f7f7f7;
     border-bottom: 1px solid #e5e5e5;
     font-weight: 400;
-
-
   }
 
   .header-cell {
@@ -63,9 +61,9 @@
       flex: 1.5;
     }
 
-    a:hover{
-        color: $secondary-color;
-        transition: 200ms;
+    a:hover {
+      color: $secondary-color;
+      transition: 200ms;
     }
   }
 
@@ -76,6 +74,8 @@
     cursor: pointer;
     padding: 5px;
     transition: color 0.2s;
+    min-width: 30px; // Ensure touch target size
+    min-height: 30px;
     
     &:hover {
       color: #dc3545;
@@ -86,6 +86,8 @@
     max-width: 145px;
     max-height: 145px;
     object-fit: contain;
+    width: 100%;
+    height: auto;
   }
 
   .price-cell {
@@ -93,9 +95,9 @@
     color: #333;
   }
 
-  .stock-cell {  
+  .stock-cell {
     .in-stock {
-      color:#333;
+      color: #333;
       font-weight: 400;
     }
     
@@ -106,7 +108,7 @@
   }
 
   .add-to-cart-button {
-    background-color:#333;
+    background-color: #333;
     border: none;
     color: white;
     padding: 12px 17px;
@@ -115,6 +117,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
+    min-width: 120px; // Consistent button width
     
     &:hover {
       background-color: $secondary-color;
@@ -144,42 +147,181 @@
   }
 }
 
+// Tablet responsive design
+@media (max-width: 1024px) {
+  .shopping-cart {
+    margin: 15px auto;
+    
+    .header-cell,
+    .cart-cell {
+      padding: 12px;
+      font-size: 14px;
+    }
+    
+    .product-image {
+      max-width: 100px;
+      max-height: 100px;
+    }
+    
+    .add-to-cart-button {
+      padding: 10px 14px;
+      font-size: 14px;
+      min-width: 100px;
+    }
+  }
+}
+
+// Mobile responsive design
 @media (max-width: 768px) {
   .shopping-cart {
-    .cart-header, .cart-row {
+    margin: 10px auto;
+    padding: 0 10px;
+    
+    .cart-table {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    
+    .cart-header {
+      display: none; // Hide table headers on mobile
+    }
+    
+    .cart-row {
       flex-direction: column;
       margin-bottom: 20px;
       border: 1px solid #e5e5e5;
-      border-radius: 4px;
-    }
-    
-    .header-cell, .cart-cell {
-      width: 100%;
-      flex: 1;
-      border-bottom: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       
-      &:last-child {
-        border-bottom: none;
+      &:hover {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
       }
-    }
-    
-    .header-cell {
-      text-align: left;
-      padding-left: 15px;
     }
     
     .cart-cell {
+      width: 100%;
+      flex: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      text-align: right;
+      text-align: left;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
       
+      &:last-child {
+        border-bottom: none;
+        margin-top: 10px;
+      }
+      
+      // Add labels for mobile
       &::before {
         content: attr(data-label);
         font-weight: 600;
-        text-align: left;
+        color: #666;
+        min-width: 80px;
+      }
+      
+      // Special handling for image cell
+      &:first-child {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        
+        &::before {
+          display: none;
+        }
+      }
+      
+      // Product name cell
+      &:nth-child(2) {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        &::before {
+          content: "Product";
+          margin-bottom: 5px;
+        }
       }
     }
+    
+    .product-image {
+      max-width: 120px;
+      max-height: 120px;
+      margin-bottom: 10px;
+    }
+    
+    .add-to-cart-button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    
+    .remove-button {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 10px;
+    }
+    
+    .price-cell {
+      font-size: 18px;
+      font-weight: 700;
+    }
   }
+}
 
+// Extra small mobile devices
+@media (max-width: 480px) {
+  .shopping-cart {
+    padding: 0 5px;
+    
+    .cart-row {
+      padding: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .cart-cell {
+      padding: 6px 0;
+      font-size: 14px;
+      
+      &::before {
+        font-size: 12px;
+        min-width: 70px;
+      }
+    }
+    
+    .product-image {
+      max-width: 100px;
+      max-height: 100px;
+    }
+    
+    .add-to-cart-button {
+      padding: 10px;
+      font-size: 14px;
+    }
+    
+    .price-cell {
+      font-size: 16px;
+    }
+  }
+}
+
+// Large screens optimization
+@media (min-width: 1400px) {
+  .shopping-cart {
+    max-width: 1400px;
+    
+    .header-cell,
+    .cart-cell {
+      padding: 20px;
+    }
+    
+    .product-image {
+      max-width: 180px;
+      max-height: 180px;
+    }
+  }
 }

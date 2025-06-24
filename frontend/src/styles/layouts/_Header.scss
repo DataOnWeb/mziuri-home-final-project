@@ -13,7 +13,7 @@ body {
   
 
   .top-bar {
-    background-color: #a4ce6a;
+    background-color: $primary-color;
     padding: 10px 0;
     color: white;
 
@@ -132,12 +132,12 @@ body {
     gap: 10px;
   }
   
-//   .phone-icon {
-//     background-color: #a4ce6a;
-//     width: 30px;
-//     height: 30px;
-//     border-radius: 50%;
-//   }
+  .phone-icon svg {
+    color: $primary-color;
+    width: 35px;
+    height: 35px;
+
+  }
   
   .logo h1 {
     color: #444;
@@ -170,35 +170,48 @@ body {
   }
   
 
-  .main-navigation {
-    height: 4vw;
-    padding: 15px 0;
-  }
-  
-  .main-menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    position: relative;
-    top:20px;
-    gap: 30px;
-  }
-  
-  .main-menu a {
-    font-size: 13px;
+.main-navigation {
+  height: 4vw;
+  padding: 15px 0;
+}
 
-    color: #444;
-    font-weight: 500;
-    
-  }
-  
+.main-menu {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  position: relative;
+  top: 20px;
+  gap: 30px;
+}
 
-  
-  .main-menu a:hover {
-    color:#a4ce6a;
-    transition: 200ms;
+.main-menu a {
+  font-size: 14px;
+  color: #444;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 200ms ease;
+}
 
-  }
+.main-menu a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -10px;
+  left: 0;
+  background-color: $primary-color;
+  transition: width 300ms ease;
+}
+
+.main-menu a:hover {
+  color: $primary-color;
+}
+
+.main-menu a:hover::after {
+
+  width: 100%;
+}
 
 a {
   cursor: pointer;
@@ -207,174 +220,13 @@ a {
 .user-actions {
 
   svg:hover{
-color: #a4ce6a;
+color: $primary-color;
     transform: scale(1.1);
     transition: 200ms;
   }
 }
 
 
-
-.sticky-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5vw;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  z-index: 100;
-  transform: translateY(-130%);
-  transition: transform 0.4s ease;
-  border-bottom: 1px solid $border-color;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  
-  &.visible {
-    transform: translateY(0);
-  }
-  
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    
-    
-    img {
-      height: 50px;
-      cursor: pointer;
-      position: relative;
-    bottom: 5px
-    }
-  }
-  
-  .sticky-navigation {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    position: relative;
-    bottom: 20px;
-    
-    .main-menu {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      gap: 30px;
-      
-      li {
-        position: relative;
-        
-        a {
-          text-decoration: none;
-          font-weight: 400;
-          font-size: 14px;
-          letter-spacing: 0.5px;
-          cursor: pointer;
-          transition: color $transition-speed;
-          text-transform: uppercase;
-          padding: 5px 0;
-          
-          &:hover {
-            color: $primary-color;
-          }
-        }
-        
-        &.active a {
-          color: $primary-color;
-        }
-      }
-    }
-  }
-  
-  .user-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    
-    .search-icon,
-    .account-icon,
-    .wishlist-icon,
-    .cart-icon {
-      cursor: pointer;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color $transition-speed;
-      
-      &:hover {
-        color: $primary-color;
-      }
-    }
-    
-    .cart-icon {
-      position: relative;
-      
-      .cart-count {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background-color: $primary-color;
-        color: white;
-        font-size: 10px;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-      }
-    }
-  }
-}
-
-// Animation for header appearing
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-// Responsive styles
-@media (max-width: 992px) {
-  .sticky-header {
-    .sticky-navigation {
-      .main-menu {
-        gap: 20px;
-        
-        li a {
-          font-size: 13px;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .sticky-header {
-    .sticky-navigation {
-      display: none;
-    }
-    
-    .container {
-      justify-content: space-between;
-    }
-  }
-}
 .user-dropdown1{
   position: absolute;
   top: 30px;
@@ -415,4 +267,376 @@ color: #a4ce6a;
   background-color: #a4ce6a;
   color: whitesmoke;
   transition: 400ms ease;
+}
+
+// Additional responsive styles
+@media (max-width: 1200px) {
+  .container {
+    max-width: 70vw;
+    padding: 0 25px;
+  }
+  
+  .main-menu {
+    gap: 25px;
+  }
+  
+  .navbar .user-actions {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 85vw;
+    height: auto;
+    padding: 0 20px;
+  }
+  
+  .top-bar {
+    .container {
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px 20px;
+    }
+    
+    .promotion {
+      order: 2;
+    }
+    
+    .options {
+      order: 1;
+      gap: 15px;
+    }
+  }
+  
+  .navbar {
+    height: auto;
+    top: 10px;
+    
+    .contact-info {
+      span {
+        display: none;
+      }
+    }
+    
+    .logo img {
+      height: 50px;
+    }
+    
+    .user-actions {
+      gap: 15px;
+      
+      > div:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  .main-navigation {
+    height: auto;
+    
+    .main-menu {
+      gap: 20px;
+      top: 10px;
+      
+      a {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+    height: auto;
+  }
+  
+  .top-bar {
+    padding: 8px 0;
+    
+    .promotion h5 {
+      font-size: 12px;
+      text-align: center;
+    }
+    
+    .options {
+      gap: 10px;
+      
+      .currency-selector h5,
+      .language-selector h5 {
+        font-size: 12px;
+      }
+    }
+  }
+  
+  .navbar {
+    padding: 15px 0;
+    top: 0;
+    
+    .contact-info {
+      .phone-icon svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    
+    .logo img {
+      height: 45px;
+    }
+    
+    .user-actions {
+      gap: 12px;
+      
+      svg {
+        width: 22px !important;
+        height: 22px !important;
+      }
+    }
+  }
+  
+  .main-navigation {
+    display: none;
+  }
+  
+  .sticky-header {
+    height: auto;
+    min-height: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .top-bar {
+    .container {
+      padding: 10px;
+    }
+    
+    .promotion h5 {
+      font-size: 11px;
+    }
+    
+    .options {
+      .currency-selector h5,
+      .language-selector h5 {
+        font-size: 11px;
+      }
+    }
+  }
+  
+  .navbar {
+    .logo img {
+      height: 40px;
+    }
+    
+    .user-actions {
+      gap: 8px;
+      
+      svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+      
+      .cart-count {
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        top: -6px;
+        right: -6px;
+      }
+    }
+  }
+  
+  .currency-dropdown,
+  .language-dropdown,
+  .user-dropdown1 {
+    min-width: 100px;
+    font-size: 12px;
+    
+    li {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar .container {
+    padding: 8px 10px;
+  }
+  
+  .navbar {
+    .contact-info {
+      .phone-icon {
+        display: none;
+      }
+    }
+    
+    .user-actions {
+      gap: 6px;
+    }
+  }
+  
+  .sticky-header .container {
+    padding: 10px;
+  }
+}
+
+
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1000;
+  
+  span {
+    width: 25px;
+    height: 3px;
+    background-color: #444;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+    
+    &:nth-child(1) {
+      transform-origin: top left;
+    }
+    &:nth-child(3) {
+      transform-origin: bottom left;
+    }
+  }
+  
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+    }
+    span:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 999;
+  padding-top: 80px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  
+  &.active {
+    transform: translateX(0);
+  }
+  
+  .mobile-menu-content {
+    padding: 20px;
+    
+    .mobile-main-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+      li {
+        margin: 15px 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        a {
+          font-size: 15px;
+          color: #444;
+          text-decoration: none;
+          font-weight: 500;
+          display: block;
+          padding: 10px 0;
+          
+          &:hover {
+            color: #a4ce6a;
+          }
+        }
+        
+        &.active a {
+          color: #a4ce6a;
+        }
+      }
+    }
+    
+    .mobile-user-actions {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      
+      .mobile-action-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 0;
+        cursor: pointer;
+        color: #444;
+        font-size: 16px;
+        font-weight: 500;
+        
+        &:hover {
+          color: #a4ce6a;
+        }
+        
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .mobile-menu {
+    display: block;
+  }
+}
+
+
+@media (max-width: 1024px) and (orientation: landscape) {
+  .navbar {
+    padding: 15px 0;
+    top: 10px;
+    height: auto;
+    
+    .logo img {
+      height: 45px;
+    }
+  }
+  
+  .main-navigation {
+    padding: 12px 0;
+    height: auto;
+    
+    .main-menu {
+      gap: 20px;
+      top: 10px;
+      
+      a {
+        font-size: 13px;
+      }
+    }
+  }
 }

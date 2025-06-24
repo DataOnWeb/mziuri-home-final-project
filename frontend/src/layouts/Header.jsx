@@ -7,6 +7,7 @@ import { PiShoppingBagLight } from 'react-icons/pi';
 import { FaSquarePhone } from 'react-icons/fa6';
 import SearchFunction from '../components/SearchFunction';
 import ShoppingCartSidebar from '../components/ShoppingCartSidebar';
+import StickyHeader from '../components/StickyHeader';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
@@ -17,15 +18,27 @@ const Header = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [headerVisible, setHeaderVisible] = useState(false);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
-  const dropdownRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const mainHeaderRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
-  const { currentCurrency, changeCurrency, currencyNames } = useCurrency();
+  const { currentCurrency, changeCurrency } = useCurrency();
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -36,6 +49,7 @@ const Header = () => {
   const handleNavigation = (path) => {
     navigate(path);
     setActiveDropdown(null);
+    setMobileMenuOpen(false); // Close mobile menu on navigation
   };
 
   const toggleSearch = () => {
@@ -69,13 +83,23 @@ const Header = () => {
     setCartOpen(!cartOpen);
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    // Prevent body scroll when mobile menu is open
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  };
+
+  // Close mobile menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       const isInsideMainHeader =
         mainHeaderRef.current && mainHeaderRef.current.contains(event.target);
-      const isInsideFixedHeader = dropdownRef.current && dropdownRef.current.contains(event.target);
 
-      if (!isInsideMainHeader && !isInsideFixedHeader) {
+      if (!isInsideMainHeader) {
         setActiveDropdown(null);
       }
     }
@@ -83,6 +107,26 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEscapeKey = (e) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        document.body.style.overflow = 'unset';
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, [mobileMenuOpen]);
+
+  // Clean up body overflow on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'unset';
     };
   }, []);
 
@@ -134,13 +178,68 @@ const Header = () => {
       } else {
         setHeaderVisible(false);
       }
-
-      setLastScrollTop(currentScrollPos);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const navigationItems = [
+    { path: '/', label: t('home') },
+    { path: '/shop', label: t('shop') },
+    { path: '/blog', label: t('blog') },
+    { path: '/about', label: t('about') },
+    { path: '/pages', label: t('pages') },
+    { path: '/contact', label: t('contact') },
+  ];
+
+  const MobileMenu = () => (
+    <div className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}>
+      <div className="mobile-menu-content">
+        <ul className="mobile-main-menu">
+          {navigationItems.map((item) => (
+            <li
+              key={item.path}
+              className={isActive(item.path) ? 'active' : ''}
+            >
+              <a onClick={() => handleNavigation(item.path)}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mobile-user-actions">
+          <div
+            className="mobile-action-item"
+            onClick={toggleSearch}
+          >
+            <IoSearchOutline />
+            <span>{t('search')}</span>
+          </div>
+          <div
+            className="mobile-action-item"
+            onClick={() => handleNavigation('/login')}
+          >
+            <LuUsers />
+            <span>{t('account')}</span>
+          </div>
+          <div
+            className="mobile-action-item"
+            onClick={() => handleNavigation('/wishlist')}
+          >
+            <IoMdHeartEmpty />
+            <span>{t('wishlist')}</span>
+          </div>
+          <div
+            className="mobile-action-item"
+            onClick={toggleCart}
+          >
+            <PiShoppingBagLight />
+            <span>{t('cart')} (3)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -156,7 +255,7 @@ const Header = () => {
             <div className="options">
               <div className={`currency-selector ${activeDropdown === 'currency' ? 'active' : ''}`}>
                 <h5 onClick={(e) => toggleDropdown(e, 'currency')}>
-                  {getCurrentCurrencyDisplay()}▼
+                  {getCurrentCurrencyDisplay()} ▼
                 </h5>
                 <ul
                   className={`currency-dropdown ${activeDropdown === 'currency' ? 'active' : ''}`}
@@ -217,12 +316,15 @@ const Header = () => {
               </div>
               <span>+00 123 456 789</span>
             </div>
+
             <div className="logo">
               <img
                 src={proniaImage}
                 alt="Pronia"
+                onClick={() => handleNavigation('/')}
               />
             </div>
+
             <div className="user-actions">
               <div
                 className="search-icon"
@@ -254,34 +356,37 @@ const Header = () => {
                 <PiShoppingBagLight size="27" />
                 <span className="cart-count">3</span>
               </div>
+
+              {isMobile && (
+                <div
+                  className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
+                  onClick={toggleMobileMenu}
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        <nav className="main-navigation">
-          <div className="container">
-            <ul className="main-menu">
-              <li className={isActive('/') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/')}>{t('home')}</a>
-              </li>
-              <li className={isActive('/shop') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/shop')}>{t('shop')}</a>
-              </li>
-              <li className={isActive('/blog') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/blog')}>{t('blog')}</a>
-              </li>
-              <li className={isActive('/about') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/about')}>{t('about')}</a>
-              </li>
-              <li className={isActive('/pages') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/pages')}>{t('pages')}</a>
-              </li>
-              <li className={isActive('/contact') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/contact')}>{t('contact')}</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        {!isMobile && (
+          <nav className="main-navigation">
+            <div className="container">
+              <ul className="main-menu">
+                {navigationItems.map((item) => (
+                  <li
+                    key={item.path}
+                    className={isActive(item.path) ? 'active' : ''}
+                  >
+                    <a onClick={() => handleNavigation(item.path)}>{item.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+        )}
 
         <SearchFunction
           searchVisible={searchVisible}
@@ -290,76 +395,18 @@ const Header = () => {
         />
       </header>
 
-      {/* Fixed Header component */}
+      {/* Mobile Menu */}
+      {isMobile && <MobileMenu />}
 
-      <header
-        className={`sticky-header ${headerVisible ? 'visible' : ''}`}
-        ref={dropdownRef}
-      >
-        <div className="container">
-          <div className="logo">
-            <img
-              src={proniaImage}
-              alt="Pronia"
-              onClick={() => handleNavigation('/')}
-            />
-          </div>
-          <nav className="sticky-navigation">
-            <ul className="main-menu">
-              <li className={isActive('/') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/')}>{t('home')}</a>
-              </li>
-              <li className={isActive('/shop') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/shop')}>{t('shop')}</a>
-              </li>
-              <li className={isActive('/blog') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/blog')}>{t('blog')}</a>
-              </li>
-              <li className={isActive('/about') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/about')}>{t('about')}</a>
-              </li>
-              <li className={isActive('/pages') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/pages')}>{t('pages')}</a>
-              </li>
-              <li className={isActive('/contact') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/contact')}>{t('contact')}</a>
-              </li>
-            </ul>
-          </nav>
-          <div className="user-actions">
-            <div
-              className="search-icon"
-              onClick={toggleSearch}
-            >
-              <IoSearchOutline size="22px" />
-            </div>
-            <div
-              className="account-icon"
-              onClick={(e) => toggleDropdown(e, 'user')}
-            >
-              <ul className={`user-dropdown ${activeDropdown === 'user' ? 'active' : ''}`}>
-                <li onClick={() => handleNavigation('/register')}>{t('register')}</li>
-                <li onClick={() => handleNavigation('/login')}>{t('login')}</li>
-                <li onClick={() => handleNavigation('/profile')}>{t('profile')}</li>
-              </ul>
-              <LuUsers size="22px" />
-            </div>
-            <div
-              className="wishlist-icon"
-              onClick={() => handleNavigation('/wishlist')}
-            >
-              <IoMdHeartEmpty size="24px" />
-            </div>
-            <div
-              className="cart-icon"
-              onClick={toggleCart}
-            >
-              <PiShoppingBagLight size="24px" />
-              <span className="cart-count">3</span>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Sticky Header Component */}
+      <StickyHeader
+        headerVisible={headerVisible}
+        searchVisible={searchVisible}
+        toggleSearch={toggleSearch}
+        toggleCart={toggleCart}
+        closeSearch={closeSearch}
+        handleSearchSubmit={handleSearchSubmit}
+      />
 
       <ShoppingCartSidebar
         isOpen={cartOpen}

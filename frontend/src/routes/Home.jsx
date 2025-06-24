@@ -41,7 +41,6 @@ const Home = () => {
   useEffect(() => {
     document.title = 'Pronia - Home';
 
-    // Fetch featured products
     const fetchFeaturedProducts = async () => {
       try {
         const data = await useDataLoader(getProducts);
