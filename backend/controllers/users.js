@@ -207,7 +207,7 @@ export const updateUser = async (req, res) => {
     
     const { username, email, currentPassword, newPassword } = req.body;
     
-    // Get the user ID from the token (you'll need to add authentication middleware)
+
     const token = req.cookies.token;
     if (!token) {
       return res.status(401).json({ message: 'Not authenticated' });
@@ -216,13 +216,11 @@ export const updateUser = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const userId = decoded.id;
 
-    // Find the user
     const user = await Users.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Check if email is already taken by another user
     if (email !== user.email) {
       const emailExists = await Users.findOne({ email, _id: { $ne: userId } });
       if (emailExists) {
@@ -230,15 +228,12 @@ export const updateUser = async (req, res) => {
       }
     }
 
-    // Prepare update data
+
     const updateData = {
       username,
       email
     };
-
-    // Handle password change if provided
     if (newPassword && currentPassword) {
-      // Verify current password
       const isCurrentPasswordValid = await bcrypt.compare(
         currentPassword + process.env.BCRYPT_PEPPER, 
         user.password
@@ -248,7 +243,7 @@ export const updateUser = async (req, res) => {
         return res.status(401).json({ message: 'Current password is incorrect' });
       }
 
-      // Hash new password
+
       const hashedNewPassword = await bcrypt.hash(
         newPassword + process.env.BCRYPT_PEPPER, 
         11
@@ -257,7 +252,6 @@ export const updateUser = async (req, res) => {
       updateData.password = hashedNewPassword;
     }
 
-    // Update user in database
     const updatedUser = await Users.findByIdAndUpdate(
       userId,
       updateData,
