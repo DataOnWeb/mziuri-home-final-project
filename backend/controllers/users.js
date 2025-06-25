@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Users from '../models/users.js';
+import Users from '../models/Users.js';
 import bcrypt from 'bcrypt'
 import mailSender from '../utils/mailSender.js';
 
