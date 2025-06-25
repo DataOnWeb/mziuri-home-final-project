@@ -299,7 +299,7 @@ const Header = () => {
               onClick={toggleCart}
             >s
               <PiShoppingBagLight />
-              <span>{t('cartPage')} (3)</span>
+              <span>{t('cartTitle')} (3)</span>
             </div>
           </div>
         </div>

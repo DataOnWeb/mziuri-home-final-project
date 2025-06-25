@@ -28,19 +28,9 @@ app.use(limiter)
 
 
 
-const allowedOrigins = [
-  'https://pronia-app.onrender.com'
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+    origin: ["http://localhost:5173", "https://pronia-app.onrender.com"], // React frontend
+    credentials: true // Allow cookies to be sent
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -65,12 +55,9 @@ app.use(
           "https://cdn-uicons.flaticon.com",
           "https://cdnjs.cloudflare.com"
         ],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        connectSrc: [
-          "'self'",  
-          "http://localhost:3000",
-          "https://pronia-app.onrender.com"
-        ],
+        scriptSrc: ["'self'", "*"],
+        connectSrc: ["'self'", "*"],
+          
       }
     }
   })
