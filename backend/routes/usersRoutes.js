@@ -36,14 +36,14 @@ UsersRouter.post('/auth/logout', auth, logoutUser);
 UsersRouter.get('/auth/verify', auth, getToken);
 
 
-UsersRouter.post('/cart', auth, addToCart);
-UsersRouter.delete('/cart/:productId', auth, removeFromCart);
-UsersRouter.put('/cart/:productId', auth, updateCartItem);
-UsersRouter.get('/cart', auth, getCart);
+UsersRouter.post('/cart', addToCart);
+UsersRouter.delete('/cart/:productId', removeFromCart);
+UsersRouter.put('/cart/:productId', updateCartItem);
+UsersRouter.get('/cart', getCart);
 
 
-UsersRouter.post('/wishlist', auth, addToWishlist);
-UsersRouter.delete('/wishlist/:productId', auth, removeFromWishlist);
-UsersRouter.get('/wishlist', auth, getWishlist);
+UsersRouter.post('/wishlist', addToWishlist);
+UsersRouter.delete('/wishlist/:productId', removeFromWishlist);
+UsersRouter.get('/wishlist', getWishlist);
 
 export default UsersRouter;
