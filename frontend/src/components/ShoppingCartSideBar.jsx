@@ -119,7 +119,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
                 <div key={item.productId._id} className="cart-item">
                   <div className="item-image">
                     <img
-                      src={item.productId.image}
+                      src={`/productImg/product${item.productId.image}.jpg`}
                       alt={item.productId.title?.[i18n.language] || item.productId.title?.en || 'Product'}
                     />
                   </div>

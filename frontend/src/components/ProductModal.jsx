@@ -133,7 +133,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           <div className="modal-image-section">
             <div className="product-image-container">
               <img
-                src={image}
+                src={`/productImg/product${image}.jpg`}
                 alt={title?.[i18n.language] || title?.en || 'Product image'}
                 className="product-image"
               />

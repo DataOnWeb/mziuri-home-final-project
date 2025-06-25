@@ -43,7 +43,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         frameSrc: ["'self'", "https://www.google.com"],
-        imgSrc: ["'self'", "data:", "http://localhost:3000", "https://htmldemo.net"],
+        imgSrc: ["'self'", "data:", "http://localhost:3000", "https://images.unsplash.com", 'https://htmldemo.net'],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",

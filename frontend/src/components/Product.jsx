@@ -150,7 +150,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
           <div className="product-image">
             <Link to={`/product/${_id}`}>
               <img
-                src={image}
+                src={`/productImg/product${image}.jpg`}
                 alt={title?.[i18n.language] || title?.en || 'Product image'}
                 style={{
                   transform: isHovered ? 'scale(1.05)' : 'scale(1)',

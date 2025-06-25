@@ -145,7 +145,7 @@ function Wishlist() {
               </div>
               <div className="cart-cell image-cell">
                 <img
-                  src={item.productId.image}
+                  src={`/productImg/product${item.productId.image}.jpg`}
                   alt={getLocalizedTitle(item.productId.title)}
                   className="product-image"
                 />

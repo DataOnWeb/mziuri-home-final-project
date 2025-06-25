@@ -19,7 +19,7 @@ function Compare() {
     navigate(path);
   };
 
-  // Helper function to get formatted price using currency context
+
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
@@ -107,7 +107,7 @@ function Compare() {
             const productName = getLocalizedTitle(product.title);
             const productDescription = getLocalizedDescription(product.description);
 
-            // Set default data based on product to ensure we have the right comparison
+  
             let defaultColor = 'Black';
             let defaultSize = 'Medium';
             let stockStatus = true;
@@ -128,7 +128,7 @@ function Compare() {
                 productDescription ||
                 'Nulla pulvinar et urna malesuada elementum. Nunc placerat, quam et tempus ullamcorper, nunc erat imperdiet lacus, vel auctor arcu lacus non ligula.',
               price: product.price,
-              image: product.image || (product.images && product.images[0]) || '',
+              image: `/productImg/product${product.image}.jpg`,
               inStock: product.inStock !== undefined ? product.inStock : stockStatus,
               rating: product.rating || 5,
               color: product.color || defaultColor,

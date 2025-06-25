@@ -194,7 +194,7 @@ const SingleProduct = () => {
           <div className="product-detail__images">
             <div className="product-detail__main-image">
               <img
-                src={product.image}
+                src={`/productImg/product${product.image}.jpg`}
                 alt={product.title?.[i18n.language] || product.title?.en || product.title}
               />
             </div>
@@ -204,7 +204,7 @@ const SingleProduct = () => {
                 onClick={() => setSelectedThumbnail(0)}
               >
                 <img
-                  src={product.image}
+                  src={`/productImg/product${product.image}.jpg`}
                   alt={`${product.title?.[i18n.language] || product.title?.en || product.title} ${t('product.view')} 1`}
                 />
               </div>
@@ -213,7 +213,7 @@ const SingleProduct = () => {
                 onClick={() => setSelectedThumbnail(1)}
               >
                 <img
-                  src={product.image}
+                  src={`/productImg/product${product.image}.jpg`}
                   alt={`${product.title?.[i18n.language] || product.title?.en || product.title} ${t('product.view')} 2`}
                 />
               </div>
@@ -222,7 +222,7 @@ const SingleProduct = () => {
                 onClick={() => setSelectedThumbnail(2)}
               >
                 <img
-                  src={product.image}
+                  src={`/productImg/product${product.image}.jpg`}
                   alt={`${product.title?.[i18n.language] || product.title?.en || product.title} ${t('product.view')} 3`}
                 />
               </div>
