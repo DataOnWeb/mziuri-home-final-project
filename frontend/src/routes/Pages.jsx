@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import RouteBanner from '../components/RouteBanner';
 import ErrorImg from '../assets/images/404.png';
 import { useLoader } from '../hooks/useLoader';
+import { useNavigate } from 'react-router-dom';
 const Pages = () => {
   const [email, setEmail] = useState('');
   const { useFakeLoader } = useLoader();
@@ -16,6 +17,7 @@ const Pages = () => {
     document.title = 'Other Pages - Pronia';
   }, []);
 
+  const navigate = useNavigate()
   return (
     <>
       <RouteBanner title="pages" />

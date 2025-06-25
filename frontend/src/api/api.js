@@ -284,23 +284,19 @@ export const getWishlist = async () => {
 
 export const updateCartItem = async (productId, quantity) => {
   try {
-    const response = await axios.put(
+    const response = await axios.put(  
       `${API_BASE_URL}/users/cart/${productId}`,
       { quantity },
-      { withCredentials: true }
+      { 
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
     );
     return response.data;
   } catch (err) {
     console.error('Error updating cart item:', err);
-
-    if (err.response) {
-      const errorMessage =
-        err.response.data?.message || err.response.data?.err || 'Failed to update cart item';
-      throw new Error(errorMessage);
-    } else if (err.request) {
-      throw new Error('No response from server. Please check your connection.');
-    } else {
-      throw new Error(err.message || 'Error setting up request');
-    }
+    throw err;
   }
 };

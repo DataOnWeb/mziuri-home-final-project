@@ -1,30 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { getProducts } from '../api/api';
-import { useLoader } from '../hooks/useLoader';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
+import { getCart, removeFromCart, updateCartItem } from '../api/api';
 
-const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
+const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { useDataLoader } = useLoader();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
+
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      const response = await getCart();
+      setCartItems(response.cart || []);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to fetch cart:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCart();
+    }
+  }, [isOpen]);
 
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
-
       if (typeof priceObj === 'object' && priceObj !== null) {
         priceValue = getPriceInCurrentCurrency(priceObj);
       } else {
         const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
         priceValue = getPriceInCurrentCurrency(numericPrice);
       }
-
       return formatPrice(priceValue);
     } catch (error) {
       console.error('Error formatting price:', error);
@@ -36,118 +53,103 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
     try {
       if (typeof priceObj === 'object' && priceObj !== null) {
         return getPriceInCurrentCurrency(priceObj);
-      } else {
-        const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
-        return getPriceInCurrentCurrency(numericPrice);
       }
+      const numericPrice = typeof priceObj === 'string' ? parseFloat(priceObj) : priceObj;
+      return getPriceInCurrentCurrency(numericPrice);
     } catch (error) {
       console.error('Error getting numeric price:', error);
       return 0;
     }
   };
 
-  const getCurrencySymbol = (curr) => {
-    const symbols = {
-      USD: '$',
-      EUR: '€',
-      GEL: '₾',
-    };
-    return symbols[curr] || curr;
+  const handleRemoveItem = async (itemId) => {
+    try {
+      await removeFromCart(itemId);
+      setCartItems(prev => prev.filter(item => item.productId._id !== itemId));
+    } catch (error) {
+      console.error('Error removing item:', error);
+      alert(t('Failed to remove item. Please try again.'));
+      fetchCart(); // Refresh cart on error
+    }
   };
 
-  const handleNavigation = (path) => {
-    navigate(path);
+  const handleQuantityChange = async (itemId, change) => {
+    try {
+      const item = cartItems.find(item => item.productId._id === itemId);
+      if (!item) return;
+
+      const newQuantity = Math.max(1, item.quantity + change);
+      await updateCartItem(itemId, newQuantity);
+      setCartItems(prev => 
+        prev.map(item => 
+          item.productId._id === itemId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+      alert(t('Failed to update quantity. Please try again.'));
+      fetchCart(); // Refresh cart on error
+    }
   };
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        setLoading(true);
-        const allProducts = await useDataLoader(getProducts);
-        const items = allProducts.slice(0, 3).map((product, index) => ({
-          ...product,
-          quantity: 1,
-          id: product.id || product._id || `fallback-id-${index}`,
-        }));
-        setCartItems(items);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchCartItems();
-  }, []);
-
-  const subtotal = cartItems.reduce((sum, item) => {
-    const itemPrice = getNumericPrice(item.price);
-    return sum + itemPrice * item.quantity;
-  }, 0);
-
-  const handleRemoveItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+  const calculateSubtotal = () => {
+    return cartItems.reduce((total, item) => {
+      const itemPrice = getNumericPrice(item.productId.price);
+      return total + itemPrice * item.quantity;
+    }, 0);
   };
+
+  const subtotal = calculateSubtotal();
 
   const toCart = () => {
-    handleNavigation('/cart');
+    navigate('/cart');
     setIsOpen(false);
   };
 
   const toCheckout = () => {
-    handleNavigation('/checkout');
+    navigate('/checkout');
     setIsOpen(false);
   };
 
   return (
     <div className="shopping-cart-sidebar">
-      {/* Overlay */}
       {isOpen && (
-        <div
-          className="cart-overlay"
-          onClick={() => setIsOpen(false)}
-        ></div>
+        <div className="cart-overlay" onClick={() => setIsOpen(false)}></div>
       )}
 
-      {/* Sidebar */}
       <div className={`cart-sidebar ${isOpen ? 'open' : ''}`}>
         <div className="cart-content">
-          {/* Header */}
           <div className="cart-header">
             <h2>Shopping Cart</h2>
-            <button
-              className="close-btn"
-              onClick={() => setIsOpen(false)}
-            >
+            <button className="close-btn" onClick={() => setIsOpen(false)}>
               <IoMdClose size={24} />
             </button>
           </div>
 
-          {/* Cart Items */}
           <div className="cart-items">
             {loading ? (
-              <div className="loading-indicator">Loading cart...</div>
+              <div className="loading-indicator">Loading...</div>
+            ) : error ? (
+              <div className="error-message">{error}</div>
             ) : cartItems.length > 0 ? (
-              cartItems.map((item, index) => (
-                <div
-                  key={`${item.id}-${index}`}
-                  className="cart-item"
-                >
+              cartItems.map((item) => (
+                <div key={item.productId._id} className="cart-item">
                   <div className="item-image">
                     <img
-                      src={item.image}
-                      alt={item.title?.[i18n.language] || item.title?.en || 'Product image'}
+                      src={item.productId.image}
+                      alt={item.productId.title?.[i18n.language] || item.productId.title?.en || 'Product'}
                     />
                   </div>
                   <div className="item-details">
-                    <h3>{item.title?.[i18n.language] || item.title?.en || 'No title'}</h3>
+                    <h3>{item.productId.title?.[i18n.language] || item.productId.title?.en || 'No title'}</h3>
                     <p>
-                      {item.quantity} ×{getFormattedPrice(item.price)}
+                      {item.quantity} × {getFormattedPrice(item.productId.price)}
                     </p>
+                  
                   </div>
                   <button
                     className="remove-item-btn"
-                    onClick={() => handleRemoveItem(item.id)}
+                    onClick={() => handleRemoveItem(item.productId._id)}
                   >
                     <IoMdClose size={20} />
                   </button>
@@ -160,23 +162,16 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
             )}
           </div>
 
-          {/* Footer */}
           {cartItems.length > 0 && (
             <div className="cart-footer">
               <div className="subtotal">
                 <span>Subtotal</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
-              <button
-                className="cart-sidebar-btn"
-                onClick={toCart}
-              >
+              <button className="cart-sidebar-btn" onClick={toCart}>
                 View Cart
               </button>
-              <button
-                className="checkout-btn"
-                onClick={toCheckout}
-              >
+              <button className="checkout-btn" onClick={toCheckout}>
                 Checkout
               </button>
             </div>
@@ -188,3 +183,4 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen, currency = 'USD' }) => {
 };
 
 export default ShoppingCartSidebar;
+                  

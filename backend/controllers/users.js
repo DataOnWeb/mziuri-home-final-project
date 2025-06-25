@@ -350,32 +350,39 @@ export const removeFromCart = async (req, res) => {
 };
 export const updateCartItem = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
-    const userId = req.user.id;
+    const { quantity } = req.body;
+    const { productId } = req.params;
+    const token = req.cookies.token;
 
-    if (quantity < 1) {
-      return res.status(400).json({ err: 'Quantity must be at least 1' });
+    if (!token) return res.status(401).json({ err: 'Unauthorized' });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const updatedUser = await Users.findOneAndUpdate(
+      {
+        _id: decoded.id,
+        'cart.productId': productId
+      },
+      {
+        $set: { 'cart.$.quantity': quantity }
+      },
+      { new: true, runValidators: true }
+    ).populate('cart.productId');
+
+    if (!updatedUser) {
+      return res.status(404).json({ err: 'Item not found in cart' });
     }
 
-    const user = await Users.findById(userId);
-    const itemIndex = user.cart.findIndex(
-      item => item.productId.toString() === productId
-    );
-
-    if (itemIndex === -1) {
-      return res.status(404).json({ err: 'Product not found in cart' });
-    }
-
-    user.cart[itemIndex].quantity = quantity;
-    await user.save();
-
-    res.status(200).json({ 
-      success: true, 
-      message: 'Cart updated',
-      cart: user.cart
+    res.status(200).json({
+      success: true,
+      cart: updatedUser.cart
     });
+
   } catch (err) {
-    res.status(500).json({ err: err.message });
+    console.error('Update cart error:', err);
+    res.status(500).json({ 
+      success: false,
+      err: 'Server error while updating cart' 
+    });
   }
 };
 

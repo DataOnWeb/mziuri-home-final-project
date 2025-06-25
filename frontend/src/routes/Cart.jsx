@@ -67,6 +67,7 @@ function Cart() {
       try {
         const response = await useDataLoader(getCart);
         setCartItems(response.cart || []);
+        setLoading(false)
       } catch (err) {
         setError(err.message);
         console.error('Failed to fetch cart:', err);
@@ -99,33 +100,33 @@ function Cart() {
     }
   };
 
-  const handleQuantityChange = async (itemId, change) => {
-    try {
-      setCartItems((prevItems) => {
-        return prevItems.map((item) => {
-          if (item.productId._id === itemId) {
-            const newQuantity = Math.max(1, item.quantity + change);
-            return { ...item, quantity: newQuantity };
-          }
-          return item;
-        });
-      });
-      const item = cartItems.find((item) => item.productId._id === itemId);
-      if (!item) return;
+ const handleQuantityChange = async (itemId, change) => {
+  try {
+    const currentItem = cartItems.find(item => item.productId._id === itemId);
+    if (!currentItem) return;
 
-      const newQuantity = Math.max(1, item.quantity + change);
+    const newQuantity = Math.max(1, currentItem.quantity + change);
+    
+    setCartItems(prev => prev.map(item => 
+      item.productId._id === itemId 
+        ? { ...item, quantity: newQuantity } 
+        : item
+    ));
 
-      await updateCartItem(itemId, newQuantity);
 
-      const updatedCart = await getCart();
-      setCartItems(updatedCart.cart || []);
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-      const originalCart = await getCart();
-      setCartItems(originalCart.cart || []);
-      alert(t('Failed to update quantity. Please try again.'));
-    }
-  };
+    const response = await updateCartItem(itemId, newQuantity);
+    
+    const { cart } = await getCart();
+    setCartItems(cart);
+
+  } catch (error) {
+    console.error('Update failed:', error);
+    // Revert to server state
+    const { cart } = await getCart();
+    setCartItems(cart);
+    alert('Failed to update quantity. Please try again.');
+  }
+};
 
   const handleUpdateCart = () => {
     console.log('Cart updated');
@@ -152,135 +153,127 @@ function Cart() {
 
   const subtotal = calculateSubtotal();
 
-  if (loading) return <div className="loading-indicator">{t('common.loading')}</div>;
-  if (error)
-    return (
-      <div className="error">
-        {t('common.errorLoading')}: {error}
-      </div>
-    );
-
   return (
     <div className="cart-page">
-      <RouteBanner title="cart" />
-      <div className="shopping-cart">
-        <div className="cart-table-container">
-          <table className="cart-table">
-            <thead>
-              <tr className="cart-header">
-                <th className="header-cell">REMOVE</th>
-                <th className="header-cell">IMAGE</th>
-                <th className="header-cell">PRODUCT</th>
-                <th className="header-cell">UNIT PRICE</th>
-                <th className="header-cell">QUANTITY</th>
-                <th className="header-cell">TOTAL</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartItems.map((item) => (
-                <tr
-                  key={item.productId._id}
-                  className="cart-row"
-                >
-                  <td className="cart-cell remove-cell">
+    <RouteBanner title='cartTitle' />
+    <div className="shopping-cart">
+      <div className="cart-table-container">
+        <table className="cart-table">
+          <thead>
+            <tr className="cart-header">
+              <th className="header-cell">{t('cart.remove')}</th>
+              <th className="header-cell">{t('cart.image')}</th>
+              <th className="header-cell">{t('cart.product')}</th>
+              <th className="header-cell">{t('cart.unitPrice')}</th>
+              <th className="header-cell">{t('cart.quantity')}</th>
+              <th className="header-cell">{t('cart.total')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.map((item) => (
+              <tr
+                key={item.productId._id}
+                className="cart-row"
+              >
+                <td className="cart-cell remove-cell">
+                  <button
+                    className="remove-button"
+                    onClick={() => handleRemoveItem(item.productId._id)}
+                    aria-label={t('cart.removeItem')}
+                  >
+                    <X size={18} />
+                  </button>
+                </td>
+                <td className="cart-cell image-cell">
+                  <img
+                    src={item.productId.image}
+                    alt={getLocalizedTitle(item.productId.title)}
+                    className="product-image"
+                  />
+                </td>
+                <td className="cart-cell product-cell">
+                  <a
+                    className="product-link"
+                    onClick={() => handleNavigation(`/product/${item.productId._id}`)}
+                  >
+                    {getLocalizedTitle(item.productId.title)}
+                  </a>
+                </td>
+                <td className="cart-cell price-cell">
+                  {getFormattedPrice(item.productId.price)}
+                </td>
+                <td className="cart-cell quantity-cell">
+                  <div className="quantity-controls">
                     <button
-                      className="remove-button"
-                      onClick={() => handleRemoveItem(item.productId._id)}
-                      aria-label="REMOVE ITEM"
+                      className="quantity-btn"
+                      onClick={() => handleQuantityChange(item.productId._id, -1)}
+                      disabled={item.quantity <= 1}
                     >
-                      <X size={18} />
+                      <Minus size={16} />
                     </button>
-                  </td>
-                  <td className="cart-cell image-cell">
-                    <img
-                      src={item.productId.image}
-                      alt={getLocalizedTitle(item.productId.title)}
-                      className="product-image"
-                    />
-                  </td>
-                  <td className="cart-cell product-cell">
-                    <a
-                      className="product-link"
-                      onClick={() => handleNavigation(`/product/${item.productId._id}`)}
+                    <span className="quantity-value">{item.quantity}</span>
+                    <button
+                      className="quantity-btn"
+                      onClick={() => handleQuantityChange(item.productId._id, 1)}
                     >
-                      {getLocalizedTitle(item.productId.title)}
-                    </a>
-                  </td>
-                  <td className="cart-cell price-cell">
-                    {getFormattedPrice(item.productId.price)}
-                  </td>
-                  <td className="cart-cell quantity-cell">
-                    <div className="quantity-controls">
-                      <button
-                        className="quantity-btn"
-                        onClick={() => handleQuantityChange(item.productId._id, -1)}
-                        disabled={item.quantity <= 1}
-                      >
-                        <Minus size={16} />
-                      </button>
-                      <span className="quantity-value">{item.quantity}</span>
-                      <button
-                        className="quantity-btn"
-                        onClick={() => handleQuantityChange(item.productId._id, 1)}
-                      >
-                        <Plus size={16} />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="cart-cell total-cell">
-                    {formatPrice(getNumericPrice(item.productId.price) * item.quantity)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      <Plus size={16} />
+                    </button>
+                  </div>
+                </td>
+                <td className="cart-cell total-cell">
+                  {formatPrice(getNumericPrice(item.productId.price) * item.quantity)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-        <div className="cart-actions">
-          <div className="coupon-section">
-            <input
-              type="text"
-              placeholder="Enter Coupon"
-              value={couponCode}
-              onChange={(e) => setCouponCode(e.target.value)}
-              className="coupon-input"
-            />
-            <button
-              className="apply-coupon-btn"
-              onClick={handleApplyCoupon}
-            >
-              APPLY COUPON
-            </button>
-          </div>
+      <div className="cart-actions">
+        <div className="coupon-section">
+          <input
+            type="text"
+            placeholder={t('cart.couponPlaceholder')}
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className="coupon-input"
+          />
           <button
-            className="update-cart-btn"
-            onClick={handleUpdateCart}
+            className="apply-coupon-btn"
+            onClick={handleApplyCoupon}
           >
-            UPDATE CART
+            {t('cart.applyCoupon')}
           </button>
         </div>
+        <button
+          className="update-cart-btn"
+          onClick={handleUpdateCart}
+        >
+          {t('cart.updateCart')}
+        </button>
+      </div>
 
-        <div className="cart-totals">
-          <h3 className="totals-title">TOTAL</h3>
-          <div className="totals-content">
-            <div className="total-row">
-              <span className="total-label">SUBTOTAL</span>
-              <span className="total-value">{formatPrice(subtotal)}</span>
-            </div>
-            <div className="total-row final-total">
-              <span className="total-label">TOTAL</span>
-              <span className="total-value">{formatPrice(subtotal)}</span>
-            </div>
-            <button
-              className="checkout-btn"
-              onClick={handleProceedToCheckout}
-            >
-              PROCEED TO CHECKOUT
-            </button>
+      <div className="cart-totals">
+        <h3 className="totals-title">{t('cart.total')}</h3>
+        <div className="totals-content">
+          <div className="total-row">
+            <span className="total-label">{t('cart.subtotal')}</span>
+            <span className="total-value">{formatPrice(subtotal)}</span>
           </div>
+          <div className="total-row final-total">
+            <span className="total-label">{t('cart.total')}</span>
+            <span className="total-value">{formatPrice(subtotal)}</span>
+          </div>
+          <button
+            className="checkout-btn"
+            onClick={handleProceedToCheckout}
+          >
+            {t('cart.proceedToCheckout')}
+          </button>
         </div>
       </div>
     </div>
+  </div>
   );
 }
 
