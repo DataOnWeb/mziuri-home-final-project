@@ -39,18 +39,18 @@ app.use(cookieParser());
 
 app.use(
   helmet({
-    contentSecurityPolicy: {
+    contentSecurityPolicy: {  
       directives: {
         defaultSrc: ["'self'"],
         frameSrc: ["'self'", "https://www.google.com"],
-        imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
+        imgSrc: ["'self'", "data:", "http://localhost:3000", "https://htmldemo.net"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
           "https://fonts.googleapis.com",
           "https://cdn-uicons.flaticon.com"
         ],
-fontSrc: [
+    fontSrc:[
           "'self'",
           "data:", 
           "https://fonts.gstatic.com",
@@ -60,9 +60,8 @@ fontSrc: [
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
         connectSrc: [
           "'self'",  
-          "http://localhost:3003",
-          "https://jsonplaceholder.typicode.com",
-          "https://davitaspronia.onrender.com"
+          "http://localhost:3000",
+          "https://pronia-app.onrender.com"
         ],
       }
     }
