@@ -32,7 +32,7 @@ app.use(cors({
     origin: ["http://localhost:5173", "https://pronia-app.onrender.com"], // React frontend
     credentials: true // Allow cookies to be sent
 }));
-app.use(express.json());
+app.use(express.json())
 app.use(cookieParser());
 
 app.use(
@@ -77,7 +77,7 @@ app.get('/*', (req, res) => {
 
 
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-  connectDB(process.env.CONNECTION_STRING)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+  connectDB(process.env.CONNECTION_STRING);
 });
