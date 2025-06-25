@@ -207,7 +207,7 @@ const Header = () => {
     { path: '/blog', label: t('blog') },
     { path: '/about', label: t('about') },
     { path: '/pages', label: t('pages') },
-    { path: '/contact', label: t('contact') },
+    { path: '/contact', label: t('contactPage') },
   ];
 
   const MobileMenu = () => (

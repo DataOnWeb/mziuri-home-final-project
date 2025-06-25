@@ -69,28 +69,11 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
     } catch (error) {
       console.error('Error removing item:', error);
       alert(t('Failed to remove item. Please try again.'));
-      fetchCart(); // Refresh cart on error
+      fetchCart(); 
     }
   };
 
-  const handleQuantityChange = async (itemId, change) => {
-    try {
-      const item = cartItems.find(item => item.productId._id === itemId);
-      if (!item) return;
-
-      const newQuantity = Math.max(1, item.quantity + change);
-      await updateCartItem(itemId, newQuantity);
-      setCartItems(prev => 
-        prev.map(item => 
-          item.productId._id === itemId ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-      alert(t('Failed to update quantity. Please try again.'));
-      fetchCart(); // Refresh cart on error
-    }
-  };
+  
 
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => {
@@ -120,7 +103,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
       <div className={`cart-sidebar ${isOpen ? 'open' : ''}`}>
         <div className="cart-content">
           <div className="cart-header">
-            <h2>Shopping Cart</h2>
+            <h2>{t('sideBar.header')}</h2>
             <button className="close-btn" onClick={() => setIsOpen(false)}>
               <IoMdClose size={24} />
             </button>
@@ -157,7 +140,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
               ))
             ) : (
               <div className="empty-cart">
-                <p>Your cart is empty</p>
+                <p>{t('sideBar.empty')}</p>
               </div>
             )}
           </div>
@@ -165,14 +148,14 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
           {cartItems.length > 0 && (
             <div className="cart-footer">
               <div className="subtotal">
-                <span>Subtotal</span>
+                <span>{t('sideBar.subtotal')}</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
               <button className="cart-sidebar-btn" onClick={toCart}>
-                View Cart
+                {t('sideBar.viewCart')}
               </button>
               <button className="checkout-btn" onClick={toCheckout}>
-                Checkout
+                {t('sideBar.proceed')}
               </button>
             </div>
           )}

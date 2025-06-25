@@ -38,6 +38,9 @@ const SingleProduct = () => {
   const { loading, useDataLoader } = useLoader();
 
   const navigate = useNavigate();
+  const handleNavigation = (path) =>{
+    navigate(path)
+  }
   const getFormattedPrice = (priceObj) => {
     try {
       let priceValue;
@@ -296,7 +299,7 @@ const SingleProduct = () => {
                 className="add-to-cart-btn"
                 onClick={handleAddToCart}
               >
-                Add To Cart
+                {t('addToCart')}
               </button>
 
               <button
@@ -306,7 +309,7 @@ const SingleProduct = () => {
                 <FontAwesomeIcon icon={faHeart} />
               </button>
 
-              <button className="compare-btn">
+              <button className="compare-btn" onClick={() => handleNavigation('/compare')}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

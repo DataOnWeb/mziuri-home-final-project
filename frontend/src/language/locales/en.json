@@ -5,7 +5,7 @@
   "blog": "BLOG",
   "about": "ABOUT US",
   "pages": "PAGES",
-  "contact": "CONTACT US",
+  "contactPage": "CONTACT US",
   "register": "REGISTER",
   "login": "LOGIN",
   "profile": "PROFILE",
@@ -112,7 +112,7 @@
   "blogCarousel":{
     "title":"LATEST BLOG",
     "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
-    "header":"Aenean Vulputate Lorem",
+    "header":"There Many Variations",
     "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "author": "ADMIN",
     "date": "24 APRIL 2021"
@@ -136,7 +136,9 @@
     "failedRemove": "Failed to remove item. Please try again.",
     "failedUpdate": "Failed to update quantity. Please try again.",
     "loading": "Loading...",
-    "errorLoading": "Error loading cart"
+    "errorLoading": "Error loading cart",
+    "addToCart": "ADD TO CART",
+    "stockStatus": "STOCK STATUS"
   },
   "checkout": {
     "title": "Checkout",
@@ -183,5 +185,115 @@
     "india": "India",
     "germany": "Germany",
     "france": "France"
-  }
+  },
+  "aboutPage":{
+    "header1": "Our",
+    "header2": "Story",
+    "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis",
+    "clientQuantity":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt.",
+    "span1":"eiusmod tempor",
+    "span2":"incididunt.",
+    "projects":"Projects",
+    "clients":"Clients",
+    "rating":"Rating",
+    "awards":"Awards",
+    "ourTeam":"OUR TEAM",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
+    "worker1":"Michael Murphy",
+    "job1": "Sales Man",
+    "worker2":"Britney Cooper",
+    "job2":"Designer",
+    "worker3": "Kari James",
+    "job3": "Developer",
+    "worker4": "Marrissa Swan",
+    "job4": "Manager"
+  },
+  "notFound": "Oops, page not found!",
+  "subscribe": "Subscribe Our Newsletter & Get Update Everytime",
+  "enterEmail":"Enter Your Email",
+  "backToHome": "BACK TO HOME",
+  "blogPage":{
+    "latest":"Lorem ipsum dolor conse tetur.",
+    "date":"24 APRIL 2021"
+  },
+  "sideBar":{
+    "header":"Shopping Cart",
+    "viewCart":"View Cart",
+    "proceed":"Checkout",
+    "subtotal":"Subtotal",
+    "empty": "Your Cart Is Empty"
+
+  },
+  "footer": {
+    "brandDescription": "Lorem ipsum dolor sit amet, consec adipisi elit, sed do eiusmod tempor incidio ut labore et dolore magna.",
+    "usefulLinks": {
+      "title": "Useful Links",
+      "aboutPronia": "About Pronia",
+      "howToShop": "How to Shop",
+      "faq": "FAQ",
+      "contactUs": "Contact us",
+      "logIn": "Log in"
+    },
+    "myAccount": {
+      "title": "My Account",
+      "signIn": "Sign In",
+      "viewCart": "View Cart",
+      "wishlist": "My Wishlist",
+      "trackOrder": "Track My Order",
+      "help": "Help"
+    },
+    "ourService": {
+      "title": "Our Service",
+      "paymentMethods": "Payment Methods",
+      "moneyGuarantee": "Money Guarantee!",
+      "returns": "Returns",
+      "shipping": "Shipping",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "contact": {
+      "title": "Got Question? Call Us",
+      "phoneNumber": "123 456 789",
+      "address": "Your Address Goes Here",
+      "paymentMethodsAlt": "Payment Methods"
+    },
+    "copyright": "© 2021 Pronia Made With ❤️ By Data"
+  },
+  "contact": {
+    "pageTitle": "Contact Us - Pronia",
+    "banner": {
+      "title": "contact"
+    },
+    "info": {
+      "title": "Contact Info:",
+      "description": "Fill the form and our team will get to back to you within 24 hours.",
+      "phone": "123 456 789",
+      "email": "info@example.com",
+      "address": "13, Your Address, Here"
+    },
+    "form": {
+      "firstName": "First Name*",
+      "lastName": "Last Name*",
+      "phone": "Phone*",
+      "email": "Email*",
+      "message": "Message",
+      "submitButton": "POST COMMENT",
+      "successMessage": "Form submitted successfully! We will get back to you within 24 hours.",
+      "errorMessage": "Failed to submit form. Please try again."
+    },
+    "validation": {
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "phoneRequired": "Phone number is required.",
+    "phoneInvalid": "Phone number must be at least 9 digits.",
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Invalid email format.",
+    "messageRequired": "Message is required."
+  },
+    "map": {
+      "title": "Google Maps"
+    }
+  },
+  "addToCart": "Add To Cart",
+  "inStock":"In Stock",
+  "outStock": "Out Of Stock"
 }

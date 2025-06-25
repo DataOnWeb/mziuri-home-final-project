@@ -40,7 +40,7 @@ app.use(cookieParser());
 app.use(helmet())
 app.use('/api/products', ProductsRouter);
 app.use('/api/users', logger, UsersRouter);
-app.use(compression)
+app.use(compression())
 
 
 const __filename = fileURLToPath(import.meta.url);

@@ -121,12 +121,12 @@ function Wishlist() {
       <div className="shopping-cart">
         <div className="cart-table">
           <div className="cart-header">
-            <div className="header-cell">Remove</div>
-            <div className="header-cell">Images</div>
-            <div className="header-cell">Product</div>
-            <div className="header-cell">Unit Price</div>
-            <div className="header-cell">Stock Status</div>
-            <div className="header-cell">Add To Cart</div>
+            <div className="header-cell">{t('cart.remove')}</div>
+            <div className="header-cell">{t('cart.image')}</div>
+            <div className="header-cell">{t('cart.product')}</div>
+            <div className="header-cell">{t('cart.unitPrice')}</div>
+            <div className="header-cell">{t('cart.stockStatus')}</div>
+            <div className="header-cell">{t('cart.addToCart')}</div>
           </div>
 
           {wishlistItems.map((item) => (
@@ -158,7 +158,7 @@ function Wishlist() {
               <div className="cart-cell price-cell">{getFormattedPrice(item.productId.price)}</div>
               <div className="cart-cell stock-cell">
                 <span className={item.productId.inStock ? 'in-stock' : 'out-stock'}>
-                  {item.productId.inStock ? 'In Stock' : 'Out of Stock'}
+                  {item.productId.inStock ? t('inStock') : t('outStock')}
                 </span>
               </div>
               <div className="cart-cell action-cell">
@@ -167,7 +167,7 @@ function Wishlist() {
                   onClick={() => handleAddToCart(item.productId._id)}
                   disabled={!item.productId.inStock}
                 >
-                  Add To Cart
+                  {t('addToCart')}
                 </button>
               </div>
             </div>

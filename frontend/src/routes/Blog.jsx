@@ -13,15 +13,14 @@ const Blog = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const { t } = useTranslation();
   const { useFakeLoader } = useLoader();
-  // Mock blog posts data - replace with your actual data
   const blogPosts = [
     {
       id: 1,
-      title: 'There Many Variations',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
       excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+        t('blogCarousel.text'),
       image: blog1,
       type: 'text',
       category: 'House Plants',
@@ -29,11 +28,11 @@ const Blog = () => {
     },
     {
       id: 2,
-      title: 'Blog Gallery Post',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
+      title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
       excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+        t('blogCarousel.text'),
       image: blog2,
       type: 'gallery',
       category: 'Indoor Living',
@@ -41,22 +40,22 @@ const Blog = () => {
     },
     {
       id: 3,
-      title: 'Blog Audio Post',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
+            title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
       excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+        t('blogCarousel.text'),
       type: 'audio',
       category: 'Bonsai',
       tags: ['music', 'audio'],
     },
     {
       id: 4,
-      title: 'Blog Video Post',
-      author: 'ADMIN',
-      date: '24 APRIL 2021',
+            title: t('blogCarousel.header'),
+      author: t('blogCarousel.author'),
+      date: t('blogCarousel.date'),
       excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidio ut labore et dolore magna aliqua.',
+        t('blogCarousel.text'),
       image: blog3,
       type: 'video',
       category: 'Garden Tools',
@@ -67,26 +66,26 @@ const Blog = () => {
   const recentPosts = [
     {
       id: 1,
-      title: 'Lorem ipsum dolor conse tetur.',
-      date: '24 APRIL 2021',
+      title: t('blogPage.latest'),
+      date: t('blogPage.date'),
       image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=80&fit=crop',
     },
     {
       id: 2,
-      title: 'Lorem ipsum dolor conse tetur.',
-      date: '24 APRIL 2021',
+      title: t('blogPage.latest'),
+      date: t('blogPage.date'),
       image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=100&h=80&fit=crop',
     },
     {
       id: 3,
-      title: 'Lorem ipsum dolor conse tetur.',
-      date: '24 APRIL 2021',
+      title: t('blogPage.latest'),
+      date: t('blogPage.date'),
       image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=100&h=80&fit=crop',
     },
     {
       id: 4,
-      title: 'Lorem ipsum dolor conse tetur.',
-      date: '24 APRIL 2021',
+      title: t('blogPage.latest'),
+      date: t('blogPage.date'),
       image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=80&fit=crop',
     },
   ];

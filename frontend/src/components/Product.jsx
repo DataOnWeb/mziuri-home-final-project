@@ -162,25 +162,25 @@ const Product = ({ product, viewMode = 'grid' }) => {
             <div style={slideButtonsStyle}>
               <button
                 style={buttonStyle}
-                className="like-btn"
+                className="like-btn tooltip tooltip-top tooltip-scale"
+                data-tooltip="Wishlist"
                 onClick={handleAddToWishlist}
-                title="Add to Wishlist"
               >
                 <CiHeart size="25px" />
               </button>
               <button
                 style={buttonStyle}
-                className="view-btn"
+                className="view-btn tooltip tooltip-top tooltip-scale"
+                data-tooltip="Quick View"
                 onClick={handleQuickView}
-                title="Quick View"
               >
                 <PiEyeThin size="25px" />
               </button>
               <button
                 style={buttonStyle}
-                className="cart-btn"
+                className="cart-btn tooltip tooltip-top tooltip-scale"
+                data-tooltip="Add to Cart"
                 onClick={handleAddToCart}
-                title="Add to Cart"
               >
                 <PiShoppingCartThin size="25px" />
               </button>
@@ -229,25 +229,25 @@ const Product = ({ product, viewMode = 'grid' }) => {
             <div className="product-list-actions">
               <button
                 style={listButtonStyle}
-                className="list-action-btn"
+                className="list-action-btn tooltip tooltip-bottom tooltip-fade"
+                data-tooltip="Wishlist"
                 onClick={handleAddToWishlist}
-                title="Add to Wishlist"
               >
                 <CiHeart size="23px" />
               </button>
               <button
                 style={listButtonStyle}
-                className="list-action-btn"
+                className="list-action-btn tooltip tooltip-bottom tooltip-fade"
+                data-tooltip="Quick View"
                 onClick={handleQuickView}
-                title="Quick View"
               >
                 <PiEyeThin size="23px" />
               </button>
               <button
                 style={listButtonStyle}
-                className="list-action-btn"
+                className="list-action-btn tooltip tooltip-bottom tooltip-fade"
+                data-tooltip="Add to Cart"
                 onClick={handleAddToCart}
-                title="Add to Cart"
               >
                 <PiShoppingCartThin size="23px" />
               </button>

@@ -3,9 +3,11 @@ import RouteBanner from '../components/RouteBanner';
 import ErrorImg from '../assets/images/404.png';
 import { useLoader } from '../hooks/useLoader';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 const Pages = () => {
   const [email, setEmail] = useState('');
   const { useFakeLoader } = useLoader();
+  const { t } = useTranslation()
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -18,6 +20,9 @@ const Pages = () => {
   }, []);
 
   const navigate = useNavigate()
+  const handleNavigation = (path) =>{
+    navigate(path)
+  }
   return (
     <>
       <RouteBanner title="pages" />
@@ -33,10 +38,10 @@ const Pages = () => {
             />
           </div>
 
-          <h1 className="error-message">Oops, page not found!</h1>
+          <h1 className="error-message">{t('notFound')}</h1>
 
-          <button className="back-home-btn">
-            <span>BACK TO HOME</span>
+          <button className="back-home-btn" onClick={() => handleNavigation('/')}>
+            <span>{t('backToHome')}</span>
             <svg
               className="home-icon"
               viewBox="0 0 24 24"
@@ -54,21 +59,17 @@ const Pages = () => {
           </button>
         </div>
 
-        {/* Decorative grass border */}
-        <div className="grass-border"></div>
-
         {/* Newsletter section */}
         <div className="newsletter-section">
           <div className="newsletter-content">
             <div className="newsletter-text">
-              <h2>Subscribe Our Newsletter &</h2>
-              <h3>Get Update Everytime</h3>
+              <h2>{t('subscribe')}</h2>
             </div>
 
             <div className="newsletter-form">
               <input
                 type="email"
-                placeholder="Enter Your Email"
+                placeholder={t('enterEmail')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

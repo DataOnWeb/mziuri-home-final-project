@@ -10,10 +10,11 @@ import kari from '../assets/images/kari.png';
 import britney from '../assets/images/britney.png';
 import { faFacebook, faTwitter, faPinterest, faDribbble } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 const About = () => {
   const { useFakeLoader } = useLoader();
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-
+  const {t} = useTranslation()
   // Add your video URL here
   const videoUrl = 'https://player.vimeo.com/video/172601404?autoplay=1';
 
@@ -21,39 +22,38 @@ const About = () => {
     {
       id: 1,
       icon: <Truck className="w-10 h-10" />,
-      title: 'Free Shipping',
-      description: 'Capped at $319 per order',
+      title: t('features.title1'),
+      description: t('features.subtitle1'),
       iconClass: 'text-green-500',
     },
     {
       id: 2,
       icon: <CreditCard className="w-10 h-10" />,
-      title: 'Safe Payment',
-      description: 'With our payment gateway',
+      title:  t('features.title2'),
+      description: t('features.subtitle2'),
       iconClass: 'text-green-500',
     },
     {
       id: 3,
       icon: <Headphones className="w-10 h-10" />,
-      title: 'Best Services',
-      description: 'Friendly & Supper Services',
+      title: t('features.title3'),
+      description: t('features.subtitle2'),
       iconClass: 'text-green-500',
     },
   ];
 
   const stats = [
-    { number: '150+', label: 'Projects' },
-    { number: '359+', label: 'Clients' },
-    { number: '251+', label: 'Rating' },
-    { number: '110+', label: 'Award' },
+    { number: '150+', label: t('aboutPage.projects') },
+    { number: '359+', label: t('aboutPage.clients') },
+    { number: '251+', label: t('aboutPage.rating') },
+    { number: '110+', label: t('aboutPage.awards') },
   ];
 
-  // Team members data
   const teamMembers = [
     {
       id: 1,
-      name: 'Micheal Murphy',
-      role: 'Sales man',
+      name: t('aboutPage.worker1'),
+      role: t('aboutPage.job1'),
       image: michael,
       bgColor: 'pink',
       social: {
@@ -64,8 +64,8 @@ const About = () => {
     },
     {
       id: 2,
-      name: 'Britney Cooper',
-      role: 'Designer',
+      name: t('aboutPage.worker2'),
+      role: t('aboutPage.job2'),
       image: britney,
       bgColor: 'orange',
       social: {
@@ -76,9 +76,9 @@ const About = () => {
     },
     {
       id: 3,
-      name: 'Kari James',
-      role: 'Developer',
-      image: kari, // Replace with your image path
+      name: t('aboutPage.worker3'),
+      role: t('aboutPage.job3'),
+      image: kari, 
       bgColor: 'purple',
       social: {
         facebook: '#',
@@ -88,9 +88,9 @@ const About = () => {
     },
     {
       id: 4,
-      name: 'Marissa Swan',
-      role: 'Manager',
-      image: marissa, // Replace with your image path
+      name: t('aboutPage.worker4'),
+      role: t('aboutPage.job4'),
+      image: marissa,
       bgColor: 'yellow',
       social: {
         facebook: '#',
@@ -122,19 +122,14 @@ const About = () => {
           {/* Story Header */}
           <div className="story-header">
             <h2 className="story-title">
-              Our <span className="highlight">Story</span>
+              {t('aboutPage.header1')} <span className="highlight">{t('aboutPage.header2')}</span>
             </h2>
           </div>
 
           {/* Story Content */}
           <div className="story-content">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-              dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum. Sed ut perspiciatis
+              {t('aboutPage.text')}
             </p>
           </div>
 
@@ -154,10 +149,9 @@ const About = () => {
                 key={feature.id}
                 className="feature-card"
               >
-                {/* Icon */}
                 <div className={`feature-icon ${feature.iconClass}`}>{feature.icon}</div>
 
-                {/* Content */}
+
                 <div className="feature-content">
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>
@@ -166,7 +160,7 @@ const About = () => {
             ))}
           </div>
 
-          {/* Video Section */}
+
           <div className="video-section">
             <div className="video-container">
               <div className="video-background">
@@ -182,22 +176,22 @@ const About = () => {
               </div>
             </div>
           </div>
-          {/* Stats Section */}
+
           <div className="stats-section">
             <div className="stats-content">
               <p className="stats-description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do{' '}
-                <span className="highlight-green">eiusmod tempor</span> incididunt.
+                {t('aboutPage.clientQuantity')}{' '} 
+                <span className="highlight-green">{t('aboutPage.span1')}</span>{t('aboutPage.span2')}
               </p>
               <div className="stats-grid">
                 {stats.map((stat, index) => (
-                  <div
+                  <di
                     key={index}
                     className="stat-item"
                   >
                     <div className="stat-number">{stat.number}</div>
                     <div className="stat-label">{stat.label}</div>
-                  </div>
+                  </di>
                 ))}
               </div>
             </div>
@@ -206,11 +200,9 @@ const About = () => {
           {/* Team Section */}
           <div className="team-section">
             <div className="team-header">
-              <h2 className="team-title">OUR TEAM</h2>
+              <h2 className="team-title">{t('aboutPage.ourTeam')}</h2>
               <p className="team-description">
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
-                <br />
-                in a piece of classical Latin literature
+                {t('aboutPage.subtitle')}
               </p>
             </div>
 

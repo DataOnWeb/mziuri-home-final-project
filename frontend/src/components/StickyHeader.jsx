@@ -96,7 +96,7 @@ const StickyHeader = ({
                 <a onClick={() => handleNavigation('/pages')}>{t('pages')}</a>
               </li>
               <li className={isActive('/contact') ? 'active' : ''}>
-                <a onClick={() => handleNavigation('/contact')}>{t('contact')}</a>
+                <a onClick={() => handleNavigation('/contact')}>{t('contactPage')}</a>
               </li>
             </ul>
           </nav>
