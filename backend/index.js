@@ -37,7 +37,37 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(helmet())
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        frameSrc: ["'self'", "https://www.google.com"],
+        imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://cdn-uicons.flaticon.com"
+        ],
+fontSrc: [
+          "'self'",
+          "data:", 
+          "https://fonts.gstatic.com",
+          "https://cdn-uicons.flaticon.com",
+          "https://cdnjs.cloudflare.com"
+        ],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        connectSrc: [
+          "'self'",  
+          "http://localhost:3003",
+          "https://jsonplaceholder.typicode.com",
+          "https://davitaspronia.onrender.com"
+        ],
+      }
+    }
+  })
+);
 app.use('/api/products', ProductsRouter);
 app.use('/api/users', logger, UsersRouter);
 app.use(compression())
