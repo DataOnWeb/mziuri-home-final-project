@@ -11,11 +11,11 @@ import britney from '../assets/images/britney.png';
 import { faFacebook, faTwitter, faPinterest, faDribbble } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
+import ScrollToTop from '../components/ScrollToTop';
 const About = () => {
   const { useFakeLoader } = useLoader();
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const {t} = useTranslation()
-  // Add your video URL here
   const videoUrl = 'https://player.vimeo.com/video/172601404?autoplay=1';
 
   const features = [
@@ -285,6 +285,10 @@ const About = () => {
           </div>
         </div>
       )}
+      <ScrollToTop 
+        showAfter={500}        
+        smooth={true}            
+      />
     </div>
   );
 };

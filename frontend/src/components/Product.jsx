@@ -10,7 +10,7 @@ import { addToCart, addToWishlist } from '../api/api';
 
 const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, description } = product;
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
 
   const [isHovered, setIsHovered] = useState(false);
@@ -163,7 +163,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={buttonStyle}
                 className="like-btn tooltip tooltip-top tooltip-scale"
-                data-tooltip="Wishlist"
+                data-tooltip={t('tooltip1')}
                 onClick={handleAddToWishlist}
               >
                 <CiHeart size="25px" />
@@ -171,7 +171,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={buttonStyle}
                 className="view-btn tooltip tooltip-top tooltip-scale"
-                data-tooltip="Quick View"
+                data-tooltip={t('tooltip2')}
                 onClick={handleQuickView}
               >
                 <PiEyeThin size="25px" />
@@ -179,7 +179,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={buttonStyle}
                 className="cart-btn tooltip tooltip-top tooltip-scale"
-                data-tooltip="Add to Cart"
+                data-tooltip={t('tooltip3')}
                 onClick={handleAddToCart}
               >
                 <PiShoppingCartThin size="25px" />
@@ -230,7 +230,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={listButtonStyle}
                 className="list-action-btn tooltip tooltip-bottom tooltip-fade"
-                data-tooltip="Wishlist"
+                data-tooltip={t('tooltip1')}
                 onClick={handleAddToWishlist}
               >
                 <CiHeart size="23px" />
@@ -238,7 +238,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={listButtonStyle}
                 className="list-action-btn tooltip tooltip-bottom tooltip-fade"
-                data-tooltip="Quick View"
+                data-tooltip={t('tooltip2')}
                 onClick={handleQuickView}
               >
                 <PiEyeThin size="23px" />
@@ -246,7 +246,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
               <button
                 style={listButtonStyle}
                 className="list-action-btn tooltip tooltip-bottom tooltip-fade"
-                data-tooltip="Add to Cart"
+                data-tooltip={t('tooltip3')}
                 onClick={handleAddToCart}
               >
                 <PiShoppingCartThin size="23px" />

@@ -13,6 +13,7 @@ import ProductCarousel from '../components/ProductCarousel';
 import ClientCarousel from '../components/ClientCarousel';
 import GreenCarousel from '../components/GreenCarousel';
 import BlogCarousel from '../components/BlogCarousel';
+import ScrollToTop from '../components/ScrollToTop';
 const Home = () => {
   const { t } = useTranslation();
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -135,6 +136,10 @@ const Home = () => {
       <ClientCarousel />
       <GreenCarousel />
       <BlogCarousel />
+      <ScrollToTop 
+        showAfter={600}        
+        smooth={true}            
+      />
     </div>
   );
 };

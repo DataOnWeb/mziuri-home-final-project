@@ -7,7 +7,7 @@ import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
 import { IoSearchOutline } from 'react-icons/io5';
 import { useTranslation, Trans } from 'react-i18next';
-
+import ScrollToTop from '../components/ScrollToTop';
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -518,6 +518,10 @@ const Shop = () => {
           )}
         </div>
       </div>
+      <ScrollToTop 
+        showAfter={500}        
+        smooth={true}            
+      />
     </div>
   );
 };

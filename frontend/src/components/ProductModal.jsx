@@ -12,11 +12,11 @@ import { useCurrency } from '../context/CurrencyContext';
 import { addToCart, addToWishlist } from '../api/api';
 const ProductModal = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState('Medium Size & Poot');
-  const [selectedColor, setSelectedColor] = useState('Black & White');
   const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const [selectedSize, setSelectedSize] = useState(t('modal.size1'));
+  const [selectedColor, setSelectedColor] = useState(t('modal.color1'));
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -46,8 +46,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const { _id, title, price, rating, image, description, category } = product;
   const localizedPrice = getFormattedPrice(price);
 
-  const sizeOptions = ['Medium Size & Poot', 'Large Size With Poot', 'Small Size With Poot'];
-  const colorOptions = ['Black & White', 'Green & Brown', 'Blue & Gray'];
+  const colorOptions = [t('modal.color1'), t('modal.color2'), t('modal.color3')];
+  const sizeOptions = [t('modal.size1'), t('modal.size2'), t('modal.size3')];
 
   const renderStars = (rating) => {
     const stars = [];
@@ -148,12 +148,12 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 
             <div className="product-rating">
               <div className="stars">{renderStars(rating)}</div>
-              <span className="rating-count">( 1 Review )</span>
+              <span className="rating-count">({t('modal.review')})</span>
             </div>
 
             <div className="product-options">
               <div className="option-group">
-                <label>Color</label>
+                <label>{t('modal.color')}</label>
                 <div className="dropdown-container">
                   <div
                     className="dropdown-header"
@@ -181,7 +181,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               </div>
 
               <div className="option-group">
-                <label>Size</label>
+                <label>{t('modal.size')}</label>
                 <div className="dropdown-container">
                   <div
                     className="dropdown-header"
@@ -235,7 +235,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 className="add-to-cart-btn"
                 onClick={handleAddToCart}
               >
-                ADD TO CART
+                  {t('addToCart')}
               </button>
 
               <button
@@ -261,8 +261,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                   </div>
                 </div>
                 <div className="feature-content">
-                  <strong>Free</strong>
-                  <span>Shipping</span>
+                  <strong>{t('singleProduct.benefits.free')}</strong>
+                  <span>{t('singleProduct.benefits.shipping')}</span>
                 </div>
               </div>
 
@@ -271,8 +271,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                   <CiCreditCard1 size={40} />
                 </div>
                 <div className="feature-content">
-                  <strong>Safe</strong>
-                  <span>Payment</span>
+                  <strong>{t('singleProduct.benefits.safe')}</strong>
+                  <span>{t('singleProduct.benefits.payment')}</span>
                 </div>
               </div>
 
@@ -281,8 +281,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                   <BsPostcard size={37} />
                 </div>
                 <div className="feature-content">
-                  <strong>Safe</strong>
-                  <span>Payment</span>
+                  <strong>{t('singleProduct.benefits.safe')}</strong>
+                  <span>{t('singleProduct.benefits.payment')}</span>
                 </div>
               </div>
             </div>

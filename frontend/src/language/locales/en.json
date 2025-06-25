@@ -295,5 +295,73 @@
   },
   "addToCart": "Add To Cart",
   "inStock":"In Stock",
-  "outStock": "Out Of Stock"
+  "outStock": "Out Of Stock",
+  "singleProduct": {
+      "pageTitle": "Single Product Variable - Pronia",
+      "reviewCount": "({{count}} review)",
+      "reviewCount_plural": "({{count}} reviews)",
+      "productColor": "Product Color",
+      "productSize": "Product Size",
+      "benefits": {
+        "free": "Free",
+        "shipping": "Shipping",
+        "safe": "Safe",
+        "payment": "Payment"
+      },
+      "meta": {
+        "sku": "SKU",
+        "categories": "Product Categories",
+        "tags": "Product Tags",
+        "tagsValue": "Product Furniture",
+        "share": "Share Product"
+      },
+      "tabs": {
+        "information": "Product Information",
+        "description": "Product Description",
+        "reviews": "Product Reviews(3)"
+      },
+      "information": {
+        "shippingTitle": "Product Shipping",
+        "shippingText": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et eaque fugit dolore reiciendis quos aut praesentium tempora tenetur distinctio atque.",
+        "aboutTitle": "About Product",
+        "aboutText": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sit culpa iusto provident modi placeat ipsum rem optio possimus blanditiis!",
+        "guaranteeTitle": "Guaranteed Product",
+        "guaranteeText": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur explicabo expedita soluta illo recusandae quisquam adipisci dolorum ex quia."
+      },
+      "comments": {
+        "title": "Leave a Comment",
+        "namePlaceholder": "Your Name",
+        "emailPlaceholder": "Your Email",
+        "subjectPlaceholder": "Subject",
+        "messagePlaceholder": "Message",
+        "submitButton": "Post Your Comment",
+        "successMessage": "Posted Successfully"
+      },
+      "relatedProducts": {
+        "title": "Related Products",
+        "subtitle": "Find Your related products"
+      }
+    },
+    "comments":{
+        "name1": "Donald Chavez",
+        "name2":"Marrissa Swan",
+        "quantity":"Comments (03)",
+        "date":"24 APRIL 2021",
+        "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis.",
+        "buttonText":"REPLY"
+    },
+    "modal":{
+      "color": "Color",
+      "size": "Size",
+      "review": "1 review",
+      "color1":"Black & White",
+      "color2": "Green & Brown",
+      "color3":"Blue & Gray",
+      "size1":"Medium Size & Poot",
+      "size2": "Large Size With Poot",
+      "size3":"Small Size With Poot"
+    },
+    "tooltip1":"Wishlist",
+    "tooltip2":"Quick View",
+    "tooltip3":"Add To Cart"
 }

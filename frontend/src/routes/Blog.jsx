@@ -8,6 +8,7 @@ import blog2 from '../assets/images/blog2.webp';
 import blog3 from '../assets/images/blog3.webp';
 import Pagination from '../components/Pagination';
 import { useLoader } from '../hooks/useLoader';
+import ScrollToTop from '../components/ScrollToTop';
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
@@ -345,6 +346,10 @@ const Blog = () => {
         </div>
       </div>
       <Pagination />
+      <ScrollToTop 
+        showAfter={500}        
+        smooth={true}            
+      />
     </div>
   );
 };

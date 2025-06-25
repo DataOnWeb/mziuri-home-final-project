@@ -17,10 +17,12 @@ import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { addToCart, addToWishlist } from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import ScrollToTop from '../components/ScrollToTop';
+
 const SingleProduct = () => {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
-  const { formatPrice, getPriceInCurrentCurrency } = useCurrency(); // Add currency hooks
+  const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [error, setError] = useState(null);
@@ -102,13 +104,13 @@ const SingleProduct = () => {
 
     fetchData();
 
-    document.title = 'Single Product Variable - Pronia';
+    document.title = t('singleProduct.pageTitle');
     window.scrollTo(0, 0);
 
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, t]);
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -130,6 +132,7 @@ const SingleProduct = () => {
       alert(t('product.failedToAddToCart'));
     }
   };
+  
   const handleAddToWishlist = async (e) => {
     e.preventDefault();
     try {
@@ -246,19 +249,19 @@ const SingleProduct = () => {
                   </span>
                 ))}
               </div>
-              <span className="review-count">(1 review)</span>
+              <span className="review-count">{t('singleProduct.reviewCount', { count: 1 })}</span>
             </div>
 
             <div className="product-detail__options">
               <div className="option">
-                <div className="option__label">Product Color</div>
+                <div className="option__label">{t('singleProduct.productColor')}</div>
                 <div className="option__value">
                   <p>{product.color || t('product.na')}</p> <span className="check">✓</span>
                 </div>
               </div>
 
               <div className="option">
-                <div className="option__label">Product Size</div>
+                <div className="option__label">{t('singleProduct.productSize')}</div>
                 <div className="option__value">
                   {product.category || t('product.na')} <span className="check">✓</span>
                 </div>
@@ -351,8 +354,8 @@ const SingleProduct = () => {
                   <FontAwesomeIcon icon={faTruckFast} />
                 </div>
                 <div className="benefit__text">
-                  <div className="benefit__title">Free</div>
-                  <div className="benefit__subtitle">Shipping</div>
+                  <div className="benefit__title">{t('singleProduct.benefits.free')}</div>
+                  <div className="benefit__subtitle">{t('singleProduct.benefits.shipping')}</div>
                 </div>
               </div>
 
@@ -361,8 +364,8 @@ const SingleProduct = () => {
                   <FontAwesomeIcon icon={faCreditCard} />
                 </div>
                 <div className="benefit__text">
-                  <div className="benefit__title">Safe</div>
-                  <div className="benefit__subtitle">Payment</div>
+                  <div className="benefit__title">{t('singleProduct.benefits.safe')}</div>
+                  <div className="benefit__subtitle">{t('singleProduct.benefits.payment')}</div>
                 </div>
               </div>
 
@@ -371,29 +374,29 @@ const SingleProduct = () => {
                   <FontAwesomeIcon icon={faAddressCard} />
                 </div>
                 <div className="benefit__text">
-                  <div className="benefit__title">Safe</div>
-                  <div className="benefit__subtitle">Payment</div>
+                  <div className="benefit__title">{t('singleProduct.benefits.safe')}</div>
+                  <div className="benefit__subtitle">{t('singleProduct.benefits.payment')}</div>
                 </div>
               </div>
             </div>
 
             <div className="product-detail__meta">
               <div className="meta-item">
-                <span className="meta-item__label">SKU:</span>
+                <span className="meta-item__label">{t('singleProduct.meta.sku')}:</span>
                 <span className="meta-item__value">Ch-256xl</span>
               </div>
               <div className="meta-item">
-                <span className="meta-item__label">Product Categories:</span>
+                <span className="meta-item__label">{t('singleProduct.meta.categories')}:</span>
                 <span className="meta-item__value">
                   {product.category || t('product.uncategorized')}
                 </span>
               </div>
               <div className="meta-item">
-                <span className="meta-item__label">Product Tags:</span>
-                <span className="meta-item__value">Product Furtniture</span>
+                <span className="meta-item__label">{t('singleProduct.meta.tags')}:</span>
+                <span className="meta-item__value">{t('singleProduct.meta.tagsValue')}</span>
               </div>
               <div className="meta-item">
-                <span className="meta-item__label">Share Product:</span>
+                <span className="meta-item__label">{t('singleProduct.meta.share')}:</span>
                 <div className="social-icons">
                   <a
                     href="#"
@@ -431,39 +434,36 @@ const SingleProduct = () => {
               className={`tab-btn ${activeTab === 'information' ? 'active' : ''}`}
               onClick={() => setActiveTab('information')}
             >
-              Product Information
+              {t('singleProduct.tabs.information')}
             </button>
             <button
               className={`tab-btn ${activeTab === 'description' ? 'active' : ''}`}
               onClick={() => setActiveTab('description')}
             >
-              Product Description
+              {t('singleProduct.tabs.description')}
             </button>
             <button
               className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
             >
-              Product Reviews(3)
+              {t('singleProduct.tabs.reviews')}
             </button>
           </div>
 
           <div className="product-tabs__content">
             {activeTab === 'information' && (
               <div className="tab-content">
-                <h3>Product Shipping</h3>
+                <h3>{t('singleProduct.information.shippingTitle')}</h3>
                 <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et eaque fugit dolore
-                  reiciendis quos aut praesentium tempora tenetur distinctio atque.
+                  {t('singleProduct.information.shippingText')}
                 </p>
-                <h3>About Product</h3>
+                <h3>{t('singleProduct.information.aboutTitle')}</h3>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sit culpa iusto
-                  provident modi placeat ipsum rem optio possimus blanditiis!
+                  {t('singleProduct.information.aboutText')}
                 </p>
-                <h3>Guarranteed Product</h3>
+                <h3>{t('singleProduct.information.guaranteeTitle')}</h3>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur
-                  explicabo expedita soluta illo recusandae quisquam adipisci dolorum ex quia.
+                  {t('singleProduct.information.guaranteeText')}
                 </p>
               </div>
             )}
@@ -481,7 +481,7 @@ const SingleProduct = () => {
             {activeTab === 'reviews' && (
               <div className="comment-container">
                 <CommentsSection />
-                <h2 className="comment-title">Leave a Comment</h2>
+                <h2 className="comment-title">{t('singleProduct.comments.title')}</h2>
                 <form
                   className="comment-form"
                   onSubmit={handleSubmit}
@@ -498,7 +498,7 @@ const SingleProduct = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Your Name"
+                        placeholder={t('singleProduct.comments.namePlaceholder')}
                         required
                       />
                     </div>
@@ -513,7 +513,7 @@ const SingleProduct = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="Your Email"
+                        placeholder={t('singleProduct.comments.emailPlaceholder')}
                         required
                       />
                     </div>
@@ -528,7 +528,7 @@ const SingleProduct = () => {
                       className="form-input"
                       name="subject"
                       value={formData.subject}
-                      placeholder="Subject"
+                      placeholder={t('singleProduct.comments.subjectPlaceholder')}
                       onChange={handleChange}
                     />
                   </div>
@@ -541,7 +541,7 @@ const SingleProduct = () => {
                       className="form-textarea"
                       name="message"
                       value={formData.message}
-                      placeholder="Message"
+                      placeholder={t('singleProduct.comments.messagePlaceholder')}
                       onChange={handleChange}
                     ></textarea>
                   </div>
@@ -549,10 +549,10 @@ const SingleProduct = () => {
                     type="submit"
                     className="submit-button"
                   >
-                    Post Your Comment
+                    {t('singleProduct.comments.submitButton')}
                   </button>
                 </form>
-                {showSuccess && <div className="success-message">Posted Succesfully</div>}
+                {showSuccess && <div className="success-message">{t('singleProduct.comments.successMessage')}</div>}
               </div>
             )}
           </div>
@@ -560,8 +560,8 @@ const SingleProduct = () => {
 
         {relatedProducts.length > 0 && (
           <div className="related-products">
-            <h2 className="related-products__title">Related Products</h2>
-            <p className="related-products__subtitle">Find Your related products</p>
+            <h2 className="related-products__title">{t('singleProduct.relatedProducts.title')}</h2>
+            <p className="related-products__subtitle">{t('singleProduct.relatedProducts.subtitle')}</p>
 
             <div className="related-products__grid">
               {relatedProducts.slice(0, 4).map((relatedProduct) => (
@@ -574,6 +574,10 @@ const SingleProduct = () => {
           </div>
         )}
       </div>
+      <ScrollToTop 
+        showAfter={500}        
+        smooth={true}            
+      />
     </>
   );
 };

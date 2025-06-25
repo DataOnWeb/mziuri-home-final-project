@@ -2,38 +2,36 @@ import React from 'react';
 import DonaldPurple from '../assets/images/donald-purple.webp';
 import DonaldYellow from '../assets/images/donald-yellow.webp';
 import MarissaPink from '../assets/images/marissa-pink.webp';
-
+import { useTranslation } from 'react-i18next';
 const CommentsSection = () => {
+  const { t} = useTranslation()
   const comments = [
     {
       id: 1,
-      name: 'Donald Chavez',
-      date: '21 July 2021',
+      name: t('comments.name1'),
+      date: t('comments.date'),
       avatar: DonaldYellow,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipisi elit, sed do eiusmod tempor incidid ut labore etl dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitati ullamco laboris nisi ut aliquex ea commodo consequat.',
+      content: t('comments.text')
     },
     {
       id: 2,
-      name: 'Marissa Swan',
-      date: '21 July 2021',
+      name: t('comments.name2'),
+      date:  t('comments.date'),
       avatar: MarissaPink,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipisi elit, sed do eiusmod tempr incidid ut labore etl dolore magna aliqua. Ut enim ad minim veniam, quisnos exercitati ullamco laboris nisi ut aliquiex.',
+      content: t('comments.text')
     },
     {
       id: 3,
-      name: 'Donald Chavez',
-      date: '21 July 2021',
+      name: t('comments.name1'),
+      date:  t('comments.date'),
       avatar: DonaldPurple,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipisi elit, sed do eiusmod tempor incidid ut labore etl dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitati ullamco laboris nisi ut aliquex ea commodo consequat.',
+      content: t('comments.text')
     },
   ];
 
   return (
     <div className="comments-container">
-      <h2 className="comments-title">Comments (03)</h2>
+      <h2 className="comments-title">{t('comments.quantity')}</h2>
 
       <div className="comments-list">
         {comments.map((comment, index) => (
@@ -53,7 +51,7 @@ const CommentsSection = () => {
                 <span className="comment-date">{comment.date}</span>
               </div>
               <p className="comment-text">{comment.content}</p>
-              <button className="reply-button">REPLY</button>
+              <button className="reply-button">{t('comments.buttonText')}</button>
             </div>
           </div>
         ))}
