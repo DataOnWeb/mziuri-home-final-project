@@ -213,10 +213,19 @@
           color: $primary-color;
         }
 
-        @media (max-width: 480px) {
-          padding: 10px 20px;
-          font-size: 14px;
-        }
+        @media (max-width: 768px) {
+      padding: 10px 20px;
+      font-size: 14px;
+      width: 100%; 
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;   
+  }
+
       }
     }
   }
@@ -254,4 +263,4 @@
       
     }
   }
-}
+

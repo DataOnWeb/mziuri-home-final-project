@@ -114,71 +114,72 @@ const Checkout = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!validateForm()) {
-    const firstErrorField = Object.keys(errors)[0];
-    const errorElement = document.getElementById(firstErrorField);
-    if (errorElement) {
-      errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      errorElement.focus();
-    }
-    return;
-  }
-
-  try {
-    const orderData = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
-      items: cartItems.map(item => ({
-        productId: item.productId._id,
-        title: getLocalizedText(item.productId.title),
-        quantity: item.quantity,
-        price: getPriceInCurrentCurrency(item.productId.price)
-      })),
-      shippingAddress: {
-        country: formData.country,
-        address: formData.address,
-        city: formData.city,
-        state: formData.state,
-        postcode: formData.postcode
-      },
-      totalAmount: subtotal,
-      status: 'completed',
-      customerInfo: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone
+    if (!validateForm()) {
+      const firstErrorField = Object.keys(errors)[0];
+      const errorElement = document.getElementById(firstErrorField);
+      if (errorElement) {
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        errorElement.focus();
       }
-    };
+      return;
+    }
 
-    const existingOrders = JSON.parse(localStorage.getItem('userOrders') || []);
-    const updatedOrders = [...existingOrders, orderData];
-    localStorage.setItem('userOrders', JSON.stringify(updatedOrders));
+    try {
+      const orderData = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        items: cartItems.map(item => ({
+          productId: item.productId._id,
+          title: getLocalizedText(item.productId.title),
+          quantity: item.quantity,
+          price: getPriceInCurrentCurrency(item.productId.price)
+        })),
+        shippingAddress: {
+          country: formData.country,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          postcode: formData.postcode
+        },
+        totalAmount: subtotal,
+        status: 'completed',
+        customerInfo: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone
+        }
+      };
 
-    const clearCartPromises = cartItems.map(item => 
-      removeFromCart(item.productId._id)
-    );
-    
-    await Promise.all(clearCartPromises);
-    
+      const existingOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+      const updatedOrders = [...existingOrders, orderData];
+      localStorage.setItem('userOrders', JSON.stringify(updatedOrders));
 
-    setCartItems([]);
-    setFormData(initialFormState);
-    setErrors({});
-    setShowSuccess(true);
+      for (const item of cartItems) {
+        try {
+          await removeFromCart(item.productId._id);
+        } catch (error) {
+          console.error(`Failed to remove item ${item.productId._id} from cart:`, error);
+        }
+      }
 
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 5000);
-    
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Order failed:', error);
-    setErrors({ form: 'Failed to place order. Please try again.' });
-  }
-};
+      setCartItems([]);
+      setFormData(initialFormState);
+      setErrors({});
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error('Order failed:', error);
+      setErrors({ form: 'Failed to place order. Please try again.' });
+    }
+  };
 
   const getLocalizedText = (textObj) => {
     if (typeof textObj === 'string') return textObj;

@@ -22,3 +22,16 @@ svg {
   color: white;
 }
 
+
+@media (max-width: 480px) {
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
+
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+  }
+}
