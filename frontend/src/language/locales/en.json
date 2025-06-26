@@ -1,0 +1,473 @@
+{
+  "promotion": "HELLO EVERYONE! 25% OFF ALL PRODUCTS",
+  "home": "HOME",
+  "shop": "SHOP",
+  "blog": "BLOG",
+  "about": "ABOUT US",
+  "pages": "PAGES",
+  "contactPage": "CONTACT US",
+  "register1": "REGISTER",
+  "login": "LOGIN",
+  "profile1": "PROFILE",
+  "singleproduct": "PRODUCT PAGE",
+  "registerpage": "REGISTER PAGE",
+  "georgian": "GEORGIAN",
+  "english": "ENGLISH",
+  "wishlist": "WISHLIST",
+  "cartTitle": "MY CART",
+  "compare1": "COMPARE",
+  "usd": "USD",
+  "eur": "EUR",
+  "gel": "GEL",
+  "categories": "Categories",
+  "account":"Account",
+  "color": "Color",
+  "search": "Search",
+  "recentPost": "Recent Posts",
+  "clearFilters": "Clear Filters",
+  "categoriesTitle": "Categories",
+  "colorTitle": "Color",
+  "priceFilter": "Price Filter",
+  "popularTags": "Popular Tags",
+  "categoriesList": {
+    "All": "All",
+    "Bonsai": "Bonsai",
+    "House Plants": "House Plants",
+    "Indoor Living": "Indoor Living",
+    "Perennials": "Perennials",
+    "Plant For Gift": "Plant For Gift",
+    "Garden Tools": "Garden Tools"
+  },
+  "colorsList": {
+    "All": "All",
+    "Gold": "Gold",
+    "Green": "Green",
+    "White": "White",
+    "Black": "Black"
+  },
+  "tags": {
+    "fashion": "Fashion",
+    "organic": "Organic",
+    "oldFashion": "Old Fashion",
+    "men": "Men",
+    "dress": "Dress"
+  },
+  "sort": {
+    "default": "Sort by Default",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "nameAZ": "Name: A-Z",
+    "nameZA": "Name: Z-A"
+  },
+  "loading": "Loading products...",
+  "productCount": "<green>{{count}}</green> Product Found of <green>{{total}}</green>",
+  "productCount_plural": "<green>{{count}}</green> Products Found of <green>{{total}}</green>",
+
+  "plantCarousel": {
+    "discount1": "65% OFF",
+    "title1": "NEW PLANT",
+    "description1":"Pronia, With 100% Natural, Organic & Plant Shop.",
+    "buttonText": "DISCOVER NOW",
+    "discount2": "40% OFF",
+    "title2": "FRESH HERBS",
+    "description2": "Modern planters with organic herbs for your home.",
+    "buttonText2": "SHOP NOW"
+  },
+  "features":{
+    "title1": "Free Shipping",
+    "subtitle1": "Capped at $319 per order",
+    "title2": "Safe Payment",
+    "subtitle2":"With our payment gateway",
+    "title3":"Best Services",
+    "subtitle3":"Friendly & Supper Services"
+  },
+  "ourProducts":{
+    "title": "OUR PRODUCTS",
+    "option1": "Featured",
+    "option2":"Bestseller",
+    "option3":"Latest"
+  },
+  "collection":{
+    "title1":"Pottery Pots & Plant",
+    "subtitle1": "Collection Of Cactus",
+    "title2":"Plant Port",
+    "subtitle2":"New Collection",
+    "title3":"Plant Port",
+    "subtitle3":"New Collection",
+    "title4":"Hanging Pots & Plant",
+    "subtitle4":"Collection Of Cactus",
+    "buttonText":"SHOP NOW"
+  },
+  "productCarousel":{
+    "title":"New Products",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature"
+  },
+  "clientCarousel":{
+    "title":"WHAT CLIENTS SAY",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
+    "author":"PHOENIX BAKER",
+    "client":"Client",
+    "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  "blogCarousel":{
+    "title":"LATEST BLOG",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
+    "header":"There Many Variations",
+    "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "author": "ADMIN",
+    "date": "24 APRIL 2021"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "remove": "REMOVE",
+    "image": "IMAGE",
+    "product": "PRODUCT",
+    "unitPrice": "UNIT PRICE",
+    "quantity": "QUANTITY",
+    "total": "TOTAL",
+    "removeItem": "Remove item",
+    "couponPlaceholder": "Enter Coupon",
+    "applyCoupon": "APPLY COUPON",
+    "updateCart": "UPDATE CART",
+    "subtotal": "SUBTOTAL",
+    "proceedToCheckout": "PROCEED TO CHECKOUT",
+    "cartUpdated": "Cart Updated",
+    "couponApplied": "Coupon Applied",
+    "failedRemove": "Failed to remove item. Please try again.",
+    "failedUpdate": "Failed to update quantity. Please try again.",
+    "loading": "Loading...",
+    "errorLoading": "Error loading cart",
+    "addToCart": "ADD TO CART",
+    "stockStatus": "STOCK STATUS"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "returningCustomer": "📋 Returning customer?",
+    "loginHere": "Click here to login",
+    "haveCoupon": "📋 Have a coupon?",
+    "enterCode": "Click here to enter your code",
+    "billingDetails": "BILLING DETAILS",
+    "country": "Country",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "createAccount": "Create an account?",
+    "companyName": "Company Name",
+    "address": "Adress",
+    "streetAddress": "Street Address",
+    "apartmentPlaceholder":"Apartment",
+    "city":"City",
+    "state":"State",
+    "postcode":"Postcode",
+    "email":"Email",
+    "phone":"Phone",
+    "orderSuccess":"Order Placed Successfully",
+    "shipDifferent": "SHIP TO A DIFFERENT ADDRESS?",
+    "shipToDifferentAddress":"Ship to the different address",
+    "orderNotes": "Order Notes",
+    "orderNotesPlaceholder": "Notes about your order, e.g. special notes for delivery.",
+    "yourOrder": "YOUR ORDER",
+    "product": "PRODUCT",
+    "total": "TOTAL",
+    "cartSubtotal": "Cart Subtotal",
+    "orderTotal": "Order Total",
+    "bankTransfer": "Direct Bank Transfer",
+    "bankTransferDescription": "Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won't be shipped until the funds have cleared in our account.",
+    "chequePayment": "Cheque Payment",
+    "paypal": "PayPal",
+    "placeOrder": "PLACE ORDER"
+  },
+  "countries": {
+    "bangladesh": "Bangladesh",
+    "usa": "United States",
+    "uk": "United Kingdom",
+    "canada": "Canada",
+    "australia": "Australia",
+    "india": "India",
+    "germany": "Germany",
+    "france": "France"
+  },
+  "aboutPage":{
+    "header1": "Our",
+    "header2": "Story",
+    "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis",
+    "clientQuantity":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt.",
+    "span1":"eiusmod tempor",
+    "span2":"incididunt.",
+    "projects":"Projects",
+    "clients":"Clients",
+    "rating":"Rating",
+    "awards":"Awards",
+    "ourTeam":"OUR TEAM",
+    "subtitle":"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature",
+    "worker1":"Michael Murphy",
+    "job1": "Sales Man",
+    "worker2":"Britney Cooper",
+    "job2":"Designer",
+    "worker3": "Kari James",
+    "job3": "Developer",
+    "worker4": "Marrissa Swan",
+    "job4": "Manager"
+  },
+  "notFound": "Oops, page not found!",
+  "subscribe": "Subscribe Our Newsletter & Get Update Everytime",
+  "enterEmail":"Enter Your Email",
+  "backToHome": "BACK TO HOME",
+  "blogPage":{
+    "latest":"Lorem ipsum dolor conse tetur.",
+    "date":"24 APRIL 2021"
+  },
+  "sideBar":{
+    "header":"Shopping Cart",
+    "viewCart":"View Cart",
+    "proceed":"Checkout",
+    "subtotal":"Subtotal",
+    "empty": "Your Cart Is Empty"
+
+  },
+  "footer": {
+    "brandDescription": "Lorem ipsum dolor sit amet, consec adipisi elit, sed do eiusmod tempor incidio ut labore et dolore magna.",
+    "usefulLinks": {
+      "title": "Useful Links",
+      "aboutPronia": "About Pronia",
+      "howToShop": "How to Shop",
+      "faq": "FAQ",
+      "contactUs": "Contact us",
+      "logIn": "Log in"
+    },
+    "myAccount": {
+      "title": "My Account",
+      "signIn": "Sign In",
+      "viewCart": "View Cart",
+      "wishlist": "My Wishlist",
+      "trackOrder": "Track My Order",
+      "help": "Help"
+    },
+    "ourService": {
+      "title": "Our Service",
+      "paymentMethods": "Payment Methods",
+      "moneyGuarantee": "Money Guarantee!",
+      "returns": "Returns",
+      "shipping": "Shipping",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "contact": {
+      "title": "Got Question? Call Us",
+      "phoneNumber": "123 456 789",
+      "address": "Your Address Goes Here",
+      "paymentMethodsAlt": "Payment Methods"
+    },
+    "copyright": "© 2021 Pronia Made With ❤️ By Data"
+  },
+  "contact": {
+    "pageTitle": "Contact Us - Pronia",
+    "banner": {
+      "title": "contact"
+    },
+    "info": {
+      "title": "Contact Info:",
+      "description": "Fill the form and our team will get to back to you within 24 hours.",
+      "phone": "123 456 789",
+      "email": "info@example.com",
+      "address": "13, Your Address, Here"
+    },
+    "form": {
+      "firstName": "First Name*",
+      "lastName": "Last Name*",
+      "phone": "Phone*",
+      "email": "Email*",
+      "message": "Message",
+      "submitButton": "POST COMMENT",
+      "successMessage": "Form submitted successfully! We will get back to you within 24 hours.",
+      "errorMessage": "Failed to submit form. Please try again."
+    },
+    "validation": {
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "phoneRequired": "Phone number is required.",
+    "phoneInvalid": "Phone number must be at least 9 digits.",
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Invalid email format.",
+    "messageRequired": "Message is required."
+  },
+    "map": {
+      "title": "Google Maps"
+    }
+  },
+  "addToCart": "Add To Cart",
+  "inStock":"In Stock",
+  "outStock": "Out Of Stock",
+  "singleProduct": {
+      "pageTitle": "Single Product Variable - Pronia",
+      "reviewCount": "({{count}} review)",
+      "reviewCount_plural": "({{count}} reviews)",
+      "productColor": "Product Color",
+      "productSize": "Product Size",
+      "benefits": {
+        "free": "Free",
+        "shipping": "Shipping",
+        "safe": "Safe",
+        "payment": "Payment"
+      },
+      "meta": {
+        "sku": "SKU",
+        "categories": "Product Categories",
+        "tags": "Product Tags",
+        "tagsValue": "Product Furniture",
+        "share": "Share Product"
+      },
+      "tabs": {
+        "information": "Product Information",
+        "description": "Product Description",
+        "reviews": "Product Reviews(3)"
+      },
+      "information": {
+        "shippingTitle": "Product Shipping",
+        "shippingText": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et eaque fugit dolore reiciendis quos aut praesentium tempora tenetur distinctio atque.",
+        "aboutTitle": "About Product",
+        "aboutText": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sit culpa iusto provident modi placeat ipsum rem optio possimus blanditiis!",
+        "guaranteeTitle": "Guaranteed Product",
+        "guaranteeText": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur explicabo expedita soluta illo recusandae quisquam adipisci dolorum ex quia."
+      },
+      "comments": {
+        "title": "Leave a Comment",
+        "namePlaceholder": "Your Name",
+        "emailPlaceholder": "Your Email",
+        "subjectPlaceholder": "Subject",
+        "messagePlaceholder": "Message",
+        "submitButton": "Post Your Comment",
+        "successMessage": "Posted Successfully"
+      },
+      "relatedProducts": {
+        "title": "Related Products",
+        "subtitle": "Find Your related products"
+      }
+    },
+    "comments":{
+        "name1": "Donald Chavez",
+        "name2":"Marrissa Swan",
+        "quantity":"Comments (03)",
+        "date":"24 APRIL 2021",
+        "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis.",
+        "buttonText":"REPLY"
+    },
+    "modal":{
+      "color": "Color",
+      "size": "Size",
+      "review": "1 review",
+      "color1":"Black & White",
+      "color2": "Green & Brown",
+      "color3":"Blue & Gray",
+      "size1":"Medium Size & Poot",
+      "size2": "Large Size With Poot",
+      "size3":"Small Size With Poot"
+    },
+    "tooltip1":"Wishlist",
+    "tooltip2":"Quick View",
+    "tooltip3":"Add To Cart",
+     "register": {
+      "title": "Register",
+      "pageTitle": "Register - Pronia",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "rememberMe": "Remember Me",
+      "submitButton": "REGISTER",
+      "submittingButton": "REGISTERING...",
+      "required": "*",
+      "placeholders": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Enter Email Address",
+        "password": "Enter Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "errors": {
+        "passwordsDoNotMatch": "Passwords do not match",
+        "registrationFailed": "Registration failed. Please try again.",
+        "autoLoginFailed": "Registration successful but login failed. Please try logging in manually."
+      }
+    },
+    "forgotPassword": "Forgot Password?",
+    "doNotWorry": "Do Not Worry!",
+    "link":"enter your email to get reset password link",
+    "example":"you@example.com",
+    "send": "SEND EMAIL",
+    "login1":"Login",
+    "profile": {
+      "pageTitle": "My Account - Pronia",
+      "title": "profile",
+      "navigation": {
+        "dashboard": "DASHBOARD",
+        "orders": "ORDERS",
+        "addresses": "ADDRESSES",
+        "accountDetails": "ACCOUNT DETAILS",
+        "logout": "LOGOUT"
+      },
+      "accountDetails": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmNewPassword": "Confirm New Password",
+        "required": "*",
+        "passwordSection": {
+          "title": "Change Password (Leave blank to keep current password)",
+          "currentPasswordPlaceholder": "Enter current password to change",
+          "newPasswordPlaceholder": "Enter new password",
+          "confirmPasswordPlaceholder": "Confirm new password"
+        },
+        "submitButton": "SAVE CHANGES",
+        "submittingButton": "SAVING...",
+        "successMessages": {
+          "profileUpdated": "Profile updated successfully!",
+          "profileAndPasswordUpdated": "Profile and password updated successfully!"
+        },
+        "errors": {
+          "currentPasswordRequired": "Current password is required to change password",
+          "newPasswordRequired": "New password is required",
+          "confirmPasswordRequired": "Please confirm your new password",
+          "passwordsDoNotMatch": "Passwords do not match",
+          "updateFailed": "Failed to update profile. Please try again.",
+          "invalidResponse": "Invalid response from server"
+        }
+      },
+      "dashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome back, {name}!",
+        "description": "Manage your account details, orders and more here."
+      },
+      "orders": {
+        "title": "Orders",
+        "noOrders": "No orders yet."
+      },
+      "addresses": {
+        "title": "BILLING ADDRESS",
+        "description": "The following addresses will be used on the checkout page by default.",
+        "sampleAddress": "1234 Heaven Stress, Beverly Hill OldYork UnitedState of Lorem"
+      }
+    },
+    "compare": {
+      "pageTitle": "Compare Products",
+      "noDescriptionAvailable": "No description available",
+      "unknownProduct": "Unknown Product",
+      "defaultDescription": "Nulla pulvinar et urna malesuada elementum. Nunc placerat, quam et tempus ullamcorper, nunc erat imperdiet lacus, vel auctor arcu lacus non ligula.",
+      "image": "Image",
+      "addToCart": "ADD TO CART",
+      "productName": "Product Name",
+      "description": "Description",
+      "price": "Price",
+      "color": "Color",
+      "size": "Size",
+      "stock": "Stock",
+      "inStock": "In Stock",
+      "stockOut": "Stock Out",
+      "rating": "Rating"
+    },
+    "common": {
+      "loading": "Loading...",
+      "errorLoading": "Error loading data"
+    }
+}

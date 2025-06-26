@@ -1,0 +1,147 @@
+@use '../abstracts' as *;
+
+.green-carousel-container {
+  width: 100%;
+  max-width: 65vw;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-image: url('../assets/images/carousel-bg.jpg');
+  background-size: 100%;
+  border-radius: 9px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+
+  .green-carousel {
+    display: flex;
+    gap: 20px;
+    cursor: grab;
+    user-select: none;
+    padding: 20px 0;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    .green-carousel-item {
+      flex: 0 0 200px;
+      display: flex;
+      justify-content: center;
+
+      .plant-card {
+
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+
+
+        img {
+          width: 90px;
+          height: 100px;
+
+          margin-bottom: 15px;
+          transition: all 0.3s ease;
+          opacity: 0.5;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+       
+      }
+    }
+  }
+
+ 
+}
+
+
+@media (max-width: 768px) {
+  .carousel-container {
+    padding: 20px 10px;
+    margin: 10px;
+
+    .carousel {
+      gap: 15px;
+
+      .carousel-item {
+        flex: 0 0 180px;
+
+        .plant-card {
+          padding: 15px;
+
+          img {
+            width: 60px;
+            height: 60px;
+          }
+
+          .plant-info {
+            .plant-title {
+              font-size: 16px;
+            }
+
+            .plant-subtitle {
+              font-size: 11px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    .carousel {
+      .carousel-item {
+        flex: 0 0 150px;
+
+        .plant-card {
+          padding: 12px;
+
+          img {
+            width: 50px;
+            height: 50px;
+          }
+
+          .plant-info {
+            .plant-title {
+              font-size: 14px;
+            }
+
+            .plant-subtitle {
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animation for smooth transitions
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.carousel-item {
+  animation: slideIn 0.5s ease-out;
+}
+
+// Custom scrollbar for webkit browsers
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
