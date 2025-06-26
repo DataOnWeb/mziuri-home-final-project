@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const PlantCarousel = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
-
+  const navigate = useNavigate()
   useEffect(() => {
     const initTimer = setTimeout(() => {
       setHasInitialized(true);
@@ -27,6 +27,10 @@ const PlantCarousel = ({ slides }) => {
     setTimeout(() => setIsAnimating(false), 600);
   };
 
+
+  const handleNavigation = (path) =>{
+    navigate(path)
+  }
   useEffect(() => {
     if (!hasInitialized) return;
 
@@ -50,7 +54,7 @@ const PlantCarousel = ({ slides }) => {
                 <h2 className="carousel-discount">{slide.discount}</h2>
                 <h1 className="carousel-title">{slide.title}</h1>
                 <p className="carousel-description">{slide.description}</p>
-                <button className="carousel-button">{slide.buttonText}</button>
+                <button className="carousel-button" onClick={() => handleNavigation('/shop')}>{slide.buttonText}</button>
               </div>
               <div className="carousel-image">
                 <img
