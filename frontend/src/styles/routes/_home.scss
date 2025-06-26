@@ -193,6 +193,8 @@
       border-radius: 8px;
       overflow: hidden;
       display: inline-flex;
+       flex-direction: row;
+       flex-wrap: wrap;
 
       .tab-button {
         padding: 12px 30px;

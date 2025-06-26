@@ -296,7 +296,7 @@ const Header = () => {
             </div>
             <div
               className="mobile-action-item"
-              onClick={toggleCart}
+              onClick={() => handleNavigation('/cart')}
             >
               <PiShoppingBagLight />
               <span>{t('cartTitle')} (3)</span>
