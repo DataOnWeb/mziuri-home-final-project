@@ -14,10 +14,12 @@ import ClientCarousel from '../components/ClientCarousel';
 import GreenCarousel from '../components/GreenCarousel';
 import BlogCarousel from '../components/BlogCarousel';
 import ScrollToTop from '../components/ScrollToTop';
+
 const Home = () => {
   const { t } = useTranslation();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [activeTab, setActiveTab] = useState(t('ourProducts.option1'));
+  const [productsVisible, setProductsVisible] = useState(true);
   const { useDataLoader } = useLoader();
 
   const carouselSlides = [
@@ -55,6 +57,16 @@ const Home = () => {
   }, []);
 
   const tabs = [t('ourProducts.option1'), t('ourProducts.option2'), t('ourProducts.option3')];
+
+  const handleTabChange = (tab) => {
+    if (tab !== activeTab) {
+      setProductsVisible(false);
+      setTimeout(() => {
+        setActiveTab(tab);
+        setProductsVisible(true);
+      }, 200);
+    }
+  };
 
   return (
     <div className="route-container">
@@ -95,7 +107,6 @@ const Home = () => {
       </div>
 
       {/* Our Products Section */}
-      {/* Our Products Section */}
       <section className="our-products-section">
         <div className="products-container">
           <div className="section-header">
@@ -105,7 +116,7 @@ const Home = () => {
                 <button
                   key={tab}
                   className={`tab-button ${activeTab === tab ? 'active' : ''}`}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => handleTabChange(tab)}
                 >
                   {tab}
                 </button>
@@ -113,7 +124,13 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="home-products-wrapper">
+          <div 
+            className="home-products-wrapper"
+            style={{
+              opacity: productsVisible ? 1 : 0,
+              transition: 'opacity 0.4s ease-in-out'
+            }}
+          >
             <div className="home-products-grid">
               {featuredProducts.map((product, index) => (
                 <div

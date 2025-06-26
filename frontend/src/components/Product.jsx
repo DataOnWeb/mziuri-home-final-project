@@ -9,7 +9,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { addToCart, addToWishlist } from '../api/api';
 
 const Product = ({ product, viewMode = 'grid' }) => {
-  const { _id, title, price, rating, image, description } = product;
+  const { _id, title, price, rating, image, hoverImage, description } = product;
   const { i18n, t } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
 
@@ -123,6 +123,37 @@ const Product = ({ product, viewMode = 'grid' }) => {
     transition: 'all 0.2s ease',
   };
 
+
+  const imageContainerStyle = {
+    position: 'relative',
+    overflow: 'hidden',
+    width: '100%',
+    height: '100%',
+    display: 'block',
+  };
+
+  const baseImageStyle = {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
+    transition: 'all 0.4s ease',
+  };
+
+  const mainImageStyle = {
+    ...baseImageStyle,
+    opacity: isHovered && hoverImage ? 0 : 1,
+  };
+
+  const hoverImageStyle = {
+    ...baseImageStyle,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    opacity: isHovered && hoverImage ? 1 : 0,
+    zIndex: 1,
+  };
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -148,16 +179,23 @@ const Product = ({ product, viewMode = 'grid' }) => {
           onMouseLeave={() => setIsHovered(false)}
         >
           <div className="product-image">
-            <Link to={`/product/${_id}`}>
-              <img
-                src={`/productImg/product${image}.jpg`}
-                alt={title?.[i18n.language] || title?.en || 'Product image'}
-                style={{
-                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                  transition: 'transform 0.5s ease',
-                }}
-              />
-            </Link>
+            <div style={imageContainerStyle}>
+              <Link to={`/product/${_id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+                <img
+                  src={`/productImg/product${image}.jpg`}
+                  alt={title?.[i18n.language] || title?.en || 'Product image'}
+                  style={mainImageStyle}
+                />
+                
+                {hoverImage && (
+                  <img
+                    src={`/productImg/product${hoverImage}.jpg`}
+                    alt={`${title?.[i18n.language] || title?.en || 'Product image'} - hover`}
+                    style={hoverImageStyle}
+                  />
+                )}
+              </Link>
+            </div>
 
             <div style={slideButtonsStyle}>
               <button
