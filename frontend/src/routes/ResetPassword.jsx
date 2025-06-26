@@ -34,8 +34,6 @@ function ResetPassword() {
       const response = await api.resetPasswordUser(state, token);
 
       if (response.data) {
-        // alert('Password reset successfully');
-        // navigate('/login');
       }
     } catch (err) {
       throw err;

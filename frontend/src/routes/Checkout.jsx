@@ -3,7 +3,7 @@ import RouteBanner from '../components/RouteBanner';
 import { useLoader } from '../hooks/useLoader';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
-import { getCart } from '../api/api';
+import { getCart, removeFromCart } from '../api/api';
 import { validateFullName, validateEmail, validateSelect } from '../utils/validations';
 
 const Checkout = () => {
@@ -113,32 +113,72 @@ const Checkout = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!validateForm()) {
-      const firstErrorField = Object.keys(errors)[0];
-      const errorElement = document.getElementById(firstErrorField);
-      if (errorElement) {
-        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        errorElement.focus();
-      }
-      return;
+  if (!validateForm()) {
+    const firstErrorField = Object.keys(errors)[0];
+    const errorElement = document.getElementById(firstErrorField);
+    if (errorElement) {
+      errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      errorElement.focus();
     }
+    return;
+  }
 
-    console.log('Order placed:', formData);
+  try {
+    const orderData = {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      items: cartItems.map(item => ({
+        productId: item.productId._id,
+        title: getLocalizedText(item.productId.title),
+        quantity: item.quantity,
+        price: getPriceInCurrentCurrency(item.productId.price)
+      })),
+      shippingAddress: {
+        country: formData.country,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        postcode: formData.postcode
+      },
+      totalAmount: subtotal,
+      status: 'completed',
+      customerInfo: {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone
+      }
+    };
 
+    const existingOrders = JSON.parse(localStorage.getItem('userOrders') || []);
+    const updatedOrders = [...existingOrders, orderData];
+    localStorage.setItem('userOrders', JSON.stringify(updatedOrders));
+
+    const clearCartPromises = cartItems.map(item => 
+      removeFromCart(item.productId._id)
+    );
+    
+    await Promise.all(clearCartPromises);
+    
+
+    setCartItems([]);
     setFormData(initialFormState);
     setErrors({});
-
     setShowSuccess(true);
 
     setTimeout(() => {
       setShowSuccess(false);
     }, 5000);
-    e;
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  } catch (error) {
+    console.error('Order failed:', error);
+    setErrors({ form: 'Failed to place order. Please try again.' });
+  }
+};
 
   const getLocalizedText = (textObj) => {
     if (typeof textObj === 'string') return textObj;
@@ -232,7 +272,6 @@ const Checkout = () => {
                   className={errors.country ? 'error' : ''}
                   required
                 >
-                  <option value="">{t('checkout.selectCountry') || 'Select Country'}</option>
                   <option value="Bangladesh">{t('countries.bangladesh')}</option>
                   <option value="United States">{t('countries.usa')}</option>
                   <option value="United Kingdom">{t('countries.uk')}</option>

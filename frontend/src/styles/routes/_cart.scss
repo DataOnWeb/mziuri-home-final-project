@@ -422,7 +422,6 @@
             border-bottom: none;
           }
 
-          // Add mobile labels
           &::before {
             content: attr(data-label);
             font-weight: 600;
@@ -630,7 +629,7 @@
   }
 }
 
-// Large screens optimization
+
 @media (min-width: 1400px) {
   .shopping-cart {
     max-width: 1400px;

@@ -37,7 +37,6 @@
     width: 100%;
     max-width: 800px;
 
-    // Remove fixed width on tablets and mobile
     @media (max-width: 968px) {
       width: 100%;
     }
@@ -133,7 +132,6 @@
           }
         }
 
-        // Video Post Overlay
         .video-overlay {
           position: absolute;
           top: 0;
@@ -147,7 +145,6 @@
           opacity: 0;
           transition: opacity 0.3s ease;
 
-          // Show on mobile by default for better UX
           @media (max-width: 480px) {
             opacity: 1;
           }
@@ -351,7 +348,7 @@
           text-transform: uppercase;
           letter-spacing: 0.5px;
 
-          // Mobile responsive - stack vertically if needed
+
           @media (max-width: 320px) {
             flex-direction: column;
             gap: 5px;
@@ -444,7 +441,7 @@
   }
 }
 
-// Blog Sidebar Styles (Right Side - Unique Classes)
+
 .blog-sidebar {
   flex: 0 0 300px;
   
@@ -788,7 +785,6 @@
   @extend .blog-sidebar;
 }
 
-// Enhanced Responsive Design with more breakpoints
 @media (max-width: 1200px) {
   .blog-page .blog-container {
     max-width: 100%;

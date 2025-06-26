@@ -21,7 +21,6 @@
     padding: 0 20px;
   }
 
-  // Story Header
   .story-header {
     margin-bottom: 60px;
 
@@ -50,7 +49,6 @@
     }
   }
 
-  // Story Content
   .story-content {
     margin-bottom: 60px;
 
@@ -64,7 +62,7 @@
     }
   }
 
-  // Signature
+
   .signature {
     margin-bottom: 80px;
     
@@ -199,7 +197,7 @@
   }
 }
 
-// Video Section Styles - Only for the new video section added to About page
+
 .video-section {
   margin-bottom: 80px;
   border: 10px solid white;
@@ -279,7 +277,7 @@
   }
 }
 
-// Video Modal Styles - Only for the video modal
+
 .about-video-modal-overlay {
   position: fixed;
   top: 0;
@@ -337,7 +335,7 @@
   }
 }
 
-// Team Section Styles
+
 .team-section {
   padding: 80px 0;
   background-color: white;
@@ -514,7 +512,7 @@
   }
 }
 
-// Animation keyframes
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -537,7 +535,6 @@
   }
 }
 
-// Pulse animation for play button
 @keyframes about-pulse {
   0% {
     transform: scale(1);
@@ -549,7 +546,7 @@
   }
 }
 
-// Optional animation classes (can be added with JavaScript)
+
 .animate-fade-in {
   animation: fadeInUp 0.6s ease-out;
 }
@@ -571,12 +568,7 @@
   border-color: $primary-green;
 }
 
-// ===========================
-// RESPONSIVE DESIGN - MOBILE & TABLET ONLY
-// PC/Desktop (1025px and above) keeps original styling
-// ===========================
 
-// Tablet Landscape (769px - 1024px)
 @media (max-width: 1024px) and (min-width: 769px) {
   .about-section {
     padding: 60px 0;

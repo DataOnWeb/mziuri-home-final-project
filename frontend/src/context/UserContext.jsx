@@ -6,7 +6,6 @@ export const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  // Load user data from localStorage on component mount
   useEffect(() => {
     const savedUserData = localStorage.getItem('userData');
     const savedLoginStatus = localStorage.getItem('isLoggedIn');
@@ -17,7 +16,6 @@ export const UserProvider = ({ children }) => {
         setIsLoggedIn(true);
       } catch (error) {
         console.error('Error parsing saved user data:', error);
-        // Clear corrupted data
         localStorage.removeItem('userData');
         localStorage.removeItem('isLoggedIn');
       }
@@ -28,7 +26,6 @@ export const UserProvider = ({ children }) => {
     setIsLoggedIn(status);
     localStorage.setItem('isLoggedIn', status.toString());
 
-    // If logging out, clear localStorage
     if (!status) {
       localStorage.removeItem('userData');
       localStorage.removeItem('isLoggedIn');
@@ -45,11 +42,9 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Optional: Add remember me functionality
   const setRememberMe = (remember, loginData = null) => {
     if (remember && loginData) {
       localStorage.setItem('rememberedEmail', loginData.email);
-      // Don't store password for security reasons
     } else {
       localStorage.removeItem('rememberedEmail');
     }
@@ -64,7 +59,6 @@ export const UserProvider = ({ children }) => {
     setUserData(null);
     localStorage.removeItem('userData');
     localStorage.removeItem('isLoggedIn');
-    // Keep remembered email if user had "remember me" checked
   };
 
   return (

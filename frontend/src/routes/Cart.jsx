@@ -119,7 +119,7 @@ function Cart() {
       setCartItems(cart);
     } catch (error) {
       console.error('Update failed:', error);
-      // Revert to server state
+
       const { cart } = await getCart();
       setCartItems(cart);
       alert('Failed to update quantity. Please try again.');

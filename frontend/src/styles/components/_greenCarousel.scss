@@ -120,7 +120,7 @@
   }
 }
 
-// Animation for smooth transitions
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -136,7 +136,6 @@
   animation: slideIn 0.5s ease-out;
 }
 
-// Custom scrollbar for webkit browsers
 .carousel-container::-webkit-scrollbar {
   display: none;
 }

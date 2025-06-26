@@ -81,7 +81,6 @@ const Shop = () => {
       result = result.filter((product) => {
         let title = '';
         if (typeof product.title === 'object' && product.title !== null) {
-          // Get title in current language or fallback to English
           title = product.title[i18n.language] || product.title.en || product.title.ka || '';
         } else if (typeof product.title === 'string') {
           title = product.title;
@@ -89,22 +88,20 @@ const Shop = () => {
         return title.toLowerCase().includes(searchTerm.toLowerCase());
       });
     }
-
-    // Category filter
     if (activeCategory !== 'All') {
       result = result.filter((product) => {
         return product.category === activeCategory;
       });
     }
 
-    // Color filter
+
     if (activeColor !== 'All') {
       result = result.filter((product) => {
         return product.color === activeColor;
       });
     }
 
-    // Price filter
+
     result = result.filter((product) => {
       const price = getProductPrice(product);
       const inRange = price >= priceRange.min && price <= priceRange.max;

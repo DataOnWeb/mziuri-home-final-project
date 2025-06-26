@@ -25,7 +25,7 @@ export const loginUser = async (req, res) => {
             return res.json({ err: 'Invalid username or password' });
         }
 
-        // Set token expiration based on remember me
+
         const tokenExpiration = rememberMe ? '30d' : '1d';
         const cookieMaxAge = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
 
@@ -33,9 +33,9 @@ export const loginUser = async (req, res) => {
         
         res.cookie('token', token, { 
             httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            secure: process.env.NODE_ENV === 'production', 
             maxAge: cookieMaxAge,
-            sameSite: 'strict' // Add CSRF protection
+            sameSite: 'strict' 
         });
 
         const userResponse = {
@@ -146,7 +146,7 @@ export const registerUser = async (req, res) => {
             sameSite: 'strict'
         });
 
-        // Don't send password in response
+
         const userResponse = {
             _id: newUser._id,
             username: newUser.username,

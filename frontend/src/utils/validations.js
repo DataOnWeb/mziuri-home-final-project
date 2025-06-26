@@ -9,7 +9,7 @@ export const validateEmail = (value) => {
     return 'Email is required';
   }
 
-  // More comprehensive email validation regex
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailRegex.test(value)) {

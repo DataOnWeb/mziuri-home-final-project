@@ -544,6 +544,24 @@
   }
   
   
+  &:hover {
+    color: #80b435;
+    transition: 0.2s;
+  }
+  
+  &.active {
+    color: #80b435;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #80b435;
+    }
+  }
 }
 
 .product-tabs__content {

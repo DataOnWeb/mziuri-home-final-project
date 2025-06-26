@@ -5,7 +5,7 @@ const translationSchema = new mongoose.Schema({
   ka: String,
 });
 
-// Updated price schema to support multiple currencies
+
 const priceSchema = new mongoose.Schema({
   usd: {
     type: Number,
@@ -23,7 +23,6 @@ const priceSchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema({
   title: translationSchema,
-  // Updated to use the price schema instead of a single number
   price: {
     type: priceSchema,
     required: true
@@ -44,7 +43,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  description: translationSchema // Added description field as it's used in your component
+  description: translationSchema 
 }, { timestamps: true });
 
 export default mongoose.model('Product', productSchema);

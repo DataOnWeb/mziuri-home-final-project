@@ -12,42 +12,37 @@
     height: 38vw;
   }
   
-  // Desktop standard
+
   @media (max-width: 1200px) {
     height: 40vw;
   }
   
-  // Large tablets
+  
   @media (max-width: 1024px) {
     height: 45vw;
   }
   
-  // Standard tablets
+ 
   @media (max-width: 768px) {
     height: 400px;
   }
-  
-  // Small tablets
+ 
   @media (max-width: 640px) {
     height: 450px;
   }
-  
-  // Mobile landscape
+
   @media (max-width: 568px) and (orientation: landscape) {
     height: 350px;
   }
-  
-  // Standard mobile
+
   @media (max-width: 480px) {
     height: 500px;
   }
   
-  // Small mobile
   @media (max-width: 375px) {
     height: 450px;
   }
-  
-  // Very small mobile
+
   @media (max-width: 320px) {
     height: 420px;
   }

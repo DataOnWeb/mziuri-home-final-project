@@ -53,7 +53,7 @@ const GreenCarousel = () => {
   const itemWidth = 220;
   const totalWidth = plantImages.length * itemWidth;
 
-  // Initialize with offset to show middle set
+
   useEffect(() => {
     setCurrentTranslate(-totalWidth);
   }, []);
@@ -86,15 +86,11 @@ const GreenCarousel = () => {
   const handleDragEnd = () => {
     setIsDragging(false);
     setCurrentTranslate(translateX);
-
-    // Check if we need to reset position for infinite scroll
     if (translateX > 0) {
-      // Scrolled too far right, jump to end
       const newTranslate = translateX - totalWidth;
       setTranslateX(newTranslate);
       setCurrentTranslate(newTranslate);
     } else if (translateX < -totalWidth * 2) {
-      // Scrolled too far left, jump to beginning
       const newTranslate = translateX + totalWidth;
       setTranslateX(newTranslate);
       setCurrentTranslate(newTranslate);

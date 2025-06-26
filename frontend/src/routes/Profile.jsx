@@ -17,6 +17,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { userData, setUserData, isLoggedIn, logout } = useUserData();
+  const [orders, setOrders] = useState([]);
 
   const [activeTab, setActiveTab] = useState('account-details');
   const [profileInputs, setProfileInputs] = useState({
@@ -39,7 +40,7 @@ export default function Profile() {
 
   const splitUsername = (username) => {
     if (!username) return { firstName: '', lastName: '' };
-
+    
     const parts = username.trim().split(' ');
     if (parts.length === 1) {
       return { firstName: parts[0], lastName: '' };
@@ -49,6 +50,7 @@ export default function Profile() {
     const lastName = parts.slice(1).join(' ');
 
     return { firstName, lastName };
+    
   };
 
   useEffect(() => {

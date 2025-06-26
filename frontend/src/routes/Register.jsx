@@ -109,7 +109,6 @@ function Register() {
         setLoggedIn(true);
         setRememberMe(registerInputs.rememberMe, { email: userData.email });
 
-        // Clear form
         setRegisterInputs({
           firstName: '',
           lastName: '',
