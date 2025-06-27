@@ -16,7 +16,7 @@ export default function Profile() {
   const { useFakeLoader } = useLoader();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { userData, setUserData, isLoggedIn, logout } = useUserData();
+  const { userData, setUserData, isLoggedIn, logout, authChecked } = useUserData();
   const [orders, setOrders] = useState([]);
 
   const [activeTab, setActiveTab] = useState('account-details');
@@ -35,9 +35,10 @@ export default function Profile() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    if (!isLoggedIn) navigate('/login');
-  }, [isLoggedIn, navigate]);
-
+  if (authChecked && !isLoggedIn) {
+    navigate('/login');
+  }
+}, [authChecked, isLoggedIn, navigate]);
   const splitUsername = (username) => {
     if (!username) return { firstName: '', lastName: '' };
     
@@ -185,17 +186,22 @@ export default function Profile() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+  try {
+    await logout();
+    navigate('/login');
+  } catch (error) {
+    console.error('Logout error:', error);
     navigate('/');
-  };
+  }
+};
 
   useEffect(() => {
     useFakeLoader();
     document.title = t('profile.pageTitle');
   }, [t]);
 
-  if (!isLoggedIn || !userData) return null;
+  if (!authChecked) return <div>Loading...</div>;
 
   return (
     <div>
@@ -372,10 +378,11 @@ export default function Profile() {
               <div className="dashboard-section">
                 <h3>{t('profile.dashboard.title')}</h3>
                 <p>
-                  {t('profile.dashboard.welcome', {
-                    name: profileInputs.firstName || userData.username,
-                  })}
-                </p>
+      {t('profile.dashboard.welcome', 
+        profileInputs.firstName
+
+    )}
+    </p>
                 <p>{t('profile.dashboard.description')}</p>
               </div>
             )}

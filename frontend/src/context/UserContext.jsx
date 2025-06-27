@@ -1,42 +1,43 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { checkAuth } from '../api/api';
+
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
-  const validateSession = async () => {
-    try {
-      const savedUserData = localStorage.getItem('userData');
-      const savedLoginStatus = localStorage.getItem('isLoggedIn');
-      const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+    const validateSession = async () => {
+      try {
+        const savedUserData = localStorage.getItem('userData');
+        const savedLoginStatus = localStorage.getItem('isLoggedIn');
+        const response = await checkAuth(); 
 
-      if (savedUserData && savedLoginStatus === 'true' && token) {
-        await checkAuth(); 
-        
-        setUserData(JSON.parse(savedUserData));
         setIsLoggedIn(true);
-      } else {
+        if (response?.data) {
+          setUserData(response.data);
+          localStorage.setItem('userData', JSON.stringify(response.data));
+          localStorage.setItem('isLoggedIn', 'true');
+        } else if (savedUserData) {
+          setUserData(JSON.parse(savedUserData));
+          setIsLoggedIn(savedLoginStatus === 'true');
+        }
+      } catch (error) {
+        console.error('Session validation failed:', error);
         clearAllStorageData();
+      } finally {
+        setAuthChecked(true);
       }
-    } catch (error) {
-      console.error('Session validation failed:', error);
-      clearAllStorageData();
-    }
-  };
+    };
 
-  validateSession();
-}, []);
+    validateSession();
+  }, []);
 
   const clearAllStorageData = () => {
     localStorage.removeItem('userData');
     localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('token');
-    localStorage.removeItem('authToken');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('authToken');
     setUserData(null);
     setIsLoggedIn(false);
   };
@@ -80,6 +81,7 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         isLoggedIn,
+        authChecked,
         userData,
         setLoggedIn,
         setUserData: setUserDataPersistent,

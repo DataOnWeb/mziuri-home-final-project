@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'http://localhost:3000/api';
 
 export const getProducts = async () => {
   try {
@@ -35,18 +35,15 @@ export const registerUser = async (userData) => {
     if (response.data.err) {
       throw new Error(response.data.err);
     }
-
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Error registering user:', err);
-
     if (err.response && err.response.data) {
       throw new Error(err.response.data.err || 'Registration failed');
     }
     throw new Error(err.message || 'Registration failed');
   }
 };
-
 export const loginUser = async (credentials) => {
   try {
     const response = await axios.post(
@@ -88,12 +85,28 @@ const handleAuthError = (error) => {
 
 export const getToken = async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/users/get-token`, {}, {
+    const response = await axios.get(`${API_BASE_URL}/users/get-token`, {
       withCredentials: true
     });
+    
+    if (response.data.err) {
+      throw new Error(response.data.err);
+    }
+  
     return response.data;
   } catch (err) {
-    return handleAuthError(err);
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('token');
+    
+    if (err.response) {
+      if (err.response.status === 401 || err.response.status === 403) {
+        throw new Error('Session expired. Please login again.');
+      }
+      throw new Error(err.response.data.err || 'Failed to verify session');
+    }
+    throw err;
   }
 };
 
@@ -102,16 +115,21 @@ export const checkAuth = async () => {
     const response = await axios.get(`${API_BASE_URL}/users/check-auth`, {
       withCredentials: true
     });
+    
+    if (response.data.err) {
+      throw new Error(response.data.err);
+    }
+    
     return response.data;
   } catch (err) {
-    return handleAuthError(err);
+    handleAuthError(err);
+    throw err;
   }
 };
 
-export const getUser = async (token) => {
+export const getUser = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users/get-user`, {
-      headers: { Authorization: token },
       withCredentials: true
     });
     return response.data;
@@ -120,11 +138,10 @@ export const getUser = async (token) => {
     throw err;
   }
 };
-
 export const logoutUser = async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/users/logout`, {
-      withCredentials: true
+    const response = await axios.post(`${API_BASE_URL}/users/logout`, {}, {
+      withCredentials: true 
     });
     return response.data;
   } catch (err) {

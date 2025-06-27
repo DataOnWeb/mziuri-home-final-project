@@ -29,8 +29,8 @@ app.use(limiter)
 
 
 app.use(cors({
-    origin: ["http://localhost:5173", "https://pronia-app.onrender.com"], // React frontend
-    credentials: true // Allow cookies to be sent
+    origin: ["http://localhost:5173", "https://pronia-app.onrender.com"], 
+    credentials: true 
 }));
 app.use(express.json());
 app.use(cookieParser());

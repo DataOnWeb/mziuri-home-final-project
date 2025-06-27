@@ -348,6 +348,7 @@ function Register() {
                     onChange={handleRegisterChange}
                   />
                   <label htmlFor="registerRememberMe">{t('register.rememberMe')}</label>
+                  
                 </div>
                 <a onClick={() => handleNavigation('/login')}>{t('haveAccount')}</a>
               </div>

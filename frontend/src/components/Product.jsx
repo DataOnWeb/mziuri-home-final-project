@@ -70,7 +70,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
       if (error.message.includes('Authentication required') || 
           error.response?.status === 401 || 
           error.response?.status === 403) {
-        navigate('/register');
+        navigate('/login');
       } else {
         alert(error.message || 'Failed to add to cart');
       }
