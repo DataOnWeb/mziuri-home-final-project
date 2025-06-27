@@ -65,7 +65,7 @@ function Cart() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('/login');
+      navigate('/register');
       return;
     }
 

@@ -469,5 +469,6 @@
     "common": {
       "loading": "Loading...",
       "errorLoading": "Error loading data"
-    }
+    },
+    "haveAccount": "Already Have An Account?"
 }

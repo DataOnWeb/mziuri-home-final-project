@@ -224,10 +224,12 @@ export default function Login() {
                   onChange={handleLoginChange}
                 />
                 <label htmlFor="rememberMe">{t('register.rememberMe')}</label>
+                
               </div>
 
               <div className="forgot-password">
                 <a onClick={() => handleNavigation('/forgot-password')}>{t('forgotPassword')}</a>
+
               </div>
             </div>
 

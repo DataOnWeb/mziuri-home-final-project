@@ -58,7 +58,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
   const handleAddToCart = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      navigate('/login');
+      navigate('/register');
       return;
     }
     
@@ -70,7 +70,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
       if (error.message.includes('Authentication required') || 
           error.response?.status === 401 || 
           error.response?.status === 403) {
-        navigate('/login');
+        navigate('/register');
       } else {
         alert(error.message || 'Failed to add to cart');
       }
@@ -80,7 +80,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
   const handleAddToWishlist = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      navigate('/login');
+      navigate('/register');
       return;
     }
     
@@ -92,7 +92,7 @@ const Product = ({ product, viewMode = 'grid' }) => {
       if (error.message.includes('Authentication required') || 
           error.response?.status === 401 || 
           error.response?.status === 403) {
-        navigate('/login');
+        navigate('/register');
       } else if (error.message.includes('already in your wishlist')) {
         alert('This product is already in your wishlist!');
       } else {

@@ -116,8 +116,6 @@
           cursor: pointer;
         }
       }
-      
-      .forgot-password {
         a {
           color: #555;
           text-decoration: none;
@@ -125,7 +123,6 @@
           &:hover {
             transition: 300ms;
             color: $secondary-color;
-          }
         }
       }
     }

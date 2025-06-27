@@ -14,6 +14,9 @@ import { useUserData } from '../context/UserContext';
 
 function Register() {
   const navigate = useNavigate();
+  const handleNavigation = (path) =>{
+    navigate(path)
+  }
   const { t } = useTranslation();
   const { setLoggedIn, setUserData, setRememberMe } = useUserData();
 
@@ -346,6 +349,7 @@ function Register() {
                   />
                   <label htmlFor="registerRememberMe">{t('register.rememberMe')}</label>
                 </div>
+                <a onClick={() => handleNavigation('/login')}>{t('haveAccount')}</a>
               </div>
 
               <button

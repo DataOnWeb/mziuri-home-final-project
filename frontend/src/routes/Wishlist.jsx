@@ -55,7 +55,7 @@ function Wishlist() {
     const fetchWishlist = async () => {
       try {
         if (!isLoggedIn) {
-          navigate('/login');
+          navigate('/register');
           return;
         }
 
@@ -63,8 +63,7 @@ function Wishlist() {
         setWishlistItems(response.wishlist);
       } catch (err) {
         if (err.response?.status === 401 || err.response?.status === 403) {
-          logout();
-          navigate('/login');
+          navigate('/register');
         } else {
           console.error('Failed to fetch wishlist:', err);
           setError(err.message || 'Failed to load wishlist');
@@ -112,7 +111,7 @@ function Wishlist() {
 
   const handleAddToCart = async (itemId) => {
     if (!isLoggedIn) {
-      navigate('/login');
+      navigate('/register');
       return;
     }
 
@@ -122,7 +121,7 @@ function Wishlist() {
     } catch (error) {
       console.error('Error adding to cart:', error);
       if (error.response?.status === 401 || error.response?.status === 403) {
-        navigate('/login');
+        navigate('/register');
       } else {
         alert(t('Failed to add to cart'));
       }
