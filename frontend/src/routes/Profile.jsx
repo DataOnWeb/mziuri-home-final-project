@@ -34,11 +34,7 @@ export default function Profile() {
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  useEffect(() => {
-  if (authChecked && !isLoggedIn) {
-    navigate('/login');
-  }
-}, [authChecked, isLoggedIn, navigate]);
+
   const splitUsername = (username) => {
     if (!username) return { firstName: '', lastName: '' };
     
@@ -201,7 +197,7 @@ export default function Profile() {
     document.title = t('profile.pageTitle');
   }, [t]);
 
-  if (!authChecked) return <div>Loading...</div>;
+
 
   return (
     <div>

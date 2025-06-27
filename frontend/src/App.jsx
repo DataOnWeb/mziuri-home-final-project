@@ -23,7 +23,8 @@ import { LoaderProvider } from './hooks/useLoader';
 import Loading from './components/Loading';
 import useScrollTop from './hooks/useScrollTop';
 import * as api from './api/api';
-import { UserProvider, useUserData } from './context/UserContext';
+import {  useUserData } from './context/UserContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   useScrollTop();
@@ -55,71 +56,26 @@ function App() {
       <Loading />
       <main className="content">
         <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
-          <Route
-            path="/about"
-            element={<About />}
-          />
-          <Route
-            path="/contact"
-            element={<Contact />}
-          />
-          <Route
-            path="/shop"
-            element={<Shop />}
-          />
-          <Route
-            path="/product/:id"
-            element={<SingleProduct />}
-          />
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-          <Route
-            path="/profile"
-            element={<Profile />}
-          />
-          <Route
-            path="/wishlist"
-            element={<Wishlist />}
-          />
-          <Route
-            path="/cart"
-            element={<Cart />}
-          />
-          <Route
-            path="/forgot-password"
-            element={<ForgotPassword />}
-          />
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPassword />}
-          />
-          <Route
-            path="/blog"
-            element={<Blog />}
-          />
-          <Route
-            path="/pages"
-            element={<Pages />}
-          />
-          <Route
-            path="/compare"
-            element={<Compare />}
-          />
-          <Route
-            path="/checkout"
-            element={<Checkout />}
-          />
-        </Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/contact" element={<Contact />} />
+  <Route path="/shop" element={<Shop />} />
+  <Route path="/product/:id" element={<SingleProduct />} />
+  <Route path="/register" element={<Register />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/forgot-password" element={<ForgotPassword />} />
+  <Route path="/reset-password/:token" element={<ResetPassword />} />
+  <Route path="/blog" element={<Blog />} />
+  <Route path="/pages" element={<Pages />} />
+  <Route path="/compare" element={<Compare />} />
+
+  <Route element={<ProtectedRoute />}>
+    <Route path="/profile" element={<Profile />} />
+    <Route path="/wishlist" element={<Wishlist />} />
+    <Route path="/cart" element={<Cart />} />
+    <Route path="/checkout" element={<Checkout />} />
+  </Route>
+</Routes>
       </main>
 
       <Footer />
