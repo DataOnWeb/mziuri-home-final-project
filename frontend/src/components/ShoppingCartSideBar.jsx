@@ -16,16 +16,32 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   const fetchCart = async () => {
     try {
       setLoading(true);
+      
+      if (!isLoggedIn) {
+        setCartItems([]); 
+        return;
+      }
+
       const response = await getCart();
       setCartItems(response.cart || []);
       setError(null);
     } catch (err) {
-      setError(err.message);
-      console.error('Failed to fetch cart:', err);
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        navigate('/login');
+      } else {
+        setError(err.message);
+        console.error('Failed to fetch cart:', err);
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCart();
+    }
+  }, [isOpen, isLoggedIn]);
 
   useEffect(() => {
     if (isOpen && !isLoggedIn) {
