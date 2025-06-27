@@ -227,25 +227,32 @@ color: $primary-color;
 }
 
 
-.user-dropdown1{
+.user-dropdown1 {
   position: absolute;
-  top: 30px;
+  top: 100%;
   left: 0;
   background-color: white;
   color: #333;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 900;
   list-style: none;
   padding: 8px 0;
-  margin-top: 5px;
-  min-width: 150px;
+  margin: 0;
+  min-width: 160px;
   border-radius: 8px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-}
+  transform: translateY(-15px);
+  transition: 
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  height: auto;
+  max-height: none;
+  overflow: visible;
 
+  -webkit-overflow-scrolling: touch;
+  transform-style: preserve-3d;
+}
 
 .user-dropdown1.active {
   opacity: 1;
@@ -253,22 +260,79 @@ color: $primary-color;
   transform: translateY(0);
 }
 
-
-
 .user-dropdown1 li {
-  padding: 8px 15px;
+  padding: 10px 16px;
   cursor: pointer;
   color: #333;
   font-size: 12px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
-
 
 .user-dropdown1 li:hover {
   background-color: #a4ce6a;
   color: whitesmoke;
-  transition: 400ms ease;
 }
 
+
+@media (max-width: 768px) {
+  .user-dropdown1 {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: auto;
+    min-width: 200px;
+    max-height: 70vh;
+    overflow-y: auto;
+
+    height: auto !important;
+    min-height: 0;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .user-dropdown1 li {
+    padding: 14px 20px;
+    font-size: 15px;
+    white-space: normal;
+  }
+
+  .user-actions {
+    position: relative;
+    overflow: visible !important;
+    z-index: 900;
+    height: auto;
+  }
+
+
+  @supports (-webkit-touch-callout: none) {
+    .user-dropdown1 {
+      max-height: 60vh;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  body .user-dropdown1 {
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  body .user-dropdown1.active {
+    display: block !important;
+  }
+  
+  body .user-dropdown1 li {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+  }
+}
 
 @media (max-width: 1200px) {
   .container {
