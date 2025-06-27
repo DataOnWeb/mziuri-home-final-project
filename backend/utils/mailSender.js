@@ -16,7 +16,7 @@ const mailSender = async (from, to, url) => {
         html: `
         <div style="width: 100%; background-color: rgb(250, 250, 250); text-align: center">
             <br>
-            <a href="http://localhost:5173/" style="text-align: center; font-size: 26px; color: #a4ce6a; text-decoration: none;font-weight: bold">Pronia</a>
+            <a href="https://pronia-app.onrender.com/reset-password/:token" style="text-align: center; font-size: 26px; color: #a4ce6a; text-decoration: none;font-weight: bold">Pronia</a>
             <br>
             <br>
             <div style="font-size: 16px; margin: 0 auto; width: 50%; color: black; background-color: white; padding: 40px; ">
