@@ -1,7 +1,7 @@
 Modern e-commerce website designed to deliver a seamless and engaging shopping experience. The platform blends a clean, user-friendly UI with a powerful backend to support essential e-commerce features such as product browsing, filtering, user authentication, cart management, wishlist functionality, and more.
 
--https://htmldemo.net/pronia/pronia/index.html
-
+TEMPLATE DEMO ---- https://htmldemo.net/pronia/pronia/index.html
+MY WEBSITE URL ---- https://pronia-app.onrender.com
 Frontend (React):
 -React.js
 -Vite – lightning-fast bundler
