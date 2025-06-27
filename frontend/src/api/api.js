@@ -76,6 +76,27 @@ export const loginUser = async (credentials) => {
   }
 };
 
+const handleAuthError = (error) => {
+  if (error.response?.status === 401 || error.response?.status === 403) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('token');
+    throw new Error('Session expired. Please login again.');
+  }
+  throw error;
+};
+
+export const getToken = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/users/get-token`, {}, {
+      withCredentials: true
+    });
+    return response.data;
+  } catch (err) {
+    return handleAuthError(err);
+  }
+};
+
 export const checkAuth = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users/check-auth`, {
@@ -83,20 +104,7 @@ export const checkAuth = async () => {
     });
     return response.data;
   } catch (err) {
-    console.error('Error checking auth:', err);
-    throw err;
-  }
-};
-
-export const getToken = async () => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/users/get-token`, {
-      withCredentials: true
-    });
-    return response.data;
-  } catch (err) {
-    console.error('Error getting token:', err);
-    throw err;
+    return handleAuthError(err);
   }
 };
 
@@ -200,20 +208,51 @@ export const updateUserProfile = async (updateData) => {
   }
 };
 
-// Cart API functions
 export const addToCart = async (productId, quantity = 1) => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}/users/cart`,
-      {
-        productId,
-        quantity,
-      },
+      { productId, quantity },
       { withCredentials: true }
     );
     return response.data;
   } catch (err) {
     console.error('Error adding to cart:', err);
+    
+    if (err.response) {
+      if (err.response.status === 401 || err.response.status === 403) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        throw new Error('Authentication required. Please login again.');
+      }
+      throw new Error(err.response.data?.message || 'Failed to add to cart');
+    }
+    throw err;
+  }
+};
+
+export const addToWishlist = async (productId) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/users/wishlist`,
+      { productId },
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error adding to wishlist:', err);
+    
+    if (err.response) {
+      if (err.response.status === 401 || err.response.status === 403) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        throw new Error('Authentication required. Please login again.');
+      }
+      if (err.response.status === 400) {
+        throw new Error('Product is already in your wishlist');
+      }
+      throw new Error(err.response.data?.message || 'Failed to add to wishlist');
+    }
     throw err;
   }
 };
@@ -242,27 +281,7 @@ export const getCart = async () => {
   }
 };
 
-export const addToWishlist = async (productId) => {
-  try {
-    const response = await axios.post(
-      `${API_BASE_URL}/users/wishlist`,
-      { productId },
-      {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    return response.data;
-  } catch (err) {
-    if (err.response?.status === 400) {
-      throw new Error('Product is already in your wishlist');
-    }
-    console.error('Error adding to wishlist:', err);
-    throw new Error(err.response?.data?.message || 'Failed to add to wishlist');
-  }
-};
+
 
 export const removeFromWishlist = async (productId) => {
   try {

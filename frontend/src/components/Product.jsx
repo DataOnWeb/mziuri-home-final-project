@@ -7,12 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { addToCart, addToWishlist } from '../api/api';
+import { useUserData } from '../context/UserContext';
 
 const Product = ({ product, viewMode = 'grid' }) => {
   const { _id, title, price, rating, image, hoverImage, description } = product;
   const { i18n, t } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
-
+  const { isLoggedIn } = useUserData();
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -56,30 +57,46 @@ const Product = ({ product, viewMode = 'grid' }) => {
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    
     try {
       await addToCart(_id, 1);
+      navigate('/cart');
     } catch (error) {
       console.error('Error adding to cart:', error);
+      if (error.message.includes('Authentication required') || 
+          error.response?.status === 401 || 
+          error.response?.status === 403) {
+        navigate('/login');
+      } else {
+        alert(error.message || 'Failed to add to cart');
+      }
     }
-    navigate('/cart');
   };
 
   const handleAddToWishlist = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    
     try {
-      if (!product?._id) {
-        throw new Error('No product selected');
-      }
-
-      const response = await addToWishlist(product._id);
-
+      await addToWishlist(_id);
       navigate('/wishlist');
     } catch (error) {
-      if (error.message.includes('already in your wishlist')) {
+      console.error('Error adding to wishlist:', error);
+      if (error.message.includes('Authentication required') || 
+          error.response?.status === 401 || 
+          error.response?.status === 403) {
+        navigate('/login');
+      } else if (error.message.includes('already in your wishlist')) {
         alert('This product is already in your wishlist!');
       } else {
-        console.error('Wishlist error:', error);
-        alert(`Failed to add to wishlist: ${error.message}`);
+        alert(error.message || 'Failed to add to wishlist');
       }
     }
   };

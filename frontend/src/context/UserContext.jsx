@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
+import { checkAuth } from '../api/api';
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -7,29 +7,46 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const savedUserData = localStorage.getItem('userData');
-    const savedLoginStatus = localStorage.getItem('isLoggedIn');
+  const validateSession = async () => {
+    try {
+      const savedUserData = localStorage.getItem('userData');
+      const savedLoginStatus = localStorage.getItem('isLoggedIn');
+      const token = localStorage.getItem('token') || localStorage.getItem('authToken');
 
-    if (savedUserData && savedLoginStatus === 'true') {
-      try {
+      if (savedUserData && savedLoginStatus === 'true' && token) {
+        await checkAuth(); 
+        
         setUserData(JSON.parse(savedUserData));
         setIsLoggedIn(true);
-      } catch (error) {
-        console.error('Error parsing saved user data:', error);
-        localStorage.removeItem('userData');
-        localStorage.removeItem('isLoggedIn');
+      } else {
+        clearAllStorageData();
       }
+    } catch (error) {
+      console.error('Session validation failed:', error);
+      clearAllStorageData();
     }
-  }, []);
+  };
+
+  validateSession();
+}, []);
+
+  const clearAllStorageData = () => {
+    localStorage.removeItem('userData');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('authToken');
+    setUserData(null);
+    setIsLoggedIn(false);
+  };
 
   const setLoggedIn = (status) => {
     setIsLoggedIn(status);
     localStorage.setItem('isLoggedIn', status.toString());
 
     if (!status) {
-      localStorage.removeItem('userData');
-      localStorage.removeItem('isLoggedIn');
-      setUserData(null);
+      clearAllStorageData();
     }
   };
 
@@ -55,10 +72,8 @@ export const UserProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setIsLoggedIn(false);
-    setUserData(null);
-    localStorage.removeItem('userData');
-    localStorage.removeItem('isLoggedIn');
+    console.log('Logging out - clearing all data');
+    clearAllStorageData();
   };
 
   return (

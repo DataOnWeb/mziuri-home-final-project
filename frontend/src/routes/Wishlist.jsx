@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { getWishlist, removeFromWishlist, addToCart } from '../api/api';
+import { useUserData } from '../context/UserContext';
 function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ function Wishlist() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
-
+  const { isLoggedIn, logout } = useUserData()
   const handleNavigation = (path) => {
     navigate(path);
   };
@@ -103,12 +104,21 @@ function Wishlist() {
   };
 
   const handleAddToCart = async (itemId) => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
     try {
       await addToCart(itemId, 1);
-      alert('Added to cart successfully!');
+      alert(t('Added to cart successfully!'));
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Failed to add to cart');
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        navigate('/login');
+      } else {
+        alert(t('Failed to add to cart'));
+      }
     }
   };
 

@@ -9,7 +9,9 @@ import { FaArrowsRotate } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
+import { useUserData } from '../context/UserContext'; 
 import { addToCart, addToWishlist } from '../api/api';
+
 const ProductModal = ({ product, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -17,10 +19,15 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const { i18n, t } = useTranslation();
   const [selectedSize, setSelectedSize] = useState(t('modal.size1'));
   const [selectedColor, setSelectedColor] = useState(t('modal.color1'));
+  
+
+  const { isLoggedIn } = useUserData();
 
   const handleNavigation = (path) => {
     navigate(path);
   };
+
+
 
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
   const getFormattedPrice = (priceObj) => {
@@ -74,22 +81,50 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    
     try {
-      await addToCart(_id, 1);
+      await addToCart(_id, quantity);
+      navigate('/cart');
     } catch (error) {
       console.error('Error adding to cart:', error);
+      if (error.message.includes('Authentication required') || 
+          error.response?.status === 401 || 
+          error.response?.status === 403) {
+        logout();
+        navigate('/login');
+      } else {
+        alert(error.message || 'Failed to add to cart');
+      }
     }
-    navigate('/cart');
   };
 
   const handleAddToWishlist = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    
     try {
       await addToWishlist(_id);
+      navigate('/wishlist');
     } catch (error) {
       console.error('Error adding to wishlist:', error);
+      if (error.message.includes('Authentication required') || 
+          error.response?.status === 401 || 
+          error.response?.status === 403) {
+        logout();
+        navigate('/login');
+      } else if (error.message.includes('already in your wishlist')) {
+        alert('This product is already in your wishlist!');
+      } else {
+        alert(error.message || 'Failed to add to wishlist');
+      }
     }
-    navigate('/wishlist');
   };
 
   const handleOverlayClick = (e) => {

@@ -18,6 +18,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { addToCart, addToWishlist } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import ScrollToTop from '../components/ScrollToTop';
+import { useUserData } from '../context/UserContext'; 
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const SingleProduct = () => {
     message: '',
   });
   const [showSuccess, setShowSuccess] = useState(false);
-
+  const { isLoggedIn } = useUserData();
   const { loading, useDataLoader } = useLoader();
 
   const navigate = useNavigate();
@@ -124,23 +125,49 @@ const SingleProduct = () => {
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
+    
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
     try {
       await addToCart(product._id, quantity);
       navigate('/cart');
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert(t('product.failedToAddToCart'));
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        logout();
+        navigate('/login');
+      } else {
+        alert(t('product.failedToAddToCart'));
+      }
     }
   };
 
+
   const handleAddToWishlist = async (e) => {
     e.preventDefault();
+    
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
     try {
       await addToWishlist(product._id);
+      navigate('/wishlist');
     } catch (error) {
       console.error('Error adding to wishlist:', error);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        logout();
+        navigate('/login');
+      } else if (error.message.includes('already in your wishlist')) {
+        alert(t('This product is already in your wishlist!'));
+      } else {
+        alert(t('Failed to add to wishlist'));
+      }
     }
-    navigate('/wishlist');
   };
 
   const handleChange = (e) => {
