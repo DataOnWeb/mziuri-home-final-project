@@ -54,14 +54,21 @@ function Wishlist() {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        setLoading(true);
-        setError(null);
+        if (!isLoggedIn) {
+          navigate('/login');
+          return;
+        }
 
         const response = await useDataLoader(getWishlist);
         setWishlistItems(response.wishlist);
       } catch (err) {
-        console.error('Failed to fetch wishlist:', err);
-        setError(err.message || 'Failed to load wishlist');
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          logout();
+          navigate('/login');
+        } else {
+          console.error('Failed to fetch wishlist:', err);
+          setError(err.message || 'Failed to load wishlist');
+        }
       } finally {
         setLoading(false);
       }
@@ -69,7 +76,7 @@ function Wishlist() {
 
     fetchWishlist();
     document.title = `Wishlist - Pronia`;
-  }, [t]);
+  }, [t, isLoggedIn]);
 
   useEffect(() => {
     if (wishlistItems.length > 0) {

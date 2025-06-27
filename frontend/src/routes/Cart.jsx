@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { getCart, removeFromCart, updateCartItem } from '../api/api';
-
+import { useUserData } from '../context/UserContext';
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,6 +16,7 @@ function Cart() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
+  const { isLoggedIn } = useUserData();
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -63,22 +64,30 @@ function Cart() {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
     const fetchCart = async () => {
       try {
         const response = await useDataLoader(getCart);
         setCartItems(response.cart || []);
-        setLoading(false);
       } catch (err) {
-        setError(err.message);
-        console.error('Failed to fetch cart:', err);
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          logout();
+          navigate('/login');
+        } else {
+          setError(err.message);
+          console.error('Failed to fetch cart:', err);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchCart();
-    document.title = `My Cart - Pronia`;
-  }, []);
+  }, [isLoggedIn]);
 
   const handleRemoveItem = async (itemId) => {
     try {

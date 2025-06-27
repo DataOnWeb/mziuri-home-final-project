@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { getCart, removeFromCart, updateCartItem } from '../api/api';
-
+import { useUserData } from '../context/UserContext';
 const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { formatPrice, getPriceInCurrentCurrency } = useCurrency();
-
+  const { isLoggedIn } = useUserData();
   const fetchCart = async () => {
     try {
       setLoading(true);
@@ -28,10 +28,11 @@ const ShoppingCartSidebar = ({ isOpen, setIsOpen }) => {
   };
 
   useEffect(() => {
-    if (isOpen) {
-      fetchCart();
+    if (isOpen && !isLoggedIn) {
+      navigate('/login');
+      setIsOpen(false);
     }
-  }, [isOpen]);
+  }, [isOpen, isLoggedIn]);
 
   const getFormattedPrice = (priceObj) => {
     try {
