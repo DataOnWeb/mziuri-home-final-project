@@ -9,8 +9,9 @@ import { useTranslation } from 'react-i18next';
 export default function Login() {
   const { useFakeLoader } = useLoader();
   const navigate = useNavigate();
-  const { setLoggedIn, setUserData, setRememberMe, getRememberedEmail } = useUserData();
+  const { setLoggedIn, setUserData, setRememberMe, getRememberedEmail, isLoggedIn } = useUserData();
   const { t } = useTranslation();
+  
   const handleNavigation = (path) => {
     navigate(path);
   };
@@ -38,6 +39,10 @@ export default function Login() {
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/profile');
+      return;
+    }
     const rememberedEmail = getRememberedEmail();
     if (rememberedEmail) {
       setLoginInputs((prev) => ({
