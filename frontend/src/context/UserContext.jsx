@@ -9,32 +9,34 @@ export const UserProvider = ({ children }) => {
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
-    const validateSession = async () => {
-      try {
-        const savedUserData = localStorage.getItem('userData');
-        const savedLoginStatus = localStorage.getItem('isLoggedIn');
-        const response = await checkAuth(); 
+  const validateSession = async () => {
+    try {
+      const savedUserData = localStorage.getItem('userData');
+      const savedLoginStatus = localStorage.getItem('isLoggedIn');
 
+      await new Promise((res) => setTimeout(res, 300));
+
+      const response = await checkAuth();
+
+      if (response?.data) {
         setIsLoggedIn(true);
-        if (response?.data) {
-          setUserData(response.data);
-          localStorage.setItem('userData', JSON.stringify(response.data));
-          localStorage.setItem('isLoggedIn', 'true');
-        } else if (savedUserData) {
-          setUserData(JSON.parse(savedUserData));
-          setIsLoggedIn(savedLoginStatus === 'true');
-        }
-      } catch (error) {
-        console.error('Session validation failed:', error);
-        clearAllStorageData();
-      } finally {
-        setAuthChecked(true);
+        setUserData(response.data);
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        localStorage.setItem('isLoggedIn', 'true');
+      } else if (savedUserData) {
+        setUserData(JSON.parse(savedUserData));
+        setIsLoggedIn(savedLoginStatus === 'true');
       }
-    };
+    } catch (error) {
+      console.error('Session validation failed:', error);
+      clearAllStorageData();
+    } finally {
+      setAuthChecked(true);
+    }
+  };
 
-    validateSession();
-  }, []);
-
+  validateSession();
+}, []);
   const clearAllStorageData = () => {
     localStorage.removeItem('userData');
     localStorage.removeItem('isLoggedIn');

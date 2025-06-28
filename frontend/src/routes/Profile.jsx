@@ -10,7 +10,7 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from '../utils/validations';
-import { updateUserProfile } from '../api/api';
+import { updateUserProfile, logoutUser } from '../api/api';
 
 export default function Profile() {
   const { useFakeLoader } = useLoader();
@@ -34,7 +34,11 @@ export default function Profile() {
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-
+  useEffect(() => {
+  if (authChecked && !isLoggedIn) {
+    navigate('/login');
+  }
+}, [authChecked, isLoggedIn, navigate]);
   const splitUsername = (username) => {
     if (!username) return { firstName: '', lastName: '' };
     
@@ -182,9 +186,10 @@ export default function Profile() {
     }
   };
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
   try {
-    await logout();
+    await logoutUser(); 
+    logout();           
     navigate('/login');
   } catch (error) {
     console.error('Logout error:', error);
@@ -192,11 +197,14 @@ export default function Profile() {
   }
 };
 
+
   useEffect(() => {
     useFakeLoader();
     document.title = t('profile.pageTitle');
   }, [t]);
 
+  if (!authChecked) return <div>Loading...</div>;
+  if (!isLoggedIn) return null;
 
 
   return (
