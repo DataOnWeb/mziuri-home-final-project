@@ -66,7 +66,7 @@ A modern, full-stack e-commerce platform designed for a **seamless shopping expe
 ### Frontend
 - `React.js`, `Vite`, `React Router DOM`, `SCSS`
 - `Axios`, `Context API`, `react-hook-form`
-- `i18next`, `styled-components` (if used)
+- `i18next`, `styled-components` 
 
 ### Backend
 - `Node.js`, `Express.js`
@@ -84,15 +84,15 @@ A modern, full-stack e-commerce platform designed for a **seamless shopping expe
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/pronia-ecommerce.git
-cd pronia-ecommerce
+git clone https://github.com/DataOnWeb/mziuri-home-final-project.git
+cd mziuri-home-final-project
 
 # Install frontend dependencies
-cd client
+cd frontend
 npm install
-npm run dev
+npm start
 
 # Install backend dependencies
-cd ../server
+cd backend
 npm install
-npm run dev
+npm run start
